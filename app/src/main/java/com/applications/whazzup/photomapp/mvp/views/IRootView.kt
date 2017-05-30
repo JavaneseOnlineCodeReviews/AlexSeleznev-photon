@@ -6,6 +6,7 @@ interface IRootView : IView {
 
     fun showLoad()
     fun hideLoad()
+    fun hideBottomNavigation(isVisible: Boolean)
 
     val currentScreen: IView?
 }
