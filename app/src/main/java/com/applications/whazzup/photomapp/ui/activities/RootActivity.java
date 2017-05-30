@@ -1,6 +1,9 @@
 package com.applications.whazzup.photomapp.ui.activities;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,6 +11,8 @@ import android.support.annotation.StringDef;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -22,6 +27,7 @@ import com.applications.whazzup.photomapp.mvp.presenters.RootPresenter;
 import com.applications.whazzup.photomapp.mvp.views.IRootView;
 import com.applications.whazzup.photomapp.mvp.views.IView;
 import com.applications.whazzup.photomapp.ui.screens.photo_card_list.PhotoCardListScreen;
+import com.applications.whazzup.photomapp.ui.screens.splash.SplashScreen;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
@@ -42,11 +48,13 @@ public class RootActivity extends AppCompatActivity implements IRootView {
     @Inject
     RootPresenter mRootPresenter;
 
+    ProgressDialog mProgressDialog;
+
 
     @Override
     protected void attachBaseContext(Context newBase) {
         newBase = Flow.configure(newBase, this)
-                .defaultKey(new PhotoCardListScreen())
+                .defaultKey(new SplashScreen())
                 .dispatcher(new TreeKeyDispatcher(this))
                 .install();
         super.attachBaseContext(newBase);
@@ -66,22 +74,17 @@ public class RootActivity extends AppCompatActivity implements IRootView {
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    return true;
-                case R.id.navigation_dashboard:
-                    return true;
-                case R.id.navigation_notifications:
-                    return true;
-            }
-            return false;
-        }
-
-    };
+            = item -> {
+                switch (item.getItemId()) {
+                    case R.id.navigation_home:
+                        return true;
+                    case R.id.navigation_dashboard:
+                        return true;
+                    case R.id.navigation_notifications:
+                        return true;
+                }
+                return false;
+            };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,11 +123,33 @@ public class RootActivity extends AppCompatActivity implements IRootView {
 
     @Override
     public void showLoad() {
-
+        if (mProgressDialog == null) {
+            mProgressDialog=new ProgressDialog(this);
+            mProgressDialog.setCancelable(false);
+            mProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            mProgressDialog.show();
+            mProgressDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            mProgressDialog.setContentView(R.layout.progress_dialog);
+        } else {
+            mProgressDialog.show();
+            mProgressDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            mProgressDialog.setContentView(R.layout.progress_dialog);
+        }
     }
 
     @Override
     public void hideLoad() {
+        if (mProgressDialog!=null) {
+            if (mProgressDialog.isShowing()) {
+                mProgressDialog.hide();
+            }
+        }
+    }
+
+    @Override
+    public void hideBottomNavigation(boolean isVisible) {
+        if(isVisible) mNavigation.setVisibility(View.VISIBLE);
+        else mNavigation.setVisibility(View.GONE);
 
     }
 
