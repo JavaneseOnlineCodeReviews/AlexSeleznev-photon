@@ -9,8 +9,6 @@ import com.applications.whazzup.photomapp.mvp.presenters.AbstractPresenter;
 
 import javax.inject.Inject;
 
-import butterknife.ButterKnife;
-
 public abstract class AbstractView<P extends AbstractPresenter> extends FrameLayout implements IView {
 
     @Inject
@@ -42,6 +40,6 @@ public abstract class AbstractView<P extends AbstractPresenter> extends FrameLay
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        ButterKnife.bind(this);
+        //ButterKnife.bind(this);
     }
 }
