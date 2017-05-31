@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'realm-android'
 
 android {
@@ -14,16 +16,23 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    lintOptions {
+        warningsAsErrors true
+        abortOnError true
+    }
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+}
+
+kapt {
+    generateStubs = true
 }
 
 dependencies {
@@ -33,11 +42,12 @@ dependencies {
     })
     testCompile 'junit:junit:4.12'
 
+    compile "org.jetbrains.kotlin:kotlin-stdlib:1.1.2-3"
+
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support:support-vector-drawable:25.3.1'
-    compile 'com.android.support:design:25.3.1'
     compile 'com.android.support:cardview-v7:25.3.1'
 
     /*Progress Dialog*/
@@ -45,11 +55,12 @@ dependencies {
 
     /*ButterKnife*/
     compile 'com.jakewharton:butterknife:8.6.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
-    /*Dagger
-         apt command comes from the android-apt plugin*/
-    compile 'com.google.dagger:dagger:2.9'
-    annotationProcessor "com.google.dagger:dagger-compiler:2.9"
+    kapt 'com.jakewharton:butterknife-compiler:8.6.0'
+
+    /*Dagger*/
+    compile 'com.google.dagger:dagger:2.10'
+    kapt 'com.google.dagger:dagger-compiler:2.10'
+    provided 'org.glassfish:javax.annotation:10.0-b28'
 
     /*Flow and mortar*/
     compile 'com.squareup.flow:flow:1.0.0-alpha'
@@ -72,6 +83,6 @@ dependencies {
     compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
 
     /*RX*/
-    compile "io.reactivex.rxjava2:rxjava:2.1.0"
+    compile 'io.reactivex.rxjava2:rxkotlin:2.0.3'
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
 }
