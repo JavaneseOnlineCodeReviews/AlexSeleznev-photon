@@ -14,7 +14,7 @@ class ModelModule {
     @Provides
     @Singleton
     fun provideDataManager(): DataManager {
-        return DataManager
+        return DataManager()
     }
 
     @Provides
