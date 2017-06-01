@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.applications.whazzup.photomapp.R
-import kotlinx.android.synthetic.main.photo_card_item.view.*
+import kotlinx.android.synthetic.main.item_photo_card.view.*
 
 
 class PhotoCardListAdapter : RecyclerView.Adapter<PhotoCardListAdapter.ViewHolder>() {
@@ -18,7 +18,7 @@ class PhotoCardListAdapter : RecyclerView.Adapter<PhotoCardListAdapter.ViewHolde
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent?.context)
-        return ViewHolder(inflater.inflate(R.layout.photo_card_item, parent, false))
+        return ViewHolder(inflater.inflate(R.layout.item_photo_card, parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
@@ -35,7 +35,7 @@ class PhotoCardListAdapter : RecyclerView.Adapter<PhotoCardListAdapter.ViewHolde
 
     class ViewHolder(item : View) : RecyclerView.ViewHolder(item) {
         val picture = item.card_image
-            val favoriteCount = item.favorite_count_txt
+        val favoriteCount = item.favorite_count_txt
         val viewCount = item.views_count_txt
 
     }
