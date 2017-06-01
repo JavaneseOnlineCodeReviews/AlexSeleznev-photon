@@ -14,6 +14,8 @@ import com.applications.whazzup.photomapp.di.modules.RootModule
 import com.applications.whazzup.photomapp.mortar.ScreenScoper
 import com.applications.whazzup.photomapp.ui.activities.DaggerRootActivity_RootComponent
 import com.applications.whazzup.photomapp.ui.activities.RootActivity
+import com.facebook.stetho.Stetho
+import com.uphyca.stetho_realm.RealmInspectorModulesProvider
 import io.realm.Realm
 
 import mortar.MortarScope
@@ -31,6 +33,12 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         Realm.init(this)
+
+        Stetho.initialize(
+                Stetho.newInitializerBuilder(this)
+                        .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+                        .enableWebKitInspector(RealmInspectorModulesProvider.builder(this).build())
+                        .build())
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         createDaggerAppComponent()
