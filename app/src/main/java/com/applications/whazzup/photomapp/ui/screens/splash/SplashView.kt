@@ -12,6 +12,7 @@ class SplashView(context: Context, attrs: AttributeSet) : AbstractView<SplashScr
 
     override fun viewOnBackPressed(): Boolean {
         return false
+
     }
 
     override fun initDagger(context: Context) {

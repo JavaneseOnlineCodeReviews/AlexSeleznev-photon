@@ -2,6 +2,7 @@ package com.applications.whazzup.photomapp.ui.screens.splash
 
 import android.util.Log
 import com.applications.whazzup.photomapp.R
+import com.applications.whazzup.photomapp.data.storage.dto.PhotoCardDto
 import com.applications.whazzup.photomapp.di.DaggerService
 import com.applications.whazzup.photomapp.di.scopes.SplashScope
 import com.applications.whazzup.photomapp.flow.AbstractScreen
@@ -12,6 +13,7 @@ import com.applications.whazzup.photomapp.ui.activities.RootActivity
 import com.applications.whazzup.photomapp.ui.screens.photo_card_list.PhotoCardListScreen
 import dagger.Provides
 import flow.Flow
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
@@ -31,21 +33,20 @@ class SplashScreen : AbstractScreen<RootActivity.RootComponent>() {
     inner class SplashPresenter : AbstractPresenter<SplashView, SplashModel>() {
         override fun onEnterScope(scope: MortarScope?) {
             super.onEnterScope(scope)
-            rootView!!.hideBottomNavigation(false)
-            rootView!!.showLoad()
-            /*val handler = Handler()
-            handler.postDelayed({
-                rootView!!.hideLoad()
-                Flow.get(view.context).set(PhotoCardListScreen())
-            }, 3000)*/
+            rootView?.hideBottomNavigation(false)
+            rootView?.showLoad()
             mModel.getPhotoCard(60, 0)
+                    .flatMap { Observable.fromIterable(it) }
+                    .doOnNext {
+                        mModel.savePhotocardToRealm(it)
+                        mRootPresenter.mRootModel.addToCardList(PhotoCardDto(it))
+                    }
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeBy(
-                            onSuccess = {
-                                Log.d("TAG", "SUCCESS")
-                                rootView!!.hideLoad()
-                                rootView!!.hideBottomNavigation(true)
+                            onComplete = {
+                                rootView?.hideLoad()
+                                rootView?.hideBottomNavigation(true)
                                 Flow.get(view.context).set(PhotoCardListScreen())
                             },
                             onError = {

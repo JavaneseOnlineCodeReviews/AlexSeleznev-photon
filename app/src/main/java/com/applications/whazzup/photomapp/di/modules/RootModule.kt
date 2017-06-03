@@ -13,7 +13,7 @@ class RootModule {
     @Provides
     @RootScope
     internal fun provideRootPresenter(): RootPresenter {
-        return RootPresenter
+        return RootPresenter.INSTANCE
     }
 
     @Provides
