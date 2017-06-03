@@ -2,6 +2,7 @@ package com.applications.whazzup.photomapp.ui.screens.splash
 
 import android.util.Log
 import com.applications.whazzup.photomapp.R
+import com.applications.whazzup.photomapp.data.storage.dto.PhotoCardDto
 import com.applications.whazzup.photomapp.di.DaggerService
 import com.applications.whazzup.photomapp.di.scopes.SplashScope
 import com.applications.whazzup.photomapp.flow.AbstractScreen
@@ -36,7 +37,10 @@ class SplashScreen : AbstractScreen<RootActivity.RootComponent>() {
             rootView?.showLoad()
             mModel.getPhotoCard(60, 0)
                     .flatMap { Observable.fromIterable(it) }
-                    .doOnNext { mModel.savePhotocardToRealm(it) }
+                    .doOnNext {
+                        mModel.savePhotocardToRealm(it)
+                        mRootPresenter.mRootModel.addToCardList(PhotoCardDto(it))
+                    }
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeBy(

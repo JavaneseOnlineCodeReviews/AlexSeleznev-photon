@@ -22,6 +22,7 @@ import com.applications.whazzup.photomapp.flow.TreeKeyDispatcher
 import com.applications.whazzup.photomapp.mvp.presenters.RootPresenter
 import com.applications.whazzup.photomapp.mvp.views.IRootView
 import com.applications.whazzup.photomapp.mvp.views.IView
+import com.applications.whazzup.photomapp.ui.screens.photo_card_list.PhotoCardListAdapter
 import com.applications.whazzup.photomapp.ui.screens.splash.SplashScreen
 import com.squareup.picasso.Picasso
 import flow.Flow

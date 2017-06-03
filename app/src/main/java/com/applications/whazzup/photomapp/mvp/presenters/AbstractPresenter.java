@@ -12,9 +12,6 @@ import javax.inject.Inject;
 import mortar.MortarScope;
 import mortar.ViewPresenter;
 
-/**
- * Created by Alex on 28.05.2017.
- */
 
 public abstract class AbstractPresenter<V extends AbstractView, M extends AbstractModel> extends ViewPresenter<V> {
     private final String TAG = this.getClass().getSimpleName();
@@ -23,7 +20,7 @@ public abstract class AbstractPresenter<V extends AbstractView, M extends Abstra
     public M mModel;
 
     @Inject
-    protected RootPresenter mRootPresenter;
+    public RootPresenter mRootPresenter;
 
     @Override
     protected void onEnterScope(MortarScope scope) {

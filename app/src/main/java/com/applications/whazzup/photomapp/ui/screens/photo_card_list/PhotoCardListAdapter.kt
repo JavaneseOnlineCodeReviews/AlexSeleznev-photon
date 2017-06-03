@@ -5,15 +5,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.applications.whazzup.photomapp.R
+import com.applications.whazzup.photomapp.data.storage.dto.PhotoCardDto
+import com.applications.whazzup.photomapp.di.DaggerService
+import com.applications.whazzup.photomapp.ui.activities.RootActivity
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_photo_card.view.*
+import javax.inject.Inject
 
 
-class PhotoCardListAdapter : RecyclerView.Adapter<PhotoCardListAdapter.ViewHolder>() {
+class PhotoCardListAdapter(cardList : List<PhotoCardDto>) : RecyclerView.Adapter<PhotoCardListAdapter.ViewHolder>() {
 
-    private var list : List<String>
+    @Inject
+    lateinit var mPicasso : Picasso
 
-    init {
-        list = ArrayList()
+    var list : List<PhotoCardDto> = cardList
+
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView?) {
+        super.onAttachedToRecyclerView(recyclerView)
+        DaggerService.getDaggerComponent<DaggerPhotoCardListScreen_Component>(recyclerView!!.context).inject(this)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
@@ -22,14 +32,14 @@ class PhotoCardListAdapter : RecyclerView.Adapter<PhotoCardListAdapter.ViewHolde
     }
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
-        //val item = list[position]
-        //holder?.picture?.setImageBitmap(null)
-        holder?.favoriteCount?.setText("1")
-        holder?.viewCount?.setText("22")
+        val item = list[position]
+        mPicasso.load(item.photo).into(holder?.picture)
+        holder?.favoriteCount?.text = item.favorites.toString()
+        holder?.viewCount?.text = item.views.toString()
     }
 
     override fun getItemCount(): Int {
-        return 5
+        return list.size
     }
 
 

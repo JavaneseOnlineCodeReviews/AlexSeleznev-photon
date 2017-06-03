@@ -18,7 +18,7 @@ class PhotoCardListView(context: Context, attrs: AttributeSet) : AbstractView<Ph
         super.onAttachedToWindow()
         with(card_lit_recycler){
             layoutManager = GridLayoutManager(context, 2)
-            adapter = PhotoCardListAdapter()
+            adapter = PhotoCardListAdapter(mPresenter.mRootPresenter.mRootModel.cardList)
         }
     }
 

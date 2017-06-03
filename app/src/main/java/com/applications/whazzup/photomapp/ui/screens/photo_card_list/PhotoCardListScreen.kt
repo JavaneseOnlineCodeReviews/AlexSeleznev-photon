@@ -53,6 +53,7 @@ class PhotoCardListScreen : AbstractScreen<RootActivity.RootComponent>() {
     interface Component {
         fun inject(presenter: PhotoCardListPresenter)
         fun inject(view: PhotoCardListView)
+        fun inject(cardAdapter: PhotoCardListAdapter)
     }
 
     // endregion
