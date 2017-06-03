@@ -23,7 +23,6 @@ class App : Application() {
     private var mRootScope: MortarScope? = null
     private var mRootActivityScope: MortarScope? = null
 
-
     override fun getSystemService(name: String): Any {
         return if (mRootScope != null && mRootScope!!.hasService(name)) mRootScope!!.getService<Any>(name) else super.getSystemService(name)
     }
@@ -54,7 +53,6 @@ class App : Application() {
                 .rootModule(RootModule())
                 .picassoCacheModule(PicassoCacheModule())
                 .build()
-
     }
 
     private fun createDaggerAppComponent() {
@@ -69,5 +67,4 @@ class App : Application() {
             private set
         var sharedPreferences: SharedPreferences? = null
     }
-
 }

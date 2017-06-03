@@ -61,18 +61,12 @@ public class TreeKeyDispatcher extends KeyChanger implements Dispatcher {
     @Override
     public void changeKey(@Nullable State outgoingState, State incomingState, final Direction direction, Map<Object, Context> incomingContexts, final TraversalCallback callback) {
         Context context = incomingContexts.get(inKey);
-
-
         // Сохраняем состояние экрана
-
-
         if (outgoingState != null) {
             outgoingState.save(mRootFrame.getChildAt(0));
         }
 
-
         // Создаем новый экран
-
         Screen screen;
         screen = inKey.getClass().getAnnotation(Screen.class);
         if (screen == null) {
@@ -83,16 +77,11 @@ public class TreeKeyDispatcher extends KeyChanger implements Dispatcher {
             final View newView = inflater.inflate(layout, mRootFrame, false);
             final View oldView = mRootFrame.getChildAt(0);
 
-
             //restore state new view
-
-
             incomingState.restore(newView);
             // TODO: 27.11.2016 Unregister screen scope
 
             //delete old view
-
-
             if (outKey != null && !(inKey instanceof TreeKey)) {
                 ((AbstractScreen) outKey).unregisterScope();
             }

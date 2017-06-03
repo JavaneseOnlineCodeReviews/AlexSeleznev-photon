@@ -39,7 +39,6 @@ class RootActivity : AppCompatActivity(), IRootView {
 
     var mProgressDialog: ProgressDialog? = null
 
-
     override fun attachBaseContext(newBase: Context) {
         var newBase = newBase
         newBase = Flow.configure(newBase, this)
@@ -53,7 +52,6 @@ class RootActivity : AppCompatActivity(), IRootView {
         val rootActivityScope = MortarScope.findChild(applicationContext, RootActivity::class.java.name)
         return if (rootActivityScope.hasService(name)) rootActivityScope.getService<Any>(name) else super.getSystemService(name)
     }
-
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -78,7 +76,6 @@ class RootActivity : AppCompatActivity(), IRootView {
         (DaggerService.getDaggerComponent<Any>(this) as RootComponent).inject(this)
         mRootPresenter.takeView(this)
     }
-
 
     override fun onDestroy() {
         super.onDestroy()

@@ -27,9 +27,7 @@ class PhotoCardListScreen : AbstractScreen<RootActivity.RootComponent>() {
         }
     }
 
-
     // endregion
-
 
     // region================DI==============
 
