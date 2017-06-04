@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:padding="8dp">
+    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Регистрация"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
+        android:textSize="16sp"/>
+
+    <EditText
+        android:id="@+id/login_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edit_text_style"
+        android:hint="Логин"
+        android:inputType="textEmailAddress"
+        android:layout_marginTop="16dp"
+        android:paddingBottom="8dp"
+        android:paddingLeft="8dp"
+        android:paddingTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:textColor="@android:color/black"
+        android:textColorHint="@android:color/darker_gray"/>
+
+
+
+
+        <EditText
+            android:id="@+id/email_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_style"
+            android:hint="Email"
+            android:layout_marginTop="16dp"
+            android:paddingBottom="8dp"
+            android:paddingLeft="8dp"
+            android:paddingTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:inputType="textEmailAddress"
+            android:textColor="@android:color/black"
+            android:textColorHint="@android:color/darker_gray"/>
+
+
+
+   >
+
+        <EditText
+            android:id="@+id/name_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_style"
+            android:hint="Имя"
+            android:layout_marginTop="16dp"
+            android:paddingBottom="8dp"
+            android:paddingLeft="8dp"
+            android:paddingTop="8dp"
+            android:inputType="textEmailAddress"
+            android:textColor="@android:color/black"
+            android:textColorHint="@android:color/darker_gray"/>
+
+
+        <EditText
+            android:id="@+id/password_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_style"
+            android:hint="Пароль"
+            android:layout_marginTop="16dp"
+            android:paddingBottom="8dp"
+            android:paddingLeft="8dp"
+            android:paddingTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:inputType="textEmailAddress"
+            android:textColor="@android:color/black"
+            android:textColorHint="@android:color/darker_gray"/>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="8dp">
+
+        <Button
+            android:id="@+id/sign_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:padding="8dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/button_background"
+            android:text="Регистрация"
+            android:textColor="@android:color/white"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            android:padding="8dp"
+            android:background="@drawable/button_background"
+            android:text="Отмена"
+            android:textColor="@android:color/white"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

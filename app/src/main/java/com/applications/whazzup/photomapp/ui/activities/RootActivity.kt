@@ -1,15 +1,25 @@
 package com.applications.whazzup.photomapp.ui.activities
 
+
+import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
+
 import android.support.v7.app.AppCompatActivity
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
+import android.widget.Button
+import android.widget.EditText
 import android.widget.FrameLayout
+import android.widget.Toast
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.applications.whazzup.photomapp.R
@@ -22,10 +32,10 @@ import com.applications.whazzup.photomapp.flow.TreeKeyDispatcher
 import com.applications.whazzup.photomapp.mvp.presenters.RootPresenter
 import com.applications.whazzup.photomapp.mvp.views.IRootView
 import com.applications.whazzup.photomapp.mvp.views.IView
-import com.applications.whazzup.photomapp.ui.screens.photo_card_list.PhotoCardListAdapter
 import com.applications.whazzup.photomapp.ui.screens.splash.SplashScreen
 import com.squareup.picasso.Picasso
 import flow.Flow
+import kotlinx.android.synthetic.main.sign_in.*
 import mortar.MortarScope
 import mortar.bundler.BundleServiceRunner
 import javax.inject.Inject
@@ -35,10 +45,14 @@ class RootActivity : AppCompatActivity(), IRootView {
     @BindView(R.id.root_frame) lateinit var mRootFrame: FrameLayout
     @BindView(R.id.navigation) lateinit var mNavigation: BottomNavigationView
 
+
+
     @Inject
     lateinit var mRootPresenter: RootPresenter
 
     var mProgressDialog: ProgressDialog? = null
+
+    var builder: AlertDialog?= null
 
     override fun attachBaseContext(newBase: Context) {
         var newBase = newBase
@@ -47,6 +61,7 @@ class RootActivity : AppCompatActivity(), IRootView {
                 .dispatcher(TreeKeyDispatcher(this))
                 .install()
         super.attachBaseContext(newBase)
+
     }
 
     override fun getSystemService(name: String): Any {
@@ -76,6 +91,41 @@ class RootActivity : AppCompatActivity(), IRootView {
         BundleServiceRunner.getBundleServiceRunner(this).onCreate(savedInstanceState)
         (DaggerService.getDaggerComponent<Any>(this) as RootComponent).inject(this)
         mRootPresenter.takeView(this)
+        createSignInAlertDialog()
+    }
+
+    fun createSignInAlertDialog(){
+        builder = AlertDialog.Builder(this).create()
+        var v: View=LayoutInflater.from(this).inflate(R.layout.sign_in, null)
+        var btn : Button =v.findViewById(R.id.sign_btn) as Button
+        var nameEt : EditText = v.findViewById(R.id.name_et) as EditText
+
+        nameEt.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(s: Editable?) {
+                if(s?.length!!<3){
+                    nameEt.setBackgroundResource(R.drawable.edit_text_error_style)
+                    nameEt.error = "123"
+                }else{
+                    nameEt.setBackgroundResource(R.drawable.edit_text_style)
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+        })
+
+        btn.setOnClickListener {
+            Toast.makeText(this, "SignIn", Toast.LENGTH_LONG).show()
+            builder?.cancel()
+        }
+        builder?.setView(v)
+        builder?.show()
+
     }
 
     override fun onDestroy() {
