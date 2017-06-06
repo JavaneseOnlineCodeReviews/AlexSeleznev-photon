@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
@@ -9,78 +8,66 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Регистрация"
+        android:text="@string/signIn_hint"
         android:layout_gravity="center"
         android:layout_marginBottom="16dp"
         android:layout_marginTop="16dp"
-        android:textSize="16sp"/>
-
-    <EditText
-        android:id="@+id/login_et"
+        android:textSize="20sp"/>
+    <TextView
+        android:id="@+id/login_error_hint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/edit_text_style"
-        android:hint="Логин"
+        android:gravity="end"
+        android:layout_marginBottom="2dp"/>
+    <EditText
+        android:id="@+id/login_et"
+      style="@style/EditTextStyle"
+        android:hint="@string/login_et_hint"
         android:inputType="textEmailAddress"
-        android:layout_marginTop="16dp"
-        android:paddingBottom="8dp"
-        android:paddingLeft="8dp"
-        android:paddingTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:textColor="@android:color/black"
-        android:textColorHint="@android:color/darker_gray"/>
+        android:imeOptions="actionNext"
+        android:nextFocusDown="@+id/email_et"/>
 
+    <TextView
+        android:id="@+id/email_error_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:layout_marginBottom="2dp"/>
+    <EditText
+        android:id="@+id/email_et"
+       style="@style/EditTextStyle"
+        android:hint="@string/email_et_hint"
+        android:inputType="textEmailAddress"
+        android:imeOptions="actionNext"
+        android:nextFocusDown="@+id/name_et"/>
 
-
-
+    <TextView
+        android:id="@+id/name_error_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:layout_marginBottom="2dp"/>
         <EditText
-            android:id="@+id/email_et"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/edit_text_style"
-            android:hint="Email"
-            android:layout_marginTop="16dp"
-            android:paddingBottom="8dp"
-            android:paddingLeft="8dp"
-            android:paddingTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:inputType="textEmailAddress"
-            android:textColor="@android:color/black"
-            android:textColorHint="@android:color/darker_gray"/>
-
-
-
-   >
-
-        <EditText
+            style="@style/EditTextStyle"
             android:id="@+id/name_et"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/edit_text_style"
-            android:hint="Имя"
-            android:layout_marginTop="16dp"
-            android:paddingBottom="8dp"
-            android:paddingLeft="8dp"
-            android:paddingTop="8dp"
-            android:inputType="textEmailAddress"
-            android:textColor="@android:color/black"
-            android:textColorHint="@android:color/darker_gray"/>
+            android:hint="@string/name_et_hint"
+            android:inputType="text"
+            android:imeOptions="actionNext"
+            android:nextFocusDown="@+id/password_et"/>
 
-
+    <TextView
+        android:id="@+id/password_error_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:layout_marginBottom="2dp"/>
         <EditText
             android:id="@+id/password_et"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/edit_text_style"
-            android:hint="Пароль"
-            android:layout_marginTop="16dp"
-            android:paddingBottom="8dp"
-            android:paddingLeft="8dp"
-            android:paddingTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:inputType="textEmailAddress"
-            android:textColor="@android:color/black"
-            android:textColorHint="@android:color/darker_gray"/>
+            style="@style/EditTextStyle"
+            android:hint="@string/password_et_hint"
+            android:inputType="textPassword"
+            android:imeOptions="actionDone"
+            />
 
 
 
@@ -88,25 +75,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:orientation="horizontal"
         android:layout_marginTop="8dp">
 
         <Button
             android:id="@+id/sign_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:padding="8dp"
             android:layout_margin="8dp"
             android:background="@drawable/button_background"
-            android:text="Регистрация"
+            android:text="@string/ok_btn_insc"
             android:textColor="@android:color/white"/>
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:id="@+id/cancel_btn"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:padding="8dp"
             android:background="@drawable/button_background"
-            android:text="Отмена"
+            android:text="@string/cancel_btn_insc"
             android:textColor="@android:color/white"/>
 
     </LinearLayout>

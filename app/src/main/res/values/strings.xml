@@ -3,4 +3,11 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="signIn_hint">Регистрация</string>
+    <string name="login_et_hint">Логин</string>
+    <string name="email_et_hint">Email</string>
+    <string name="name_et_hint">Имя</string>
+    <string name="password_et_hint">Пароль</string>
+    <string name="ok_btn_insc">OK</string>
+    <string name="cancel_btn_insc">Отмена</string>
 </resources>

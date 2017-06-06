@@ -9,6 +9,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
+import android.support.design.widget.TextInputLayout
 
 import android.support.v7.app.AppCompatActivity
 import android.text.Editable
@@ -16,10 +17,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
-import android.widget.Button
-import android.widget.EditText
-import android.widget.FrameLayout
-import android.widget.Toast
+import android.widget.*
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.applications.whazzup.photomapp.R
@@ -33,6 +31,7 @@ import com.applications.whazzup.photomapp.mvp.presenters.RootPresenter
 import com.applications.whazzup.photomapp.mvp.views.IRootView
 import com.applications.whazzup.photomapp.mvp.views.IView
 import com.applications.whazzup.photomapp.ui.screens.splash.SplashScreen
+import com.applications.whazzup.photomapp.util.CustomTextWatcher
 import com.squareup.picasso.Picasso
 import flow.Flow
 import kotlinx.android.synthetic.main.sign_in.*
@@ -55,8 +54,7 @@ class RootActivity : AppCompatActivity(), IRootView {
     var builder: AlertDialog?= null
 
     override fun attachBaseContext(newBase: Context) {
-        var newBase = newBase
-        newBase = Flow.configure(newBase, this)
+        var newBase = Flow.configure(newBase, this)
                 .defaultKey(SplashScreen())
                 .dispatcher(TreeKeyDispatcher(this))
                 .install()
@@ -94,38 +92,38 @@ class RootActivity : AppCompatActivity(), IRootView {
         createSignInAlertDialog()
     }
 
-    fun createSignInAlertDialog(){
+   override fun createSignInAlertDialog(){
         builder = AlertDialog.Builder(this).create()
-        var v: View=LayoutInflater.from(this).inflate(R.layout.sign_in, null)
-        var btn : Button =v.findViewById(R.id.sign_btn) as Button
-        var nameEt : EditText = v.findViewById(R.id.name_et) as EditText
 
-        nameEt.addTextChangedListener(object : TextWatcher{
-            override fun afterTextChanged(s: Editable?) {
-                if(s?.length!!<3){
-                    nameEt.setBackgroundResource(R.drawable.edit_text_error_style)
-                    nameEt.error = "123"
-                }else{
-                    nameEt.setBackgroundResource(R.drawable.edit_text_style)
-                }
-            }
+        val v: View=LayoutInflater.from(this).inflate(R.layout.sign_in, null)
+        val btn : Button =v.findViewById(R.id.sign_btn) as Button
+        val cancelBtn = v.findViewById(R.id.cancel_btn) as Button
+        val nameEt : EditText = v.findViewById(R.id.name_et) as EditText
+        val loginEt =v.findViewById(R.id.login_et) as EditText
+        val emailEt = v.findViewById(R.id.email_et) as EditText
+        val passwordEt = v.findViewById(R.id.password_et) as EditText
+        val loginErrorHint = v.findViewById(R.id.login_error_hint) as TextView
+        val emailErrorHint = v.findViewById(R.id.email_error_hint) as TextView
+        val nameErrorHint = v.findViewById(R.id.name_error_hint) as TextView
+        val passwordErrorHint = v.findViewById(R.id.password_error_hint) as TextView
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-            }
-        })
+        nameEt.addTextChangedListener(CustomTextWatcher(nameEt, nameErrorHint))
+        loginEt.addTextChangedListener(CustomTextWatcher(loginEt, loginErrorHint))
+        emailEt.addTextChangedListener(CustomTextWatcher(emailEt, emailErrorHint))
+        passwordEt.addTextChangedListener(CustomTextWatcher(passwordEt, passwordErrorHint))
 
         btn.setOnClickListener {
-            Toast.makeText(this, "SignIn", Toast.LENGTH_LONG).show()
+            if((loginErrorHint.text == "" && loginErrorHint.text == "" && nameErrorHint.text == "" && passwordErrorHint.text == "")&&
+                    (!loginEt.text.isEmpty()&&!nameEt.text.isEmpty()&&!emailEt.text.isEmpty()&&!passwordEt.text.isEmpty())) {
+                Toast.makeText(this, "SignIn", Toast.LENGTH_LONG).show()
+                builder?.cancel()
+            }
+        }
+        cancelBtn.setOnClickListener {
             builder?.cancel()
         }
         builder?.setView(v)
         builder?.show()
-
     }
 
     override fun onDestroy() {

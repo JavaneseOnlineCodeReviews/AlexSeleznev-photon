@@ -7,6 +7,7 @@ interface IRootView : IView {
     fun showLoad()
     fun hideLoad()
     fun hideBottomNavigation(isVisible: Boolean)
+    fun createSignInAlertDialog()
 
     val currentScreen: IView?
 }

@@ -3,6 +3,6 @@
     <color name="colorPrimary">#00aaff</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#FF4081</color>
-
+<color name="colorEditTextError">#A20707</color>
     <color name="progressDialogColor">#414141</color>
 </resources>

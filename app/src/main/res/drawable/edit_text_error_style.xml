@@ -3,6 +3,6 @@
        android:thickness="0dp"
        android:shape="rectangle">
     <stroke android:width="3dp"
-            android:color="@android:color/holo_red_dark"/>
+            android:color="@color/colorEditTextError"/>
     <corners android:radius="5dp" />
 </shape>
