@@ -2,6 +2,8 @@ package com.applications.whazzup.photomapp.ui.screens.photo_card_list
 
 
 
+import android.view.MenuItem
+import android.widget.PopupMenu
 import com.applications.whazzup.photomapp.R
 import com.applications.whazzup.photomapp.di.DaggerService
 import com.applications.whazzup.photomapp.di.scopes.PhotoCardListScope
@@ -9,6 +11,7 @@ import com.applications.whazzup.photomapp.flow.AbstractScreen
 import com.applications.whazzup.photomapp.flow.Screen
 import com.applications.whazzup.photomapp.mvp.models.PhotoCardListModel
 import com.applications.whazzup.photomapp.mvp.presenters.AbstractPresenter
+import com.applications.whazzup.photomapp.mvp.presenters.MenuItemHolder
 import com.applications.whazzup.photomapp.ui.activities.RootActivity
 
 import dagger.Provides
@@ -26,8 +29,17 @@ class PhotoCardListScreen : AbstractScreen<RootActivity.RootComponent>() {
 
 
         override fun initToolbar() {
-            mRootPresenter.newActionBarBuilder().setVisible(true).setTitle("Фотон").build()
-
+            mRootPresenter.newActionBarBuilder()
+                    .setVisible(true)
+                    .setTitle("Фотон")
+                    .addAction(MenuItemHolder("Поиск", R.drawable.ic_custom_search_black_24dp,listener = {
+                        println("123")
+                        false }))
+                    .addAction(MenuItemHolder("Настройки", R.drawable.ic_custom_gear_black_24dp,listener =  {
+                        println("123")
+                        false
+                    }))
+                    .build()
         }
 
 

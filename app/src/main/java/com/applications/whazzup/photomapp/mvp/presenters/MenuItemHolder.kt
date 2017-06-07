@@ -1,7 +1,13 @@
 package com.applications.whazzup.photomapp.mvp.presenters
 
-/**
- * Created by ЗавТер on 07.06.2017.
- */
-class MenuItemHolder {
+import android.view.MenuItem
+
+class MenuItemHolder(var itemTitle : CharSequence, var iconRes : Int, var listener : MenuItem.OnMenuItemClickListener) {
+
+    constructor(itemTitle: CharSequence,
+                iconId: Int,
+                listener: (MenuItem) -> Boolean) :
+            this(itemTitle,
+                    iconId,
+                    MenuItem.OnMenuItemClickListener { listener(it) })
 }

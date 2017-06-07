@@ -240,17 +240,17 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        /*if (mActionBarMenuItem != null && !mActionBarMenuItem.isEmpty()) {
+        if (mActionBarMenuItem != null && !mActionBarMenuItem.isEmpty()) {
             for (menuItem in mActionBarMenuItem) {
-                val item = menu?.add(menuItem.getItemTitle())
-                item.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
-                        .setActionView(menuItem.getIconResId())
-                        .getActionView().setOnClickListener(menuItem.getViewListener())
+                val item = menu?.addSubMenu("123")?.add(menuItem.itemTitle)
+                item?.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
+                        ?.setIcon(menuItem.iconRes)
+                        ?.setOnMenuItemClickListener(menuItem.listener)
                 //.setOnMenuItemClickListener(menuItem.getListener());
             }
         } else {
             menu?.clear()
-        }*/
+        }
 
         return super.onPrepareOptionsMenu(menu)
     }
