@@ -1,6 +1,7 @@
 package com.applications.whazzup.photomapp.ui.screens.photo_card_list
 
 
+
 import com.applications.whazzup.photomapp.R
 import com.applications.whazzup.photomapp.di.DaggerService
 import com.applications.whazzup.photomapp.di.scopes.PhotoCardListScope
@@ -15,12 +16,20 @@ import mortar.MortarScope
 
 @Screen(R.layout.screen_photo_card_list)
 class PhotoCardListScreen : AbstractScreen<RootActivity.RootComponent>() {
+
     override fun createScreenComponent(parentComponent: RootActivity.RootComponent): Any {
         return DaggerPhotoCardListScreen_Component.builder().rootComponent(parentComponent).module(Module()).build()
     }
 
     // region================Presenter==============
     inner class PhotoCardListPresenter : AbstractPresenter<PhotoCardListView, PhotoCardListModel>() {
+
+
+        override fun initToolbar() {
+            mRootPresenter.newActionBarBuilder().setVisible(true).setTitle("Фотон").build()
+
+        }
+
 
         override fun initDagger(scope: MortarScope) {
             (scope.getService<Any>(DaggerService.SERVICE_NAME) as DaggerPhotoCardListScreen_Component).inject(this)

@@ -21,4 +21,11 @@
         <item name="android:maxLines">1</item>
     </style>
 
+    <style name="AppTheme.PopUpOverlay" parent="Base.ThemeOverlay.AppCompat.Light"/>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColorPrimary">@color/colorPrimaryDark</item>
+        <item name="colorControlNormal">@color/colorPrimaryDark</item>
+    </style>
+
 </resources>

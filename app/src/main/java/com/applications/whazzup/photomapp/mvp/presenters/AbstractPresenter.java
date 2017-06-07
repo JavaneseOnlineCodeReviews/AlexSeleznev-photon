@@ -26,6 +26,7 @@ public abstract class AbstractPresenter<V extends AbstractView, M extends Abstra
     protected void onEnterScope(MortarScope scope) {
         super.onEnterScope(scope);
         initDagger(scope);
+        initToolbar();
     }
 
     @Override
@@ -39,4 +40,6 @@ public abstract class AbstractPresenter<V extends AbstractView, M extends Abstra
     }
 
     protected abstract void initDagger(MortarScope scope);
+
+    protected abstract void initToolbar();
 }

@@ -71,7 +71,7 @@ open class CustomTextWatcher (view : View, hintView : View) : TextWatcher {
         return matcher.matches()
     }
     fun isValidatePassword(s : Editable): Boolean {
-        val pattern = Pattern.compile("([a-zA-z0-9\\d]&&[^_]){8,}")
+        val pattern = Pattern.compile("([a-zA-z0-9\\d]){8,}")
         val matcher = pattern.matcher(s)
         return matcher.matches()
     }

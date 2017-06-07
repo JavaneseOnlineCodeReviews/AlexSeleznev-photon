@@ -31,6 +31,10 @@ class SplashScreen : AbstractScreen<RootActivity.RootComponent>() {
 
     // region================Presenter==============
     inner class SplashPresenter : AbstractPresenter<SplashView, SplashModel>() {
+        override fun initToolbar() {
+            mRootPresenter.newActionBarBuilder().setVisible(false).build()
+        }
+
         override fun onEnterScope(scope: MortarScope?) {
             super.onEnterScope(scope)
             rootView?.hideBottomNavigation(false)
@@ -47,13 +51,14 @@ class SplashScreen : AbstractScreen<RootActivity.RootComponent>() {
                             onComplete = {
                                 rootView?.hideLoad()
                                 rootView?.hideBottomNavigation(true)
-                                Flow.get(view.context).set(PhotoCardListScreen())
+                               Flow.get(view.context).set(PhotoCardListScreen())
                             },
                             onError = {
                                 rootView!!.hideLoad()
                                 Log.d("TAG", it.message)
                             }
                     )
+
         }
 
         override fun initDagger(scope: MortarScope) {

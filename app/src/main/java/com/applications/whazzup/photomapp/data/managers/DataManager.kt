@@ -3,7 +3,9 @@ package com.applications.whazzup.photomapp.data.managers
 
 import com.applications.whazzup.photomapp.App
 import com.applications.whazzup.photomapp.data.network.RestService
+import com.applications.whazzup.photomapp.data.network.req.UserSigInReq
 import com.applications.whazzup.photomapp.data.network.res.PhotocardRes
+import com.applications.whazzup.photomapp.data.network.res.user.UserRes
 import com.applications.whazzup.photomapp.di.components.DaggerDataManagerComponent
 import com.applications.whazzup.photomapp.di.modules.LocalModule
 import com.applications.whazzup.photomapp.di.modules.NetworkModule
@@ -29,5 +31,9 @@ class DataManager {
 
     fun savePhotocardToRealm(photocardRes: PhotocardRes) {
         mRealmManager.savePhotocardResponseToRealm(photocardRes)
+    }
+
+    fun signUpUser(user : UserSigInReq): Observable<UserRes>{
+        return mRestService.sigUpUser(user)
     }
 }

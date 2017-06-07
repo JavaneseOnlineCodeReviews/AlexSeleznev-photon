@@ -1,48 +1,52 @@
 package com.applications.whazzup.photomapp.ui.activities
 
 
+
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.os.Build
 import android.os.Bundle
+import android.support.design.widget.AppBarLayout
 import android.support.design.widget.BottomNavigationView
-import android.support.design.widget.TextInputLayout
-
+import android.support.design.widget.CoordinatorLayout
+import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
-import android.text.Editable
-import android.text.TextWatcher
-import android.view.LayoutInflater
-import android.view.View
-import android.view.WindowManager
+import android.support.v7.widget.Toolbar
+import android.util.TypedValue
+import android.view.*
 import android.widget.*
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.applications.whazzup.photomapp.R
+import com.applications.whazzup.photomapp.data.network.req.UserSigInReq
 import com.applications.whazzup.photomapp.di.DaggerService
 import com.applications.whazzup.photomapp.di.components.AppComponent
 import com.applications.whazzup.photomapp.di.modules.PicassoCacheModule
 import com.applications.whazzup.photomapp.di.modules.RootModule
 import com.applications.whazzup.photomapp.di.scopes.RootScope
 import com.applications.whazzup.photomapp.flow.TreeKeyDispatcher
+import com.applications.whazzup.photomapp.mvp.presenters.MenuItemHolder
 import com.applications.whazzup.photomapp.mvp.presenters.RootPresenter
+import com.applications.whazzup.photomapp.mvp.views.IActionBarView
 import com.applications.whazzup.photomapp.mvp.views.IRootView
 import com.applications.whazzup.photomapp.mvp.views.IView
 import com.applications.whazzup.photomapp.ui.screens.splash.SplashScreen
 import com.applications.whazzup.photomapp.util.CustomTextWatcher
 import com.squareup.picasso.Picasso
 import flow.Flow
-import kotlinx.android.synthetic.main.sign_in.*
 import mortar.MortarScope
 import mortar.bundler.BundleServiceRunner
 import javax.inject.Inject
 
-class RootActivity : AppCompatActivity(), IRootView {
+class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
+
 
     @BindView(R.id.root_frame) lateinit var mRootFrame: FrameLayout
     @BindView(R.id.navigation) lateinit var mNavigation: BottomNavigationView
+    @BindView(R.id.toolbar) lateinit  var mToolbar: Toolbar
+    @BindView(R.id.appbar_layout) lateinit var mAppBarLayout: AppBarLayout
 
 
 
@@ -52,6 +56,9 @@ class RootActivity : AppCompatActivity(), IRootView {
     var mProgressDialog: ProgressDialog? = null
 
     var builder: AlertDialog?= null
+
+    lateinit var  mActionBar : android.support.v7.app.ActionBar
+    lateinit  var mActionBarMenuItem : MutableList<MenuItemHolder>
 
     override fun attachBaseContext(newBase: Context) {
         var newBase = Flow.configure(newBase, this)
@@ -89,7 +96,10 @@ class RootActivity : AppCompatActivity(), IRootView {
         BundleServiceRunner.getBundleServiceRunner(this).onCreate(savedInstanceState)
         (DaggerService.getDaggerComponent<Any>(this) as RootComponent).inject(this)
         mRootPresenter.takeView(this)
-        createSignInAlertDialog()
+        setSupportActionBar(mToolbar)
+        mActionBar = supportActionBar!!
+        mActionBar.setBackgroundDrawable(ColorDrawable(Color.WHITE))
+        //createSignInAlertDialog()
     }
 
    override fun createSignInAlertDialog(){
@@ -115,7 +125,8 @@ class RootActivity : AppCompatActivity(), IRootView {
         btn.setOnClickListener {
             if((loginErrorHint.text == "" && loginErrorHint.text == "" && nameErrorHint.text == "" && passwordErrorHint.text == "")&&
                     (!loginEt.text.isEmpty()&&!nameEt.text.isEmpty()&&!emailEt.text.isEmpty()&&!passwordEt.text.isEmpty())) {
-                Toast.makeText(this, "SignIn", Toast.LENGTH_LONG).show()
+                var user = UserSigInReq(nameEt.text.toString(), loginEt.text.toString(), emailEt.text.toString(), passwordEt.text.toString())
+                mRootPresenter.signUpUser(user)
                 builder?.cancel()
             }
         }
@@ -166,6 +177,31 @@ class RootActivity : AppCompatActivity(), IRootView {
 
     override val currentScreen: IView?
         get() = mRootFrame.getChildAt(0) as IView
+
+    override fun hideToolBar() {
+        if (supportActionBar != null) {
+            supportActionBar?.hide()
+        }
+        var layoutParams = mRootFrame.layoutParams as CoordinatorLayout.LayoutParams
+        layoutParams.setMargins(0, 0, 0, 0)
+        mRootFrame.layoutParams = layoutParams
+        mRootFrame.fitsSystemWindows = true
+    }
+
+    override fun showtoolBar() {
+        if (supportActionBar != null) {
+            supportActionBar?.show()
+        }
+        var actionBarHeight = 0
+        var tv = TypedValue()
+        if (theme.resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
+            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, resources.displayMetrics)
+        }
+         var layoutParams = mRootFrame.layoutParams as CoordinatorLayout.LayoutParams
+        layoutParams.setMargins(0, actionBarHeight, 0, 0)
+        mRootFrame.layoutParams = layoutParams
+    }
+
     // endregion
 
     // region================DI==============
@@ -177,6 +213,56 @@ class RootActivity : AppCompatActivity(), IRootView {
         fun inject(rootPresenter: RootPresenter)
         val rootPresenter: RootPresenter
         val picasso: Picasso
+    }
+
+    // endregion
+
+    // region===============ActionBarBuilder==================
+
+    override fun setActionBarTitle(title: CharSequence?) {
+        mActionBar.title = title
+    }
+
+    override fun setActionBarVisible(visible: Boolean) {
+        if(visible){
+       supportActionBar?.show()
+        }else {
+            supportActionBar?.hide()}
+    }
+
+    override fun setBackArrow(enable: Boolean) {
+
+    }
+
+    override fun setMenuItem(items: List<MenuItemHolder>) {
+        mActionBarMenuItem = items as MutableList<MenuItemHolder>
+        supportInvalidateOptionsMenu()
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        /*if (mActionBarMenuItem != null && !mActionBarMenuItem.isEmpty()) {
+            for (menuItem in mActionBarMenuItem) {
+                val item = menu?.add(menuItem.getItemTitle())
+                item.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
+                        .setActionView(menuItem.getIconResId())
+                        .getActionView().setOnClickListener(menuItem.getViewListener())
+                //.setOnMenuItemClickListener(menuItem.getListener());
+            }
+        } else {
+            menu?.clear()
+        }*/
+
+        return super.onPrepareOptionsMenu(menu)
+    }
+
+
+
+    override fun setTabLayout(viewPager: ViewPager?) {
+
+    }
+
+    override fun removeTabLayout() {
+
     }
 
     // endregion
