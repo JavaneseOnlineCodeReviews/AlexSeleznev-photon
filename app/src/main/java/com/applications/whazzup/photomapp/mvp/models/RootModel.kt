@@ -1,5 +1,6 @@
 package com.applications.whazzup.photomapp.mvp.models
 
+import com.applications.whazzup.photomapp.data.network.req.UserLogInReq
 import com.applications.whazzup.photomapp.data.network.req.UserSigInReq
 import com.applications.whazzup.photomapp.data.network.res.user.UserRes
 import com.applications.whazzup.photomapp.data.storage.dto.PhotoCardDto
@@ -16,5 +17,21 @@ class RootModel : AbstractModel() {
 
     fun signUpUser(user : UserSigInReq) : Observable<UserRes>{
         return mDataManager.signUpUser(user);
+    }
+
+    fun logInUser(user: UserLogInReq) : Observable<UserRes>{
+        return mDataManager.logInUser(user)
+    }
+
+    fun isUserAuth(): Boolean{
+        return mDataManager.isUserAuth()
+    }
+
+    fun saveUserInfo(user: UserRes){
+        mDataManager.saveUserInfo(user)
+    }
+
+    fun logOut() {
+        mDataManager.logOut()
     }
 }

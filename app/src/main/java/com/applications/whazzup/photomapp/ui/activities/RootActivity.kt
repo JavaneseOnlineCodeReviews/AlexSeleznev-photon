@@ -20,6 +20,7 @@ import android.widget.*
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.applications.whazzup.photomapp.R
+import com.applications.whazzup.photomapp.data.network.req.UserLogInReq
 import com.applications.whazzup.photomapp.data.network.req.UserSigInReq
 import com.applications.whazzup.photomapp.di.DaggerService
 import com.applications.whazzup.photomapp.di.components.AppComponent
@@ -122,7 +123,6 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
                     (!loginEt.text.isEmpty()&&!nameEt.text.isEmpty()&&!emailEt.text.isEmpty()&&!passwordEt.text.isEmpty())) {
                 var user = UserSigInReq(nameEt.text.toString(), loginEt.text.toString(), emailEt.text.toString(), passwordEt.text.toString())
                 mRootPresenter.signUpUser(user)
-               // builder?.cancel()
             }
         }
         cancelBtn.setOnClickListener {
@@ -130,6 +130,34 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
         }
         builder?.setView(v)
         builder?.show()
+    }
+
+    override fun createLoginDialog() {
+        builder = AlertDialog.Builder(this).create()
+
+        val v: View=LayoutInflater.from(this).inflate(R.layout.log_in, null)
+        val btn : Button =v.findViewById(R.id.sign_btn) as Button
+        val cancelBtn = v.findViewById(R.id.cancel_btn) as Button
+        val emailEt = v.findViewById(R.id.email_et) as EditText
+        val passwordEt = v.findViewById(R.id.password_et) as EditText
+        val emailErrorHint = v.findViewById(R.id.email_error_hint) as TextView
+        val passwordErrorHint = v.findViewById(R.id.password_error_hint) as TextView
+
+        emailEt.addTextChangedListener(CustomTextWatcher(emailEt, emailErrorHint))
+        passwordEt.addTextChangedListener(CustomTextWatcher(passwordEt, passwordErrorHint))
+
+        btn.setOnClickListener {
+            if((emailErrorHint.text == "" && passwordErrorHint.text == "")&&
+                    (!emailEt.text.isEmpty()&&!passwordEt.text.isEmpty())) {
+                mRootPresenter.logInUser(UserLogInReq(emailEt.text.toString(), passwordEt.text.toString()))
+            }
+        }
+        cancelBtn.setOnClickListener {
+            builder?.cancel()
+        }
+        builder?.setView(v)
+        builder?.show()
+
     }
 
     override fun hideAlertDialog(){

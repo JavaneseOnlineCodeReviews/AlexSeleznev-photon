@@ -1,5 +1,6 @@
 package com.applications.whazzup.photomapp.data.network
 
+import com.applications.whazzup.photomapp.data.network.req.UserLogInReq
 import com.applications.whazzup.photomapp.data.network.req.UserSigInReq
 import com.applications.whazzup.photomapp.data.network.res.PhotocardRes
 import com.applications.whazzup.photomapp.data.network.res.user.UserRes
@@ -17,5 +18,9 @@ interface RestService {
 
     @POST("user/signUp")
     fun sigUpUser(@Body user : UserSigInReq): Observable<UserRes>
+
+
+    @POST("user/signIn")
+    fun logInUser(@Body user: UserLogInReq) : Observable<UserRes>
 
 }

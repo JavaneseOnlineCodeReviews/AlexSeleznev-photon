@@ -3,6 +3,7 @@ package com.applications.whazzup.photomapp.data.managers
 
 import com.applications.whazzup.photomapp.App
 import com.applications.whazzup.photomapp.data.network.RestService
+import com.applications.whazzup.photomapp.data.network.req.UserLogInReq
 import com.applications.whazzup.photomapp.data.network.req.UserSigInReq
 import com.applications.whazzup.photomapp.data.network.res.PhotocardRes
 import com.applications.whazzup.photomapp.data.network.res.user.UserRes
@@ -37,5 +38,21 @@ class DataManager {
 
     fun signUpUser(user : UserSigInReq): Observable<UserRes>{
         return mRestService.sigUpUser(user)
+    }
+
+    fun logInUser(user : UserLogInReq) : Observable<UserRes>{
+        return mRestService.logInUser(user)
+    }
+
+    fun isUserAuth() : Boolean{
+        return mPreferencesManager.isUserAuth()
+    }
+
+    fun saveUserInfo(user: UserRes){
+        mPreferencesManager.saveUserProfileInfo(user)
+    }
+
+    fun logOut() {
+        mPreferencesManager.logOut()
     }
 }

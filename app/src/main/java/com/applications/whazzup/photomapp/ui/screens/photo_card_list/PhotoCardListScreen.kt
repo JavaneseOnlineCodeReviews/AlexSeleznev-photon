@@ -50,17 +50,21 @@ class PhotoCardListScreen : AbstractScreen<RootActivity.RootComponent>() {
 
         fun showPopUpMenu(view : View){
             var menu = PopupMenu(getView().context, view)
-            menu.inflate(R.menu.popup)
+            if(mRootPresenter.isUserAuth()){
+                menu.inflate(R.menu.popup_exit)
+            }else {
+                menu.inflate(R.menu.popup)
+            }
             menu.setOnMenuItemClickListener({
                 when(it.itemId){
                    sign_in_item->{
                        mRootPresenter.rootView?.createSignInAlertDialog()
                    }
                     log_in_item->{
-                        mRootPresenter.rootView?.showMessage("log in")
+                        mRootPresenter.rootView?.createLoginDialog()
                     }
                     log_out_item->{
-                        mRootPresenter.rootView?.showMessage("log out")
+                        mRootPresenter.logOut()
                     }
                 }
                 false

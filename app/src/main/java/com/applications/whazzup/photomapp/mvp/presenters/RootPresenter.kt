@@ -4,6 +4,7 @@ package com.applications.whazzup.photomapp.mvp.presenters
 import android.support.v4.view.ViewPager
 
 import com.applications.whazzup.photomapp.App
+import com.applications.whazzup.photomapp.data.network.req.UserLogInReq
 import com.applications.whazzup.photomapp.data.network.req.UserSigInReq
 import com.applications.whazzup.photomapp.mvp.models.RootModel
 import com.applications.whazzup.photomapp.mvp.views.IRootView
@@ -42,7 +43,7 @@ class RootPresenter private constructor() : Presenter<IRootView>() {
 
     fun signUpUser(user: UserSigInReq) {
         mRootModel.signUpUser(user)
-                .doOnNext { }
+                .doOnNext { mRootModel.saveUserInfo(it)  }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(onComplete = {
@@ -52,6 +53,25 @@ class RootPresenter private constructor() : Presenter<IRootView>() {
                     view.showMessage("Такой пользователь уже существует")
                 })
     }
+
+    fun logInUser(user: UserLogInReq){
+        mRootModel.logInUser(user)
+                .doOnNext { mRootModel.saveUserInfo(it) }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeBy(onComplete = {
+                    view.showMessage("Добрро пожаловать")
+                    view.hideAlertDialog()
+                }, onError = {
+                    view.showMessage("Такого пользователя не существует")
+                })
+    }
+
+    fun isUserAuth():Boolean{
+        return mRootModel.isUserAuth()
+    }
+
+
 
     fun newActionBarBuilder(): ActionBarBuilder {
         return ActionBarBuilder()
@@ -106,6 +126,10 @@ class RootPresenter private constructor() : Presenter<IRootView>() {
 
             }
         }
+    }
+
+    fun logOut() {
+        mRootModel.logOut()
     }
 }
 
