@@ -16,6 +16,8 @@ class DataManager {
 
     @Inject lateinit var mRestService: RestService
     @Inject lateinit var mRealmManager: RealmManager
+    @Inject lateinit var mPreferencesManager: PreferencesManager
+
 
     init {
         DaggerDataManagerComponent.builder()

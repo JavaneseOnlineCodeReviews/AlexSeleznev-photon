@@ -3,8 +3,12 @@ package com.applications.whazzup.photomapp.ui.screens.photo_card_list
 
 
 import android.view.MenuItem
+import android.view.View
 import android.widget.PopupMenu
+import android.widget.Toast
 import com.applications.whazzup.photomapp.R
+import com.applications.whazzup.photomapp.R.id.*
+import com.applications.whazzup.photomapp.R.layout.sign_in
 import com.applications.whazzup.photomapp.di.DaggerService
 import com.applications.whazzup.photomapp.di.scopes.PhotoCardListScope
 import com.applications.whazzup.photomapp.flow.AbstractScreen
@@ -32,16 +36,37 @@ class PhotoCardListScreen : AbstractScreen<RootActivity.RootComponent>() {
             mRootPresenter.newActionBarBuilder()
                     .setVisible(true)
                     .setTitle("Фотон")
-                    .addAction(MenuItemHolder("Поиск", R.drawable.ic_custom_search_black_24dp,listener = {
-                        println("123")
-                        false }))
-                    .addAction(MenuItemHolder("Настройки", R.drawable.ic_custom_gear_black_24dp,listener =  {
-                        println("123")
-                        false
+                    .addAction(MenuItemHolder("Поиск", R.layout.search_menu_item,listener =  {
+                        mRootPresenter.rootView?.showMessage("You pressed to search button")
+                        true
+                    }))
+                    .addAction(MenuItemHolder("Настройки", R.layout.settings_menu_item,listener =  {
+                        showPopUpMenu(it)
+                        true
                     }))
                     .build()
         }
 
+
+        fun showPopUpMenu(view : View){
+            var menu = PopupMenu(getView().context, view)
+            menu.inflate(R.menu.popup)
+            menu.setOnMenuItemClickListener({
+                when(it.itemId){
+                   sign_in_item->{
+                       mRootPresenter.rootView?.createSignInAlertDialog()
+                   }
+                    log_in_item->{
+                        mRootPresenter.rootView?.showMessage("log in")
+                    }
+                    log_out_item->{
+                        mRootPresenter.rootView?.showMessage("log out")
+                    }
+                }
+                false
+            })
+            menu.show()
+        }
 
         override fun initDagger(scope: MortarScope) {
             (scope.getService<Any>(DaggerService.SERVICE_NAME) as DaggerPhotoCardListScreen_Component).inject(this)

@@ -1,13 +1,14 @@
 package com.applications.whazzup.photomapp.mvp.presenters
 
 import android.view.MenuItem
+import android.view.View
 
-class MenuItemHolder(var itemTitle : CharSequence, var iconRes : Int, var listener : MenuItem.OnMenuItemClickListener) {
+class MenuItemHolder(var itemTitle : CharSequence, var iconRes : Int, var listener : View.OnClickListener) {
 
     constructor(itemTitle: CharSequence,
                 iconId: Int,
-                listener: (MenuItem) -> Boolean) :
+                listener: (View) -> Boolean) :
             this(itemTitle,
                     iconId,
-                    MenuItem.OnMenuItemClickListener { listener(it) })
+                    View.OnClickListener { listener(it) })
 }

@@ -10,6 +10,6 @@ interface IRootView : IView {
     fun createSignInAlertDialog()
     fun showtoolBar()
     fun hideToolBar()
-
+    fun hideAlertDialog()
     val currentScreen: IView?
 }

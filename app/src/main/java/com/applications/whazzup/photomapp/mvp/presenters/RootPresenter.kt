@@ -46,7 +46,10 @@ class RootPresenter private constructor(): Presenter<IRootView>() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(onComplete = {
-                    println(user)
+                    view.showMessage("Регистрациия прошла успешно")
+                    view.hideAlertDialog()
+                }, onError = {
+                    view.showMessage("Такой пользователь уже существует")
                 })
                 }
 

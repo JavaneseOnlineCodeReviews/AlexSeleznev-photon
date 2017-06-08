@@ -48,17 +48,14 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
     @BindView(R.id.toolbar) lateinit  var mToolbar: Toolbar
     @BindView(R.id.appbar_layout) lateinit var mAppBarLayout: AppBarLayout
 
-
-
     @Inject
     lateinit var mRootPresenter: RootPresenter
 
     var mProgressDialog: ProgressDialog? = null
 
-    var builder: AlertDialog?= null
-
     lateinit var  mActionBar : android.support.v7.app.ActionBar
     lateinit  var mActionBarMenuItem : MutableList<MenuItemHolder>
+    lateinit  var builder : AlertDialog
 
     override fun attachBaseContext(newBase: Context) {
         var newBase = Flow.configure(newBase, this)
@@ -98,8 +95,6 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
         mRootPresenter.takeView(this)
         setSupportActionBar(mToolbar)
         mActionBar = supportActionBar!!
-        mActionBar.setBackgroundDrawable(ColorDrawable(Color.WHITE))
-        //createSignInAlertDialog()
     }
 
    override fun createSignInAlertDialog(){
@@ -127,7 +122,7 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
                     (!loginEt.text.isEmpty()&&!nameEt.text.isEmpty()&&!emailEt.text.isEmpty()&&!passwordEt.text.isEmpty())) {
                 var user = UserSigInReq(nameEt.text.toString(), loginEt.text.toString(), emailEt.text.toString(), passwordEt.text.toString())
                 mRootPresenter.signUpUser(user)
-                builder?.cancel()
+               // builder?.cancel()
             }
         }
         cancelBtn.setOnClickListener {
@@ -135,6 +130,10 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
         }
         builder?.setView(v)
         builder?.show()
+    }
+
+    override fun hideAlertDialog(){
+        builder.cancel()
     }
 
     override fun onDestroy() {
@@ -148,7 +147,7 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
     }
 
     override fun showMessage(message: String) {
-
+        Toast.makeText(this, message,Toast.LENGTH_LONG).show()
     }
 
     override fun showError(e: Throwable) {
@@ -242,10 +241,11 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         if (mActionBarMenuItem != null && !mActionBarMenuItem.isEmpty()) {
             for (menuItem in mActionBarMenuItem) {
-                val item = menu?.addSubMenu("123")?.add(menuItem.itemTitle)
+                val item = menu?.add(menuItem.itemTitle)
                 item?.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
-                        ?.setIcon(menuItem.iconRes)
-                        ?.setOnMenuItemClickListener(menuItem.listener)
+                        ?.setActionView(menuItem.iconRes)
+                        ?.actionView
+                        ?.setOnClickListener(menuItem.listener)
                 //.setOnMenuItemClickListener(menuItem.getListener());
             }
         } else {
