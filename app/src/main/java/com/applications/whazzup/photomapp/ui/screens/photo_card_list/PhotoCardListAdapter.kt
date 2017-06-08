@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import com.applications.whazzup.photomapp.R
 import com.applications.whazzup.photomapp.data.storage.dto.PhotoCardDto
 import com.applications.whazzup.photomapp.di.DaggerService
-import com.applications.whazzup.photomapp.ui.activities.RootActivity
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_photo_card.view.*
 import javax.inject.Inject
@@ -33,7 +32,7 @@ class PhotoCardListAdapter(cardList : List<PhotoCardDto>) : RecyclerView.Adapter
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         val item = list[position]
-        mPicasso.load(item.photo).into(holder?.picture)
+        mPicasso.load(item.photo).fit().centerCrop().into(holder?.picture)
         holder?.favoriteCount?.text = item.favorites.toString()
         holder?.viewCount?.text = item.views.toString()
     }
