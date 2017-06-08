@@ -4,9 +4,12 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import com.applications.whazzup.photomapp.R
 import com.applications.whazzup.photomapp.data.storage.dto.PhotoCardDto
 import com.applications.whazzup.photomapp.di.DaggerService
+import com.applications.whazzup.photomapp.util.RecyclerClickListener
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_photo_card.view.*
 import javax.inject.Inject
@@ -18,7 +21,11 @@ class PhotoCardListAdapter(cardList : List<PhotoCardDto>) : RecyclerView.Adapter
     lateinit var mPicasso : Picasso
 
     var list : List<PhotoCardDto> = cardList
+    var listener:RecyclerClickListener ?= null
 
+    public fun addListener(listener: RecyclerClickListener) {
+        this.listener = listener
+    }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView?) {
         super.onAttachedToRecyclerView(recyclerView)
@@ -27,7 +34,7 @@ class PhotoCardListAdapter(cardList : List<PhotoCardDto>) : RecyclerView.Adapter
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent?.context)
-        return ViewHolder(inflater.inflate(R.layout.item_photo_card, parent, false))
+        return ViewHolder(inflater.inflate(R.layout.item_photo_card, parent, false), listener)
     }
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
@@ -42,10 +49,25 @@ class PhotoCardListAdapter(cardList : List<PhotoCardDto>) : RecyclerView.Adapter
     }
 
 
-    class ViewHolder(item : View) : RecyclerView.ViewHolder(item) {
-        val picture = item.card_image
-        val favoriteCount = item.favorite_count_txt
-        val viewCount = item.views_count_txt
+    class ViewHolder(item : View, listener: RecyclerClickListener?) : RecyclerView.ViewHolder(item), View.OnClickListener {
+
+        var picture: ImageView ?= null
+        var favoriteCount: TextView ?= null
+        var viewCount: TextView ?= null
+        var listener: RecyclerClickListener ?= null
+
+        init {
+            this.listener = listener
+            picture = item.card_image
+            favoriteCount = item.favorite_count_txt
+            viewCount = item.views_count_txt
+
+            picture?.setOnClickListener(this)
+        }
+
+        override fun onClick(v: View?) {
+            listener?.onItemClick(adapterPosition)
+        }
 
     }
 }
