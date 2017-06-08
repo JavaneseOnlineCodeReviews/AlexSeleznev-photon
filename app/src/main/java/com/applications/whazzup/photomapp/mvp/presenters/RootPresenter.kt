@@ -16,15 +16,15 @@ import mortar.Presenter
 import mortar.bundler.BundleService
 import javax.inject.Inject
 
-class RootPresenter private constructor(): Presenter<IRootView>() {
+class RootPresenter private constructor() : Presenter<IRootView>() {
 
     @Inject
-    lateinit var mRootModel : RootModel
+    lateinit var mRootModel: RootModel
 
-    val DEFAULT_MODE =0
+    val DEFAULT_MODE = 0
     val TAB_MODE = 1
 
-    companion object{
+    companion object {
         val INSTANCE = RootPresenter()
 
     }
@@ -42,7 +42,7 @@ class RootPresenter private constructor(): Presenter<IRootView>() {
 
     fun signUpUser(user: UserSigInReq) {
         mRootModel.signUpUser(user)
-                .doOnNext {  }
+                .doOnNext { }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(onComplete = {
@@ -51,38 +51,39 @@ class RootPresenter private constructor(): Presenter<IRootView>() {
                 }, onError = {
                     view.showMessage("Такой пользователь уже существует")
                 })
-                }
+    }
 
-    fun newActionBarBuilder() : ActionBarBuilder{
+    fun newActionBarBuilder(): ActionBarBuilder {
         return ActionBarBuilder()
     }
-    inner class ActionBarBuilder{
-        var isGoBack : Boolean = false
-        var isVisible : Boolean = true
-        var title : CharSequence? = null
-        var item : List<MenuItemHolder> = ArrayList()
-        var viewPager : ViewPager? = null
+
+    inner class ActionBarBuilder {
+        var isGoBack: Boolean = false
+        var isVisible: Boolean = true
+        var title: CharSequence? = null
+        var item: List<MenuItemHolder> = ArrayList()
+        var viewPager: ViewPager? = null
         var toolBarMode = DEFAULT_MODE
 
-        fun setBackArrow(enabled : Boolean) : ActionBarBuilder{
+        fun setBackArrow(enabled: Boolean): ActionBarBuilder {
             this.isGoBack = enabled
             return this
         }
 
-        fun setVisible(visible : Boolean) : ActionBarBuilder{
+        fun setVisible(visible: Boolean): ActionBarBuilder {
             this.isVisible = visible
             return this
         }
 
-        fun addAction(itemMenu : MenuItemHolder) : ActionBarBuilder{
+        fun addAction(itemMenu: MenuItemHolder): ActionBarBuilder {
             (item as ArrayList).add(itemMenu)
             return this
         }
 
-        fun setTab(pager: ViewPager?): ActionBarBuilder{
+        fun setTab(pager: ViewPager?): ActionBarBuilder {
             this.toolBarMode = TAB_MODE
             this.viewPager = pager
-            return  this
+            return this
         }
 
         fun setTitle(title: CharSequence?): ActionBarBuilder {
@@ -90,27 +91,21 @@ class RootPresenter private constructor(): Presenter<IRootView>() {
             return this
         }
 
-        fun build(){
-            if(view!=null){
+        fun build() {
+            if (view != null) {
                 var activity = view as RootActivity
                 activity.setBackArrow(isGoBack)
                 activity.setActionBarTitle(title)
                 activity.setActionBarVisible(isVisible)
                 activity.setMenuItem(item)
-                if(toolBarMode == TAB_MODE){
+                if (toolBarMode == TAB_MODE) {
                     activity.setTabLayout(viewPager)
-                }else{
+                } else {
                     activity.removeTabLayout()
                 }
 
             }
         }
-
-
-
-
-
-
     }
-    }
+}
 
