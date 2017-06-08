@@ -46,7 +46,7 @@ class PhotoCardListScreen : AbstractScreen<RootActivity.RootComponent>() {
         }
 
         fun showFilterScreen() {
-            Flow.get(view.context).set(FilterScreen())
+            Flow.get(view).set(FilterScreen())
         }
 
         fun showPopUpMenu(view : View){

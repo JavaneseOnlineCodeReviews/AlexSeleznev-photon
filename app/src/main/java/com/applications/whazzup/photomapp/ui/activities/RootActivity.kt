@@ -169,6 +169,10 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
         mRootPresenter.dropView(this)
     }
 
+    override fun onBackPressed() {
+        if (!currentScreen?.viewOnBackPressed()!! && !Flow.get(this).goBack()) super.onBackPressed()
+    }
+
     // region================IRootView==============
     override fun viewOnBackPressed(): Boolean {
         return false

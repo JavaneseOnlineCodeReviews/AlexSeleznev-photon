@@ -26,12 +26,12 @@ public abstract class AbstractPresenter<V extends AbstractView, M extends Abstra
     protected void onEnterScope(MortarScope scope) {
         super.onEnterScope(scope);
         initDagger(scope);
-        initToolbar();
     }
 
     @Override
     protected void onLoad(Bundle savedInstanceState) {
         super.onLoad(savedInstanceState);
+        initToolbar();
     }
 
     @Nullable

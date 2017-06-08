@@ -8,13 +8,15 @@ import com.applications.whazzup.photomapp.flow.Screen
 import com.applications.whazzup.photomapp.mvp.models.FilterModel
 import com.applications.whazzup.photomapp.mvp.presenters.AbstractPresenter
 import com.applications.whazzup.photomapp.ui.activities.RootActivity
+import com.applications.whazzup.photomapp.ui.screens.photo_card_list.PhotoCardListScreen
 import dagger.Component
 import dagger.Module
 import dagger.Provides
+import flow.TreeKey
 import mortar.MortarScope
 
 @Screen(R.layout.context_filter)
-class FilterScreen : AbstractScreen<RootActivity.RootComponent>() {
+class FilterScreen : AbstractScreen<RootActivity.RootComponent>(), TreeKey {
 
     override fun createScreenComponent(parentComponent: RootActivity.RootComponent): Any {
         return DaggerFilterScreen_FilterPresenterComponent.builder()
@@ -22,6 +24,8 @@ class FilterScreen : AbstractScreen<RootActivity.RootComponent>() {
                 .filterPresenterModule(FilterPresenterModule())
                 .build()
     }
+
+    override fun getParentKey(): Any = PhotoCardListScreen()
 
     //region ================= Presenter =================
 
