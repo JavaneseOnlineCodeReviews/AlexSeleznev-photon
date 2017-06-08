@@ -3,8 +3,8 @@ package com.applications.whazzup.photomapp.ui.screens.splash
 import android.util.Log
 import com.applications.whazzup.photomapp.R
 import com.applications.whazzup.photomapp.data.storage.dto.PhotoCardDto
+import com.applications.whazzup.photomapp.di.DaggerScope
 import com.applications.whazzup.photomapp.di.DaggerService
-import com.applications.whazzup.photomapp.di.scopes.SplashScope
 import com.applications.whazzup.photomapp.flow.AbstractScreen
 import com.applications.whazzup.photomapp.flow.Screen
 import com.applications.whazzup.photomapp.mvp.models.SplashModel
@@ -71,20 +71,20 @@ class SplashScreen : AbstractScreen<RootActivity.RootComponent>() {
     @dagger.Module
     inner class SplashModule {
         @Provides
-        @SplashScope
+        @DaggerScope(SplashScreen::class)
         internal fun providePresenter(): SplashPresenter {
             return SplashPresenter()
         }
 
         @Provides
-        @SplashScope
+        @DaggerScope(SplashScreen::class)
         internal fun provideModel(): SplashModel {
             return SplashModel()
         }
     }
 
     @dagger.Component(dependencies = arrayOf(RootActivity.RootComponent::class), modules = arrayOf(SplashModule::class))
-    @SplashScope
+    @DaggerScope(SplashScreen::class)
     interface SplashComponent {
         fun inject(presenter: SplashPresenter)
         fun inject(view: SplashView)

@@ -2,23 +2,21 @@ package com.applications.whazzup.photomapp.ui.screens.photo_card_list
 
 
 
-import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
-import android.widget.Toast
 import com.applications.whazzup.photomapp.R
 import com.applications.whazzup.photomapp.R.id.*
-import com.applications.whazzup.photomapp.R.layout.sign_in
+import com.applications.whazzup.photomapp.di.DaggerScope
 import com.applications.whazzup.photomapp.di.DaggerService
-import com.applications.whazzup.photomapp.di.scopes.PhotoCardListScope
 import com.applications.whazzup.photomapp.flow.AbstractScreen
 import com.applications.whazzup.photomapp.flow.Screen
 import com.applications.whazzup.photomapp.mvp.models.PhotoCardListModel
 import com.applications.whazzup.photomapp.mvp.presenters.AbstractPresenter
 import com.applications.whazzup.photomapp.mvp.presenters.MenuItemHolder
 import com.applications.whazzup.photomapp.ui.activities.RootActivity
-
+import com.applications.whazzup.photomapp.ui.screens.filter.FilterScreen
 import dagger.Provides
+import flow.Flow
 import mortar.MortarScope
 
 @Screen(R.layout.screen_photo_card_list)
@@ -37,7 +35,7 @@ class PhotoCardListScreen : AbstractScreen<RootActivity.RootComponent>() {
                     .setVisible(true)
                     .setTitle("Фотон")
                     .addAction(MenuItemHolder("Поиск", R.layout.search_menu_item,listener =  {
-                        mRootPresenter.rootView?.showMessage("You pressed to search button")
+                        showFilterScreen()
                         true
                     }))
                     .addAction(MenuItemHolder("Настройки", R.layout.settings_menu_item,listener =  {
@@ -47,6 +45,9 @@ class PhotoCardListScreen : AbstractScreen<RootActivity.RootComponent>() {
                     .build()
         }
 
+        fun showFilterScreen() {
+            Flow.get(view.context).set(FilterScreen())
+        }
 
         fun showPopUpMenu(view : View){
             var menu = PopupMenu(getView().context, view)
@@ -84,20 +85,20 @@ class PhotoCardListScreen : AbstractScreen<RootActivity.RootComponent>() {
     @dagger.Module
     inner class Module {
         @Provides
-        @PhotoCardListScope
+        @DaggerScope(PhotoCardListScreen::class)
         internal fun providePresenter(): PhotoCardListPresenter {
             return PhotoCardListPresenter()
         }
 
         @Provides
-        @PhotoCardListScope
+        @DaggerScope(PhotoCardListScreen::class)
         internal fun provideModel(): PhotoCardListModel {
             return PhotoCardListModel()
         }
     }
 
     @dagger.Component(dependencies = arrayOf(RootActivity.RootComponent::class), modules = arrayOf(PhotoCardListScreen.Module::class))
-    @PhotoCardListScope
+    @DaggerScope(PhotoCardListScreen::class)
     interface Component {
         fun inject(presenter: PhotoCardListPresenter)
         fun inject(view: PhotoCardListView)

@@ -22,11 +22,11 @@ import butterknife.ButterKnife
 import com.applications.whazzup.photomapp.R
 import com.applications.whazzup.photomapp.data.network.req.UserLogInReq
 import com.applications.whazzup.photomapp.data.network.req.UserSigInReq
+import com.applications.whazzup.photomapp.di.DaggerScope
 import com.applications.whazzup.photomapp.di.DaggerService
 import com.applications.whazzup.photomapp.di.components.AppComponent
 import com.applications.whazzup.photomapp.di.modules.PicassoCacheModule
 import com.applications.whazzup.photomapp.di.modules.RootModule
-import com.applications.whazzup.photomapp.di.scopes.RootScope
 import com.applications.whazzup.photomapp.flow.TreeKeyDispatcher
 import com.applications.whazzup.photomapp.mvp.presenters.MenuItemHolder
 import com.applications.whazzup.photomapp.mvp.presenters.RootPresenter
@@ -234,7 +234,7 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
     // region================DI==============
 
     @dagger.Component(dependencies = arrayOf(AppComponent::class), modules = arrayOf(RootModule::class, PicassoCacheModule::class))
-    @RootScope
+    @DaggerScope(RootActivity::class)
     interface RootComponent {
         fun inject(rootActivity: RootActivity)
         fun inject(rootPresenter: RootPresenter)

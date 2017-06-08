@@ -10,4 +10,26 @@
     <string name="password_et_hint">Пароль</string>
     <string name="ok_btn_insc">OK</string>
     <string name="cancel_btn_insc">Отмена</string>
+
+    <!--Filter-->
+    <string name="meat_title">Мясо</string>
+    <string name="fish_title">Рыба</string>
+    <string name="vegetables_title">Овощи</string>
+    <string name="fruit_title">Фрукты</string>
+    <string name="cheese_title">Сыр</string>
+    <string name="drinks_title">Напитки</string>
+    <string name="dessert_title">Десерты</string>
+    <string name="hot_temperature_title">Горячая</string>
+    <string name="comfort_temperature_title">Комнатная</string>
+    <string name="cold_temperature_title">Холодная</string>
+    <string name="natural_light_title">Естественный</string>
+    <string name="synthetic_light_title">Искусственный</string>
+    <string name="mixed_light_title">Смешанный</string>
+    <string name="dir_front_light_title">Прямой</string>
+    <string name="dir_back_light_title">Контровой</string>
+    <string name="dir_side_light_title">Боковой</string>
+    <string name="dir_mixed_light_title">Смешанный</string>
+    <string name="three_light_count_title">Три</string>
+    <string name="two_light_count_title">Два</string>
+    <string name="one_light_count_title">Один</string>
 </resources>
