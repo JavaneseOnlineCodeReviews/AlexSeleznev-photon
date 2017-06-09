@@ -19,7 +19,7 @@ class PreferencesManager {
     }
 
     fun saveUserProfileInfo(user: UserRes){
-        var editor = mSharedPreferences?.edit()
+        val editor = mSharedPreferences?.edit()
         editor?.putString(USER_NAME_KEY, user.name)
         editor?.putString(USER_LOGIN_KEY, user.login)
         editor?.putString(USER_TOKEN_KEY, user.token)
@@ -33,7 +33,7 @@ class PreferencesManager {
     }
 
     fun logOut() {
-        var editor = mSharedPreferences?.edit()
+        val editor = mSharedPreferences?.edit()
         editor?.putString(USER_NAME_KEY, null)
         editor?.putString(USER_LOGIN_KEY, null)
         editor?.putString(USER_TOKEN_KEY, null)

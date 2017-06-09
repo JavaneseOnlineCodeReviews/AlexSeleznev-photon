@@ -9,6 +9,8 @@ import com.applications.whazzup.photomapp.data.network.req.UserSigInReq
 import com.applications.whazzup.photomapp.mvp.models.RootModel
 import com.applications.whazzup.photomapp.mvp.views.IRootView
 import com.applications.whazzup.photomapp.ui.activities.RootActivity
+import com.applications.whazzup.photomapp.ui.screens.user_profile.UserProfileScreen
+import com.applications.whazzup.photomapp.ui.screens.user_profile.UserProfileView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
@@ -49,6 +51,9 @@ class RootPresenter private constructor() : Presenter<IRootView>() {
                 .subscribeBy(onComplete = {
                     view.showMessage("Регистрациия прошла успешно")
                     view.hideAlertDialog()
+                    if(view.currentScreen is UserProfileView){
+                        //(view.currentScreen as UserProfileView)
+                    }
                 }, onError = {
                     view.showMessage("Такой пользователь уже существует")
                 })

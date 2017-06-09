@@ -33,10 +33,14 @@ import com.applications.whazzup.photomapp.mvp.presenters.RootPresenter
 import com.applications.whazzup.photomapp.mvp.views.IActionBarView
 import com.applications.whazzup.photomapp.mvp.views.IRootView
 import com.applications.whazzup.photomapp.mvp.views.IView
+import com.applications.whazzup.photomapp.ui.screens.photo_card_list.PhotoCardListScreen
 import com.applications.whazzup.photomapp.ui.screens.splash.SplashScreen
+import com.applications.whazzup.photomapp.ui.screens.user_profile.UserProfileScreen
 import com.applications.whazzup.photomapp.util.CustomTextWatcher
 import com.squareup.picasso.Picasso
+import flow.Direction
 import flow.Flow
+import flow.History
 import mortar.MortarScope
 import mortar.bundler.BundleServiceRunner
 import javax.inject.Inject
@@ -79,8 +83,14 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
-            R.id.navigation_home -> return@OnNavigationItemSelectedListener true
-            R.id.navigation_dashboard -> return@OnNavigationItemSelectedListener true
+            R.id.navigation_home -> {
+                Flow.get(this).set(PhotoCardListScreen())
+                true
+            }
+            R.id.navigation_dashboard -> {
+                Flow.get(this).setHistory(History.single(UserProfileScreen()), Direction.FORWARD)
+                true
+            }
             R.id.navigation_notifications -> return@OnNavigationItemSelectedListener true
             else -> return@OnNavigationItemSelectedListener false
         }

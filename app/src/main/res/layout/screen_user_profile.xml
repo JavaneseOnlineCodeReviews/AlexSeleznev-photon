@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.applications.whazzup.photomapp.ui.screens.user_profile.UserProfileView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@color/colorAccent">
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/user_not_auth_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@android:color/white"
+        android:visibility="visible">
+        <TextView
+            android:gravity="center"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Авторизируйтесь что бы посмотреть данные профиля"/>
+        <Button
+            android:id="@+id/signIn_btn"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:text="Регистрация"/>
+        <Button
+            android:id="@+id/login_btn"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:text="Вход"/>
+    </LinearLayout>
+
+
+
+
+</FrameLayout>
+
+</com.applications.whazzup.photomapp.ui.screens.user_profile.UserProfileView>
