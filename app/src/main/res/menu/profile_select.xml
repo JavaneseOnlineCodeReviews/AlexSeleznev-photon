@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/add_album"
+        android:icon="@drawable/ic_custom_home_black_24dp"
+        android:title="Добавить альбом"/>
+
+    <item
+        android:id="@+id/edit_info_user"
+        android:icon="@drawable/ic_custom_home_black_24dp"
+        android:title="Редактировать профиль"/>
+    <item
+        android:id="@+id/change_avatar"
+        android:icon="@drawable/ic_custom_home_black_24dp"
+        android:title="Изменить аватар"/>
+    <item
+        android:id="@+id/log_out"
+        android:icon="@drawable/ic_custom_home_black_24dp"
+        android:title="Выйти"/>
+
+</menu>

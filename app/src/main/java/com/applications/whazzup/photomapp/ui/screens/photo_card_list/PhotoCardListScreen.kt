@@ -57,7 +57,7 @@ class PhotoCardListScreen : AbstractScreen<RootActivity.RootComponent>() {
                 menu.inflate(R.menu.popup)
             }
             menu.setOnMenuItemClickListener({
-                when(it.itemId){
+                when(it.itemId) {
                    sign_in_item->{
                        mRootPresenter.rootView?.createSignInAlertDialog()
                    }
