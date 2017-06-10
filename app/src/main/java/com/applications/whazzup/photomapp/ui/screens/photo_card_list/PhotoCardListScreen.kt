@@ -35,7 +35,7 @@ class PhotoCardListScreen : AbstractScreen<RootActivity.RootComponent>() {
                     .setVisible(true)
                     .setTitle("Фотон")
                     .addAction(MenuItemHolder("Поиск", R.layout.search_menu_item,listener =  {
-                        showFilterScreen()
+                        showFilterScreen(it)
                         true
                     }))
                     .addAction(MenuItemHolder("Настройки", R.layout.settings_menu_item,listener =  {
@@ -45,12 +45,12 @@ class PhotoCardListScreen : AbstractScreen<RootActivity.RootComponent>() {
                     .build()
         }
 
-        fun showFilterScreen() {
+        fun showFilterScreen(view : View) {
             Flow.get(view).set(FilterScreen())
         }
 
         fun showPopUpMenu(view : View){
-            var menu = PopupMenu(getView().context, view)
+            var menu = PopupMenu(view.context, view)
             if(mRootPresenter.isUserAuth()){
                 menu.inflate(R.menu.popup_exit)
             }else {
