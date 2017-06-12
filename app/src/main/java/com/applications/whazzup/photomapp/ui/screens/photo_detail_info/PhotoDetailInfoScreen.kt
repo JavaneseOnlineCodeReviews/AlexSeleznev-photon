@@ -28,7 +28,11 @@ class PhotoDetailInfoScreen : AbstractScreen<RootActivity.RootComponent>(), Tree
     inner class PhotoDetailInfoPresenter : AbstractPresenter<PhotoDetailInfoView, PhotoDetailInfoModel>() {
 
         override fun initToolbar() {
-            mRootPresenter.newActionBarBuilder().setVisible(false).build()
+            mRootPresenter.newActionBarBuilder()
+                    .setVisible(true)
+                    .setTitle("Фотокарточка")
+                    .setBackArrow(true)
+                    .build()
         }
 
         override fun initDagger(scope: MortarScope) {
