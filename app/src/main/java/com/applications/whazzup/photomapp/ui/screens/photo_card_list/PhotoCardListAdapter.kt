@@ -9,7 +9,6 @@ import android.widget.TextView
 import com.applications.whazzup.photomapp.R
 import com.applications.whazzup.photomapp.data.storage.dto.PhotoCardDto
 import com.applications.whazzup.photomapp.di.DaggerService
-import com.applications.whazzup.photomapp.util.RecyclerClickListener
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_photo_card.view.*
 import javax.inject.Inject
@@ -20,11 +19,11 @@ class PhotoCardListAdapter(cardList : List<PhotoCardDto>) : RecyclerView.Adapter
     @Inject
     lateinit var mPicasso : Picasso
 
-    var list : List<PhotoCardDto> = cardList
-    var listener:RecyclerClickListener ?= null
+    var list: List<PhotoCardDto> = cardList
+    var listener: ((Int) -> Unit)? = null
 
-    public fun addListener(listener: RecyclerClickListener) {
-        this.listener = listener
+    fun addListener(onItemClick: (Int) -> Unit) {
+        this.listener = onItemClick
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView?) {
@@ -49,15 +48,14 @@ class PhotoCardListAdapter(cardList : List<PhotoCardDto>) : RecyclerView.Adapter
     }
 
 
-    class ViewHolder(item : View, listener: RecyclerClickListener?) : RecyclerView.ViewHolder(item), View.OnClickListener {
+    class ViewHolder(item: View, onItemClick: ((Int) -> Unit)?) : RecyclerView.ViewHolder(item), View.OnClickListener {
 
         var picture: ImageView ?= null
         var favoriteCount: TextView ?= null
         var viewCount: TextView ?= null
-        var listener: RecyclerClickListener ?= null
+        var listener: ((Int) -> Unit)? = onItemClick
 
         init {
-            this.listener = listener
             picture = item.card_image
             favoriteCount = item.favorite_count_txt
             viewCount = item.views_count_txt
@@ -66,7 +64,7 @@ class PhotoCardListAdapter(cardList : List<PhotoCardDto>) : RecyclerView.Adapter
         }
 
         override fun onClick(v: View?) {
-            listener?.onItemClick(adapterPosition)
+            listener?.invoke(adapterPosition)
         }
 
     }
