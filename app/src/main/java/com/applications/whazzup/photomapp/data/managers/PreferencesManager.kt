@@ -27,6 +27,10 @@ class PreferencesManager {
         editor?.apply()
     }
 
+    fun getUserId(): String{
+       return mSharedPreferences?.getString(USER_ID_KEY, "null") as String;
+    }
+
 
     fun isUserAuth(): Boolean{
         return mSharedPreferences?.getString(USER_TOKEN_KEY, null)!=null

@@ -5,10 +5,7 @@ import com.applications.whazzup.photomapp.data.network.req.UserSigInReq
 import com.applications.whazzup.photomapp.data.network.res.PhotocardRes
 import com.applications.whazzup.photomapp.data.network.res.user.UserRes
 import io.reactivex.Observable
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 
 interface RestService {
@@ -22,5 +19,8 @@ interface RestService {
 
     @POST("user/signIn")
     fun logInUser(@Body user: UserLogInReq) : Observable<UserRes>
+
+    @GET("user/{userId}")
+    fun getUserById(@Path("userId") userId : String): Observable<UserRes>
 
 }

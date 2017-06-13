@@ -5,8 +5,34 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
     <LinearLayout
+        android:id="@+id/user_not_auth_wrapper"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@android:color/white"
+        android:visibility="visible">
+    <TextView
+        android:gravity="center"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Авторизируйтесь что бы посмотреть данные профиля"
+        android:layout_marginBottom="8dp"/>
+    <Button
+        android:id="@+id/signIn_btn"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:text="Регистрация"
+        android:background="@drawable/button_background"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"/>
+    <Button
+        android:id="@+id/login_btn"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:text="Вход"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/button_background"/>
 
     </LinearLayout>
 

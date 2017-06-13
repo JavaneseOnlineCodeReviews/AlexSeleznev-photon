@@ -1,4 +1,4 @@
 package com.applications.whazzup.photomapp.data.network.res.user
 
-class UserAlbumRes(owner: String, title: String, description: String, photocards: List<Object>, id: String, views: Int, favorits: Int) {
+class UserAlbumRes(val owner: String, val title: String, val description: String, val photocards: List<Object>, val id: String, val views: Int, val favorits: Int) {
 }

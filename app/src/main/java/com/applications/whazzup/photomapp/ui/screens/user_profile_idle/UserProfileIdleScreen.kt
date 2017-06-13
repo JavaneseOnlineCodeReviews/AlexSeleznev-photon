@@ -30,6 +30,7 @@ class UserProfileIdleScreen: AbstractScreen<RootActivity.RootComponent>() {
         }
 
         override fun initToolbar() {
+            mRootPresenter.newActionBarBuilder().setTitle("Профиль").build()
         }
 
         fun isUserAuth(): Boolean {

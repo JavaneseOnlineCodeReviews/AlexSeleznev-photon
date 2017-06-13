@@ -19,8 +19,40 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:src="@drawable/splash_screen"/>
-
-
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/album_gradient"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="16dp">
+            <TextView
+                android:id="@+id/album_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Закуски"
+                android:layout_marginBottom="8dp"
+                android:textColor="@android:color/white"
+                android:textSize="16dp"
+                android:textStyle="bold"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Карты"
+                android:layout_marginTop="8dp"
+                android:textColor="@android:color/white"
+                android:textSize="16dp"/>
+            <TextView
+                android:id="@+id/album_card_count"
+                android:layout_marginTop="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5"
+                android:textColor="@android:color/white"
+                android:textSize="16dp"/>
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -29,7 +61,6 @@
             android:paddingBottom="16dp"
             android:paddingTop="16dp"
             android:layout_gravity="bottom"
-            android:background="@drawable/radient"
             android:orientation="horizontal">
 
             <ImageView

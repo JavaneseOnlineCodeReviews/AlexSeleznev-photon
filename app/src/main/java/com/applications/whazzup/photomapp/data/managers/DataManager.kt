@@ -55,4 +55,8 @@ class DataManager {
     fun logOut() {
         mPreferencesManager.logOut()
     }
+
+    fun getUserById(userId : String) : Observable<UserRes>{
+        return mRestService.getUserById(userId)
+    }
 }

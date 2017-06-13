@@ -1,45 +1,40 @@
 package com.applications.whazzup.photomapp.ui.screens.user_profile_auth
 
 import android.content.Context
+import android.support.v7.view.menu.MenuBuilder
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import android.widget.Button
-import android.widget.LinearLayout
-import android.widget.PopupMenu
+
 import butterknife.BindView
-import butterknife.OnClick
+
 import com.afollestad.materialdialogs.GravityEnum
 import com.afollestad.materialdialogs.MaterialDialog
 import com.applications.whazzup.photomapp.R
 import com.applications.whazzup.photomapp.di.DaggerService
 import com.applications.whazzup.photomapp.mvp.views.AbstractView
 
+import android.support.v7.view.menu.MenuPopupHelper
+import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.PopupMenu
+import android.widget.TextView
+import com.applications.whazzup.photomapp.data.network.res.user.UserRes
+import kotlinx.android.synthetic.main.screen_user_profile.view.*
+
 
 class UserProfileAuthView(context: Context, attrs: AttributeSet) : AbstractView<UserProfileAuthScreen.UserProfilePresenter>(context, attrs) {
 
-    @BindView(R.id.user_not_auth_wrapper) lateinit var any : LinearLayout
-    @BindView(R.id.signIn_btn) lateinit var mSignInBtn : Button
-    @BindView(R.id.login_btn) lateinit var mLoginBtn : Button
-    val LOGIN_STATE = 0
-    val IDLE_STATE = 1
+    @BindView(R.id.user_name_txt) lateinit  var mUserNameTxt : TextView
+    @BindView(R.id.album_count_txt) lateinit  var mAlbumCount : TextView
+    @BindView(R.id.card_count_txt) lateinit  var mCardCount:TextView
 
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        if(mPresenter.isUserAuth()){
-            any.visibility = View.GONE
-        }else{
-            any.visibility = View.VISIBLE
-        }
     }
 
 
-
-    @OnClick(R.id.signIn_btn)
-    fun onClick(){
-        mPresenter.mRootPresenter.rootView?.createSignInAlertDialog()
-    }
 
     override fun viewOnBackPressed(): Boolean {
        return false
@@ -117,21 +112,28 @@ class UserProfileAuthView(context: Context, attrs: AttributeSet) : AbstractView<
         menu.inflate(R.menu.profile_select)
         menu.setOnMenuItemClickListener({
             when(it.itemId) {
-                R.id.add_album ->{
-                    addAlbum(view)
+                R.id.change_user ->{
+
                 }
-                R.id.edit_info_user ->{
+                R.id.delete_user ->{
 //                    mPresenter.mRootPresenter.rootView?.createLoginDialog()
-                }
-                R.id.change_avatar ->{
-//                    mPresenter.mRootPresenter.logOut()
-                }
-                R.id.log_out -> {
-                    mPresenter.mRootPresenter.logOut()
                 }
             }
             false
         })
-        menu.show()
+        val menuHelper = MenuPopupHelper(context, menu.menu as MenuBuilder, view)
+        menuHelper.setForceShowIcon(true)
+        menuHelper.show()
     }
+
+    fun initView(res: UserRes?) {
+        mUserNameTxt.setText(res?.name + "/" + res?.login)
+        mAlbumCount.text = res?.albums?.size.toString()
+        mCardCount.text = mPresenter.getCardCount(res)
+        with(user_info_album_recycler){
+            layoutManager = GridLayoutManager(context, 2)
+            adapter = UserProfileAlbumRecycler(res?.albums)
+        }
+    }
+
 }
