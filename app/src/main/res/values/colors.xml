@@ -3,6 +3,17 @@
     <color name="colorPrimary">#00aaff</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#FF4081</color>
-<color name="colorEditTextError">#A20707</color>
     <color name="progressDialogColor">#414141</color>
+
+    <color name="colorRed">#A20707</color>
+    <color name="colorOrange">#f53906</color>
+    <color name="colorYellow">#f4ec04</color>
+    <color name="colorGreen">#06f241</color>
+    <color name="colorBlue">#04fbe2</color>
+    <color name="colorNavyBlue">#030ff4</color>
+    <color name="colorPurple">#fa01e9</color>
+    <color name="colorBrown">#47452e</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorWhite">#ffffff</color>
+
 </resources>

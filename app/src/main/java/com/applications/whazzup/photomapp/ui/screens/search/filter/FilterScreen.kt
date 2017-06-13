@@ -1,4 +1,4 @@
-package com.applications.whazzup.photomapp.ui.screens.filter
+package com.applications.whazzup.photomapp.ui.screens.search.filter
 
 import com.applications.whazzup.photomapp.R
 import com.applications.whazzup.photomapp.di.DaggerScope

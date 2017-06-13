@@ -14,7 +14,7 @@ import com.applications.whazzup.photomapp.mvp.models.PhotoCardListModel
 import com.applications.whazzup.photomapp.mvp.presenters.AbstractPresenter
 import com.applications.whazzup.photomapp.mvp.presenters.MenuItemHolder
 import com.applications.whazzup.photomapp.ui.activities.RootActivity
-import com.applications.whazzup.photomapp.ui.screens.filter.FilterScreen
+import com.applications.whazzup.photomapp.ui.screens.search.filter.FilterScreen
 import dagger.Provides
 import flow.Flow
 import mortar.MortarScope
