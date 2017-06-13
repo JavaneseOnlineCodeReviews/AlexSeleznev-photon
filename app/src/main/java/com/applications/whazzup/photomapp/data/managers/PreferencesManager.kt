@@ -28,7 +28,11 @@ class PreferencesManager {
     }
 
     fun getUserId(): String{
-       return mSharedPreferences?.getString(USER_ID_KEY, "null") as String;
+       return mSharedPreferences?.getString(USER_ID_KEY, "null") as String
+    }
+
+    fun getUserToken(): String{
+        return mSharedPreferences?.getString(USER_TOKEN_KEY, "null") as String
     }
 
 

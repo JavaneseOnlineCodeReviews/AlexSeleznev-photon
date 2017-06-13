@@ -2,6 +2,7 @@ package com.applications.whazzup.photomapp.ui.screens.user_profile_auth
 
 
 import com.applications.whazzup.photomapp.R
+import com.applications.whazzup.photomapp.data.network.req.AddAlbumReq
 import com.applications.whazzup.photomapp.data.network.res.user.UserRes
 import com.applications.whazzup.photomapp.di.DaggerScope
 import com.applications.whazzup.photomapp.di.DaggerService
@@ -50,7 +51,7 @@ class UserProfileAuthScreen : AbstractScreen<RootActivity.RootComponent>() {
         override fun initToolbar() {
             mRootPresenter.newActionBarBuilder()
                     .setVisible(true)
-                    .setTitle("Фотон")
+                    .setTitle("Профиль")
                     .addAction(MenuItemHolder("Добавить альбом", R.layout.add_album_menu_item,listener =  {
                         view.addAlbum(it)
                         true
@@ -72,6 +73,19 @@ class UserProfileAuthScreen : AbstractScreen<RootActivity.RootComponent>() {
                 count+=item.photocards.size
             }
             return count.toString()
+        }
+
+        fun addAlbum(addAlbumReq: AddAlbumReq) {
+            mModel.createAlbum(addAlbumReq).subscribeOn(Schedulers.io())
+                    .doOnNext { }
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeBy (onComplete = {
+                        mRootPresenter.rootView?.showMessage("Новый альбом успешно создан.")
+                        view.hideDialog()
+                    }, onError = {
+                        it.printStackTrace()
+                        mRootPresenter.rootView?.showMessage("Такой альбом уже существует.")
+                    })
         }
 
     }

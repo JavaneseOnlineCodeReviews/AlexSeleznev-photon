@@ -10,7 +10,7 @@
         android:orientation="vertical"
         tools:ignore="UselessParent">
         <EditText
-            android:id="@+id/login"
+            android:id="@+id/album_name_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/name"
@@ -21,7 +21,7 @@
             tools:ignore="LabelFor" />
 
         <EditText
-            android:id="@+id/password"
+            android:id="@+id/album_desc_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/border_dialog_window"
@@ -47,6 +47,7 @@
             android:layout_marginRight="8dp"/>
 
         <Button
+            android:id="@+id/add_album_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/custom_border_btn"

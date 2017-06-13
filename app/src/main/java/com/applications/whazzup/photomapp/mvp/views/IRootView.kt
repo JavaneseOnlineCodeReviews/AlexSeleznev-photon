@@ -1,5 +1,7 @@
 package com.applications.whazzup.photomapp.mvp.views
 
+import android.view.View
+
 interface IRootView : IView {
     fun showMessage(message: String)
     fun showError(e: Throwable)

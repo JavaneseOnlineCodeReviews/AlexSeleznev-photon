@@ -1,5 +1,6 @@
 package com.applications.whazzup.photomapp.ui.screens.user_profile_auth
 
+import android.app.AlertDialog
 import android.content.Context
 import android.support.v7.view.menu.MenuBuilder
 import android.util.AttributeSet
@@ -18,7 +19,10 @@ import com.applications.whazzup.photomapp.mvp.views.AbstractView
 import android.support.v7.view.menu.MenuPopupHelper
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.PopupMenu
+import android.view.LayoutInflater
+import android.widget.EditText
 import android.widget.TextView
+import com.applications.whazzup.photomapp.data.network.req.AddAlbumReq
 import com.applications.whazzup.photomapp.data.network.res.user.UserRes
 import kotlinx.android.synthetic.main.screen_user_profile.view.*
 
@@ -28,6 +32,8 @@ class UserProfileAuthView(context: Context, attrs: AttributeSet) : AbstractView<
     @BindView(R.id.user_name_txt) lateinit  var mUserNameTxt : TextView
     @BindView(R.id.album_count_txt) lateinit  var mAlbumCount : TextView
     @BindView(R.id.card_count_txt) lateinit  var mCardCount:TextView
+
+    lateinit  var builder : AlertDialog
 
 
     override fun onAttachedToWindow() {
@@ -45,66 +51,19 @@ class UserProfileAuthView(context: Context, attrs: AttributeSet) : AbstractView<
     }
 
     fun addAlbum(view: View) {
-        val dialog = MaterialDialog.Builder(context)
-                .title(R.string.new_album)
-                .titleGravity(GravityEnum.CENTER)
-                .customView(R.layout.dialog_customview_login, true)
-//                .positiveColor(Color.WHITE)
-//                .positiveText(R.string.okay)
-//                .negativeColor(Color.WHITE)
-//                .negativeText(android.R.string.cancel)
-//                .onPositive(
-//                        {
-//                            dialog1, which -> dialog1.dismiss()
-//                        })
-                .build()
+        builder = AlertDialog.Builder(context).create()
 
+        val v: View= LayoutInflater.from(context).inflate(R.layout.dialog_customview_login, null)
+        val mAlbumName = v.findViewById(R.id.album_name_et) as EditText
+        val mAlbumDesc = v.findViewById(R.id.album_desc_et) as EditText
+        val mAddAlbumBtn = v.findViewById(R.id.add_album_btn) as Button
 
-                var cancel: Button = dialog.getCustomView()!!.findViewById(R.id.cancel) as Button
-                cancel.setOnClickListener({
-                    v: View? -> Log.e("lul", "cancel");
-                })
-//                positiveAction = dialog.getActionButton(DialogAction.POSITIVE)
-//
-//                val login: EditText = dialog.getCustomView()!!.findViewById(R.id.login) as EditText
-//                login.addTextChangedListener(
-//                        object : TextWatcher {
-//                            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-//
-//                            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-//                                (positiveAction as View).setEnabled(s.toString().trim { it <= ' ' }.length > 0)
-//                            }
-//
-//                            override fun afterTextChanged(s: Editable) {}
-//                        })
-//
-//                // Toggling the show password CheckBox will mask or unmask the password input EditText
-//                val password: EditText = dialog.getCustomView()!!.findViewById(R.id.password) as EditText
-//                password.addTextChangedListener(object : TextWatcher {
-//                    override fun afterTextChanged(s: Editable?) {
-//                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-//                    }
-//
-//                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-//                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-//                    }
-//
-//                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-//                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-//                    }
-//
-//                })
-
-//                val widgetColor = ThemeSingleton.get().widgetColor
-//                MDTintHelper.setTint(
-//                        checkbox, if (widgetColor == 0) ContextCompat.getColor(view.context, R.color.accent) else widgetColor)
-//
-//                MDTintHelper.setTint(
-//                        passwordInput,
-//                        if (widgetColor == 0) ContextCompat.getColor(view.context, R.color.accent) else widgetColor)
-
-            dialog.show()
-//                (positiveAction as View).setEnabled(false) // disabled by default
+        builder.setTitle("Новый альбом!")
+        mAddAlbumBtn.setOnClickListener {
+            mPresenter.addAlbum(AddAlbumReq(mAlbumName.text.toString(), mAlbumDesc.text.toString()))
+        }
+        builder?.setView(v)
+        builder?.show()
     }
 
     fun showPopupMenu(view : View){
@@ -135,5 +94,9 @@ class UserProfileAuthView(context: Context, attrs: AttributeSet) : AbstractView<
             adapter = UserProfileAlbumRecycler(res?.albums)
         }
     }
+
+    fun hideDialog() {
+        builder.dismiss()
+     }
 
 }

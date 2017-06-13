@@ -1,5 +1,7 @@
 package com.applications.whazzup.photomapp.mvp.models
 
+import com.applications.whazzup.photomapp.data.network.req.AddAlbumReq
+import com.applications.whazzup.photomapp.data.network.res.AddAlbumRes
 import com.applications.whazzup.photomapp.data.network.res.user.UserRes
 import io.reactivex.Observable
 
@@ -11,5 +13,9 @@ class UserProfileModel : AbstractModel() {
 
     fun getUserById(): Observable<UserRes>{
         return mDataManager.getUserById(mDataManager.mPreferencesManager.getUserId())
+    }
+
+    fun createAlbum(album : AddAlbumReq) : Observable<AddAlbumRes>{
+       return mDataManager.createAlbum(album)
     }
 }
