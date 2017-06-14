@@ -5,6 +5,7 @@ import com.applications.whazzup.photomapp.data.network.res.AddAlbumRes
 import com.applications.whazzup.photomapp.data.network.res.user.UserAlbumRes
 import com.applications.whazzup.photomapp.data.network.res.user.UserRes
 import io.reactivex.Observable
+import retrofit2.Response
 
 
 class UserProfileModel : AbstractModel() {
@@ -18,5 +19,13 @@ class UserProfileModel : AbstractModel() {
 
     fun createAlbum(album : AddAlbumReq) : Observable<UserAlbumRes>{
        return mDataManager.createAlbum(album)
+    }
+
+    fun deleteUser() : Observable<Response<Void>>{
+        return mDataManager.deleteUser()
+    }
+
+    fun logOut() {
+        mDataManager.mPreferencesManager.logOut()
     }
 }

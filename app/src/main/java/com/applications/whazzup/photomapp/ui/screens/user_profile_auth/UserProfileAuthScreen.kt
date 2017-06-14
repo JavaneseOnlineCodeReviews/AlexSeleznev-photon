@@ -12,7 +12,10 @@ import com.applications.whazzup.photomapp.mvp.models.UserProfileModel
 import com.applications.whazzup.photomapp.mvp.presenters.AbstractPresenter
 import com.applications.whazzup.photomapp.mvp.presenters.MenuItemHolder
 import com.applications.whazzup.photomapp.ui.activities.RootActivity
+import com.applications.whazzup.photomapp.ui.screens.user_profile_idle.UserProfileIdleScreen
 import dagger.Provides
+import flow.Direction
+import flow.Flow
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
@@ -86,6 +89,15 @@ class UserProfileAuthScreen : AbstractScreen<RootActivity.RootComponent>() {
                         it.printStackTrace()
                         mRootPresenter.rootView?.showMessage("Такой альбом уже существует.")
                     })
+        }
+
+        fun deleteUser() {
+            mModel.deleteUser().subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeBy (onComplete = {
+                        Flow.get(view).replaceTop(UserProfileIdleScreen(), Direction.REPLACE)
+                    })
+            mModel.logOut()
         }
 
     }

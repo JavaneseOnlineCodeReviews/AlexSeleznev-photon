@@ -14,6 +14,7 @@ import com.applications.whazzup.photomapp.di.components.DaggerDataManagerCompone
 import com.applications.whazzup.photomapp.di.modules.LocalModule
 import com.applications.whazzup.photomapp.di.modules.NetworkModule
 import io.reactivex.Observable
+import retrofit2.Response
 import javax.inject.Inject
 
 class DataManager {
@@ -65,5 +66,9 @@ class DataManager {
 
     fun createAlbum(album : AddAlbumReq) : Observable<UserAlbumRes>{
         return mRestService.createAlbum(mPreferencesManager.getUserId(), mPreferencesManager.getUserToken(), album)
+    }
+
+    fun deleteUser() : Observable<Response<Void>> {
+        return mRestService.deleteUser(mPreferencesManager.getUserId(), mPreferencesManager.getUserToken())
     }
 }
