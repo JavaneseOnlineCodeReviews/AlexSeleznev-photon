@@ -76,7 +76,7 @@ class UserProfileAuthView(context: Context, attrs: AttributeSet) : AbstractView<
 
                 }
                 R.id.delete_user ->{
-                    mPresenter.deleteUser();
+                    mPresenter.deleteUser()
                 }
             }
             false

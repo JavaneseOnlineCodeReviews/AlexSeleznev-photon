@@ -126,7 +126,7 @@ class UserProfileAuthScreen : AbstractScreen<RootActivity.RootComponent>() {
     interface Component{
         fun inject(view : UserProfileAuthView)
         fun inject(presenter : UserProfilePresenter)
-        fun injext(adapter: UserProfileAlbumRecycler)
+        fun inject(adapter: UserProfileAlbumRecycler)
     }
 
     //endregion
