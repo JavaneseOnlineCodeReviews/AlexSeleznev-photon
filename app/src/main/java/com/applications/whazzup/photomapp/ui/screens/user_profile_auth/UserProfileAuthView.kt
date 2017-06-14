@@ -34,6 +34,7 @@ class UserProfileAuthView(context: Context, attrs: AttributeSet) : AbstractView<
     @BindView(R.id.card_count_txt) lateinit  var mCardCount:TextView
 
     lateinit  var builder : AlertDialog
+    lateinit  var userAdapter : UserProfileAlbumRecycler
 
 
     override fun onAttachedToWindow() {
@@ -89,9 +90,10 @@ class UserProfileAuthView(context: Context, attrs: AttributeSet) : AbstractView<
         mUserNameTxt.setText(res?.name + "/" + res?.login)
         mAlbumCount.text = res?.albums?.size.toString()
         mCardCount.text = mPresenter.getCardCount(res)
+        userAdapter = UserProfileAlbumRecycler(res?.albums)
         with(user_info_album_recycler){
             layoutManager = GridLayoutManager(context, 2)
-            adapter = UserProfileAlbumRecycler(res?.albums)
+            adapter = userAdapter
         }
     }
 

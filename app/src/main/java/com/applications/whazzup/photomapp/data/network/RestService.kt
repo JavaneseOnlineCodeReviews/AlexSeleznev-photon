@@ -5,6 +5,7 @@ import com.applications.whazzup.photomapp.data.network.req.UserLogInReq
 import com.applications.whazzup.photomapp.data.network.req.UserSigInReq
 import com.applications.whazzup.photomapp.data.network.res.AddAlbumRes
 import com.applications.whazzup.photomapp.data.network.res.PhotocardRes
+import com.applications.whazzup.photomapp.data.network.res.user.UserAlbumRes
 import com.applications.whazzup.photomapp.data.network.res.user.UserRes
 import io.reactivex.Observable
 import retrofit2.http.*
@@ -27,6 +28,6 @@ interface RestService {
 
 
     @POST("user/{userId}/album")
-    fun createAlbum(@Path("userId") userId : String,@Header("Authorization") userToken : String, @Body album : AddAlbumReq) : Observable<AddAlbumRes>
+    fun createAlbum(@Path("userId") userId : String,@Header("Authorization") userToken : String, @Body album : AddAlbumReq) : Observable<UserAlbumRes>
 
 }

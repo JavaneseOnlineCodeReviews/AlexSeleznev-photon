@@ -77,8 +77,8 @@ class UserProfileAuthScreen : AbstractScreen<RootActivity.RootComponent>() {
 
         fun addAlbum(addAlbumReq: AddAlbumReq) {
             mModel.createAlbum(addAlbumReq).subscribeOn(Schedulers.io())
-                    .doOnNext { }
                     .observeOn(AndroidSchedulers.mainThread())
+                    .doOnNext { view.userAdapter.addAlbum(it) }
                     .subscribeBy (onComplete = {
                         mRootPresenter.rootView?.showMessage("Новый альбом успешно создан.")
                         view.hideDialog()

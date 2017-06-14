@@ -18,7 +18,7 @@ class UserProfileAlbumRecycler(albums : List<UserAlbumRes>?) : RecyclerView.Adap
     @Inject
     lateinit var mPicasso : Picasso
 
-    var albums : List<UserAlbumRes> = albums as List<UserAlbumRes>
+    var albums : MutableList<UserAlbumRes> = albums as MutableList<UserAlbumRes>
 
 
     override fun getItemCount(): Int {
@@ -41,6 +41,11 @@ class UserProfileAlbumRecycler(albums : List<UserAlbumRes>?) : RecyclerView.Adap
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
         var inflater = LayoutInflater.from(parent?.context)
         return ViewHolder(inflater.inflate(R.layout.item_album, parent, false))
+    }
+
+    fun addAlbum(album : UserAlbumRes){
+        albums.add(album)
+        notifyDataSetChanged()
     }
 
 

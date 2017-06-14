@@ -8,6 +8,7 @@ import com.applications.whazzup.photomapp.data.network.req.UserLogInReq
 import com.applications.whazzup.photomapp.data.network.req.UserSigInReq
 import com.applications.whazzup.photomapp.data.network.res.AddAlbumRes
 import com.applications.whazzup.photomapp.data.network.res.PhotocardRes
+import com.applications.whazzup.photomapp.data.network.res.user.UserAlbumRes
 import com.applications.whazzup.photomapp.data.network.res.user.UserRes
 import com.applications.whazzup.photomapp.di.components.DaggerDataManagerComponent
 import com.applications.whazzup.photomapp.di.modules.LocalModule
@@ -62,7 +63,7 @@ class DataManager {
         return mRestService.getUserById(userId)
     }
 
-    fun createAlbum(album : AddAlbumReq) : Observable<AddAlbumRes>{
+    fun createAlbum(album : AddAlbumReq) : Observable<UserAlbumRes>{
         return mRestService.createAlbum(mPreferencesManager.getUserId(), mPreferencesManager.getUserToken(), album)
     }
 }
