@@ -1,11 +1,16 @@
 package com.applications.whazzup.photomapp.mvp.presenters
 
 
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
+import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 
 import com.applications.whazzup.photomapp.App
 import com.applications.whazzup.photomapp.data.network.req.UserLogInReq
 import com.applications.whazzup.photomapp.data.network.req.UserSigInReq
+import com.applications.whazzup.photomapp.data.storage.dto.ActivityResultDto
 import com.applications.whazzup.photomapp.mvp.models.RootModel
 import com.applications.whazzup.photomapp.mvp.views.IRootView
 import com.applications.whazzup.photomapp.ui.activities.RootActivity
@@ -14,6 +19,7 @@ import com.applications.whazzup.photomapp.ui.screens.user_profile_idle.UserProfi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.BehaviorSubject
 
 import mortar.Presenter
 import mortar.bundler.BundleService
@@ -26,6 +32,8 @@ class RootPresenter private constructor() : Presenter<IRootView>() {
 
     val DEFAULT_MODE = 0
     val TAB_MODE = 1
+
+   val mActivityResultObs : BehaviorSubject<ActivityResultDto> = BehaviorSubject.create()
 
     companion object {
         val INSTANCE = RootPresenter()
@@ -138,6 +146,32 @@ class RootPresenter private constructor() : Presenter<IRootView>() {
 
     fun logOut() {
         mRootModel.logOut()
+    }
+
+    fun checkPermissionAndRequestIfNotGranted(permissions: Array<String>, requestCode: Int): Boolean {
+        var allGranted = true
+        for (permission in permissions) {
+            val selfPermission = ContextCompat.checkSelfPermission(view as RootActivity, permission)
+            if (selfPermission != PackageManager.PERMISSION_GRANTED) {
+                allGranted = false
+                break
+            }
+        }
+        if (!allGranted) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                (view as RootActivity).requestPermissions(permissions, requestCode)
+            }
+            return false
+        }
+        return allGranted
+    }
+
+    fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent) {
+        mActivityResultObs.onNext(ActivityResultDto(requestCode, resultCode, intent))
+    }
+
+    fun onRequestPermissionResult(requestCode: Int, permissions: Array<String>, grantResult: IntArray) {
+        //Implements me
     }
 }
 

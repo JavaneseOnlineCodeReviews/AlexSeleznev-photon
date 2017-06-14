@@ -1,5 +1,6 @@
 package com.applications.whazzup.photomapp.mvp.views
 
+import android.content.Intent
 import android.view.View
 
 interface IRootView : IView {

@@ -14,6 +14,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
     <ImageView
+        android:id="@+id/user_avatar_img"
         android:layout_width="50dp"
         android:layout_height="100dp"
         app:srcCompat="@drawable/ic_delete_black_24dp"/>
@@ -29,7 +30,7 @@
             android:layout_height="wrap_content"
             android:text="123"/>
         <RelativeLayout
-            android:id="@+id/album_card__wrapper"
+            android:id="@+id/album_card_wrapper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
@@ -60,11 +61,22 @@
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="У Вас нет альбомов. \n Добавьте новый, чтобы \n сохранять карточки."
+                android:gravity="center"
+                android:background="@android:color/white"/>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/user_info_album_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="16dp"
+        android:background="@android:color/white"/>
 
+        </FrameLayout>
     </LinearLayout>
 </com.applications.whazzup.photomapp.ui.screens.user_profile_auth.UserProfileAuthView>

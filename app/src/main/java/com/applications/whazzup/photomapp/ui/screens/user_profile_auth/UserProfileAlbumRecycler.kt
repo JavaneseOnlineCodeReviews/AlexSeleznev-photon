@@ -12,17 +12,26 @@ import kotlinx.android.synthetic.main.item_album.view.*
 import javax.inject.Inject
 
 
-class UserProfileAlbumRecycler(albums : List<UserAlbumRes>?) : RecyclerView.Adapter< UserProfileAlbumRecycler.ViewHolder>() {
+class UserProfileAlbumRecycler() : RecyclerView.Adapter< UserProfileAlbumRecycler.ViewHolder>() {
 
     @Inject
     lateinit var mPicasso : Picasso
 
+    var userAlbums : MutableList<UserAlbumRes>
 
-    var albums : MutableList<UserAlbumRes> = albums as MutableList<UserAlbumRes>
+    constructor(albums : List<UserAlbumRes>?) : this() {
+    userAlbums = albums as MutableList<UserAlbumRes>
+}
+
+
+    init {
+        userAlbums = mutableListOf()
+    }
+
 
 
     override fun getItemCount(): Int {
-        return albums.size
+        return userAlbums.size
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView?) {
@@ -31,7 +40,7 @@ class UserProfileAlbumRecycler(albums : List<UserAlbumRes>?) : RecyclerView.Adap
     }
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
-            var album = albums[position]
+            var album = userAlbums[position]
         if(!album.photocards.isEmpty()) {
             var albumPreview = album?.photocards[0].photo
 
@@ -51,7 +60,7 @@ class UserProfileAlbumRecycler(albums : List<UserAlbumRes>?) : RecyclerView.Adap
     }
 
     fun addAlbum(album : UserAlbumRes){
-        albums.add(album)
+        userAlbums.add(album)
         notifyDataSetChanged()
     }
 

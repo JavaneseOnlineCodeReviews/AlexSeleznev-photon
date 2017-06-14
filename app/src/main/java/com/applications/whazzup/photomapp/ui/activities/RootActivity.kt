@@ -5,6 +5,7 @@ package com.applications.whazzup.photomapp.ui.activities
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -111,6 +112,11 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
         mRootPresenter.takeView(this)
         setSupportActionBar(mToolbar)
         mActionBar = supportActionBar!!
+    }
+
+    override fun startActivityForResult(intent: Intent?, requestCode: Int) {
+
+        super.startActivityForResult(intent, requestCode)
     }
 
    override fun createSignInAlertDialog(){
