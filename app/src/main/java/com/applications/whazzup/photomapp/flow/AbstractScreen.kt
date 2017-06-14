@@ -6,7 +6,7 @@ import com.applications.whazzup.photomapp.mortar.ScreenScoper
 
 import flow.ClassKey
 
-abstract class AbstractScreen<T> : ClassKey() {
+abstract class AbstractScreen<in T> : ClassKey() {
 
     val scopeName: String
         get() = javaClass.name
