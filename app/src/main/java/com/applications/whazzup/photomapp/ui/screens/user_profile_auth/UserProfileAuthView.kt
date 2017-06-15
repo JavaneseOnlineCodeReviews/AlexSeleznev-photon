@@ -110,6 +110,7 @@ class UserProfileAuthView(context: Context, attrs: AttributeSet) : AbstractView<
         mUserNameTxt.setText(res?.name + "/" + res?.login)
         mAlbumCount.text = res?.albums?.size.toString()
         mCardCount.text = mPresenter.getCardCount(res)
+        //Picasso.with(context).load(mPresenter.getUserAvater()).into(mUserAvatar)
 
         if(res?.albums!!.isEmpty()){
             mUserAlbumRecycler.visibility = View.GONE
@@ -142,7 +143,7 @@ class UserProfileAuthView(context: Context, attrs: AttributeSet) : AbstractView<
             when (i) {
                 0 -> mPresenter.chooseGallery()
                 1 -> try {
-                    mPresenter.mRootPresenter.rootView?.showMessage("Выбрали Камеру")
+                    mPresenter.chooseCamera()
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }

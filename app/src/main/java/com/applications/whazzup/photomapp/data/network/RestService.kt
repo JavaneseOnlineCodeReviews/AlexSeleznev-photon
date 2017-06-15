@@ -5,9 +5,11 @@ import com.applications.whazzup.photomapp.data.network.req.UserLogInReq
 import com.applications.whazzup.photomapp.data.network.req.UserSigInReq
 import com.applications.whazzup.photomapp.data.network.res.AddAlbumRes
 import com.applications.whazzup.photomapp.data.network.res.PhotocardRes
+import com.applications.whazzup.photomapp.data.network.res.UserAvatarRes
 import com.applications.whazzup.photomapp.data.network.res.user.UserAlbumRes
 import com.applications.whazzup.photomapp.data.network.res.user.UserRes
 import io.reactivex.Observable
+import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -33,5 +35,9 @@ interface RestService {
 
     @DELETE("user/{userId}")
     fun deleteUser(@Path("userId") userId : String, @Header("Authorization") userToken : String) : Observable<Response<Void>>
+
+    @Multipart
+    @POST("user/{userId}/image/upload")
+    fun uploadPhoto(@Path("userId") userId : String, @Part file : MultipartBody.Part, @Header("Authorization") userToken : String) : Observable<UserAvatarRes>
 
 }

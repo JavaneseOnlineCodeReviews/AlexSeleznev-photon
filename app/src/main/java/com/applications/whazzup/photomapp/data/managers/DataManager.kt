@@ -8,12 +8,14 @@ import com.applications.whazzup.photomapp.data.network.req.UserLogInReq
 import com.applications.whazzup.photomapp.data.network.req.UserSigInReq
 import com.applications.whazzup.photomapp.data.network.res.AddAlbumRes
 import com.applications.whazzup.photomapp.data.network.res.PhotocardRes
+import com.applications.whazzup.photomapp.data.network.res.UserAvatarRes
 import com.applications.whazzup.photomapp.data.network.res.user.UserAlbumRes
 import com.applications.whazzup.photomapp.data.network.res.user.UserRes
 import com.applications.whazzup.photomapp.di.components.DaggerDataManagerComponent
 import com.applications.whazzup.photomapp.di.modules.LocalModule
 import com.applications.whazzup.photomapp.di.modules.NetworkModule
 import io.reactivex.Observable
+import okhttp3.MultipartBody
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -70,5 +72,17 @@ class DataManager {
 
     fun deleteUser() : Observable<Response<Void>> {
         return mRestService.deleteUser(mPreferencesManager.getUserId(), mPreferencesManager.getUserToken())
+    }
+
+    fun uploadPhoto(file : MultipartBody.Part) : Observable<UserAvatarRes>{
+        return mRestService.uploadPhoto(mPreferencesManager.getUserId(), file, mPreferencesManager.getUserToken())
+    }
+
+    fun saveAvatarUrl(avatarUrl: String) {
+        mPreferencesManager.saveUserAvatar(avatarUrl)
+    }
+
+    fun getUserAvatar(): String {
+      return  mPreferencesManager.getUserAvatar()
     }
 }

@@ -166,7 +166,7 @@ class RootPresenter private constructor() : Presenter<IRootView>() {
         return allGranted
     }
 
-    fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent) {
+    fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         mActivityResultObs.onNext(ActivityResultDto(requestCode, resultCode, intent))
     }
 

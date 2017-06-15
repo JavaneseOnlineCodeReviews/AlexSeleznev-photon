@@ -222,6 +222,17 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        mRootPresenter.onActivityResult(requestCode, resultCode, data)
+        }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        mRootPresenter.onRequestPermissionResult(requestCode, permissions as Array<String>, grantResults)
+    }
+
     override fun hideBottomNavigation(isVisible: Boolean) {
         if(isVisible) mNavigation.visibility = View.VISIBLE
         else mNavigation.visibility = View.GONE

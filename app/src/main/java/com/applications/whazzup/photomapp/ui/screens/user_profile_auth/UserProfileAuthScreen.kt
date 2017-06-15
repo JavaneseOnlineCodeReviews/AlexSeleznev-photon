@@ -2,9 +2,15 @@ package com.applications.whazzup.photomapp.ui.screens.user_profile_auth
 
 
 import android.Manifest
+import android.Manifest.permission.CAMERA
+import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
+import android.support.v4.content.FileProvider
 import com.applications.whazzup.photomapp.R
 import com.applications.whazzup.photomapp.data.network.req.AddAlbumReq
 import com.applications.whazzup.photomapp.data.network.res.user.UserRes
@@ -25,15 +31,22 @@ import flow.Direction
 import flow.Flow
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import mortar.MortarScope
-import org.reactivestreams.Subscriber
-import org.reactivestreams.Subscription
+
+import java.io.File
+import java.io.IOException
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 @Screen(R.layout.screen_user_profile)
 class UserProfileAuthScreen : AbstractScreen<RootActivity.RootComponent>() {
+
+    lateinit var mPhotoFile : File
 
 
     override fun createScreenComponent(parentComponent: RootActivity.RootComponent): Any {
@@ -58,6 +71,12 @@ class UserProfileAuthScreen : AbstractScreen<RootActivity.RootComponent>() {
 
         override fun onEnterScope(scope: MortarScope?) {
             super.onEnterScope(scope)
+
+        }
+
+        override fun onLoad(savedInstanceState: Bundle?) {
+            super.onLoad(savedInstanceState)
+            subscribeOnActivityResult()
             var res: UserRes? = null
             mModel.getUserById().subscribeOn(Schedulers.io())
                     .doOnNext { res = it }
@@ -65,6 +84,11 @@ class UserProfileAuthScreen : AbstractScreen<RootActivity.RootComponent>() {
                     .subscribeBy(onComplete = {
                         view.initView(res)
                     })
+        }
+
+        override fun onExitScope() {
+            super.onExitScope()
+            mActivityresultSub.dispose()
         }
 
         override fun initToolbar() {
@@ -119,7 +143,7 @@ class UserProfileAuthScreen : AbstractScreen<RootActivity.RootComponent>() {
         fun chooseGallery() {
             if (rootView != null) {
                 val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
-                if (mRootPresenter.checkPermissionAndRequestIfNotGranted(permissions, ConstantManager.REQUEST_PERMISSION_READ_EXTERNAL_STORAGE)) {
+                if (mRootPresenter. checkPermissionAndRequestIfNotGranted(permissions, ConstantManager.REQUEST_PERMISSION_READ_EXTERNAL_STORAGE)) {
                     takePhotoFromGallery()
                 }
             }
@@ -129,33 +153,89 @@ class UserProfileAuthScreen : AbstractScreen<RootActivity.RootComponent>() {
         private fun takePhotoFromGallery() {
             var intent = Intent()
             intent.type = "image/*"
-            intent.setAction(Intent.ACTION_OPEN_DOCUMENT)
+            intent.action = Intent.ACTION_OPEN_DOCUMENT
             intent.addCategory(Intent.CATEGORY_OPENABLE)
             (mRootPresenter.rootView as RootActivity).startActivityForResult(intent, ConstantManager.REQUEST_PROFILE_PHOTO)
 
         }
 
         fun subscribeOnActivityResult(){
-            val activityResultObs = mRootPresenter.mActivityResultObs.filter({ activityResultDto -> activityResultDto.resultCode === Activity.RESULT_OK })
+            val activityResultObs = mRootPresenter.mActivityResultObs//.filter({ activityResultDto -> activityResultDto.resultCode === Activity.RESULT_OK })
             mActivityresultSub = subscribe(activityResultObs, object : ViewSubscriber<ActivityResultDto>() {
                 override fun onNext(activityResultDto: ActivityResultDto) {
                     handleActivityResult(activityResultDto)
                 }
             })
-
         }
 
-        private fun handleActivityResult(activityResultDto: ActivityResultDto) {
+        fun getUserAvater(): String{
+            return mModel.getUserAvatar()
+        }
+
+        fun handleActivityResult(activityResultDto: ActivityResultDto) {
             when(activityResultDto.requestCode){
-                ConstantManager.REQUEST_PROFILE_PHOTO_CAMERA->{
+                ConstantManager.REQUEST_PROFILE_PHOTO->{
+                    mRootPresenter.rootView?.showMessage("Галерея")
                     if(activityResultDto.data!=null){
                        var  photoUrl = activityResultDto.data.data.toString()
+                       /* mModel.uploadPhoto(photoUrl).subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .doOnNext {mModel.saveAvatarUrl(it.avatarUrl) }
+                                .subscribeBy(onComplete = {
+
+                                })*/
                         view.updateAvatarPhoto(Uri.parse(photoUrl))
+
                     }
+                }
+                ConstantManager.REQUEST_PROFILE_PHOTO_CAMERA->{
+                    mRootPresenter.rootView?.showMessage("Камера")
+                    if(mPhotoFile!=null){
+                        view.updateAvatarPhoto(Uri.fromFile(mPhotoFile))
+                         mModel.uploadPhoto(Uri.fromFile(mPhotoFile)).subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .doOnNext {mModel.saveAvatarUrl(it.image) }
+                                .subscribeBy(onComplete = {
+                                view.updateAvatarPhoto(Uri.parse(mModel.getUserAvatar()))
+                                })
+                    }
+
+            }
+        }
+        }
+
+        fun chooseCamera() {
+            if(rootView!=null){
+                val permissions = arrayOf(WRITE_EXTERNAL_STORAGE, CAMERA)
+                if(mRootPresenter.checkPermissionAndRequestIfNotGranted(permissions, ConstantManager.REQUEST_PERMISSON_CAMERA)){
+                    mPhotoFile = createImageFile()
+                    if(mPhotoFile == null){
+                        rootView?.showMessage("Файл не может быть создан")
+                    }
+                    takePhotoFromCamera()
                 }
             }
         }
+
+        private fun takePhotoFromCamera() {
+            var uriForFile = FileProvider.getUriForFile((rootView as RootActivity), ConstantManager.FILE_PROVIDER_AUTHORITY, mPhotoFile)
+            var intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, uriForFile)
+            (mRootPresenter.rootView as RootActivity).startActivityForResult(intent, ConstantManager.REQUEST_PROFILE_PHOTO_CAMERA)
+        }
+
+        @Throws(IOException::class)
+        private fun createImageFile(): File {
+            val dateTimeInstance = SimpleDateFormat.getTimeInstance(DateFormat.MEDIUM)
+            val timeStamp = dateTimeInstance.format(Date())
+            val imageFileName = "IMG_" + timeStamp
+            val storageDir =view.context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+            val imageFile = File.createTempFile(imageFileName, ".jpg", storageDir)
+            return imageFile
+        }
     }
+
+
 
     //endregion
 
