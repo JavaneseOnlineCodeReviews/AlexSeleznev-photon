@@ -39,4 +39,8 @@ class RootModel : AbstractModel() {
     fun changeUserInfo(userInfo : UserChangeInfoReq): Observable<UserRes>{
         return mDataManager.changeUserInfo(userInfo)
     }
+
+    fun getUserAvatar(): String {
+        return mDataManager.mPreferencesManager.getUserAvatar()
+    }
 }

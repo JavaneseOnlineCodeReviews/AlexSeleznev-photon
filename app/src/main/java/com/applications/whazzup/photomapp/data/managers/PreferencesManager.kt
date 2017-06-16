@@ -25,6 +25,7 @@ class PreferencesManager {
         editor?.putString(USER_LOGIN_KEY, user.login)
         editor?.putString(USER_TOKEN_KEY, user.token)
         editor?.putString(USER_ID_KEY, user.id)
+        editor?.putString(USER_AVATAR_KEY, user.avatar)
         editor?.apply()
     }
 
@@ -34,6 +35,14 @@ class PreferencesManager {
 
     fun getUserToken(): String{
         return mSharedPreferences?.getString(USER_TOKEN_KEY, "null") as String
+    }
+
+    fun getUserLogin(): String{
+        return mSharedPreferences?.getString(USER_LOGIN_KEY, "null") as String
+    }
+
+    fun getUserName(): String{
+        return mSharedPreferences?.getString(USER_NAME_KEY, "null") as String
     }
 
 

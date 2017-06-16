@@ -13,6 +13,7 @@ import android.provider.MediaStore
 import android.support.v4.content.FileProvider
 import com.applications.whazzup.photomapp.R
 import com.applications.whazzup.photomapp.data.network.req.AddAlbumReq
+import com.applications.whazzup.photomapp.data.network.req.UserChangeInfoReq
 import com.applications.whazzup.photomapp.data.network.res.user.UserRes
 import com.applications.whazzup.photomapp.data.storage.dto.ActivityResultDto
 import com.applications.whazzup.photomapp.di.DaggerScope
@@ -171,7 +172,10 @@ class UserProfileAuthScreen : AbstractScreen<RootActivity.RootComponent>() {
                         var photoUrl = UriGetter.getPath(view.context, activityResultDto.data.data)
                         mModel.uploadPhoto(Uri.parse(photoUrl)).subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
-                                .doOnNext { mModel.saveAvatarUrl(it.image) }
+                                .doOnNext {
+                                    mModel.saveAvatarUrl(it.image)
+                                    changeUserInfo(UserChangeInfoReq(mModel.getUserName(), mModel.getUserLogin(), it.image))
+                                }
                                 .subscribeBy(onComplete = {
                                     view.updateAvatarPhoto(Uri.parse(mModel.getUserAvatar()))
                                 })
@@ -181,12 +185,21 @@ class UserProfileAuthScreen : AbstractScreen<RootActivity.RootComponent>() {
                     view.updateAvatarPhoto(Uri.fromFile(mPhotoFile))
                     mModel.uploadPhoto(Uri.fromFile(mPhotoFile)).subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
-                            .doOnNext { mModel.saveAvatarUrl(it.image) }
+                            .doOnNext {
+                                mModel.saveAvatarUrl(it.image)
+                                changeUserInfo(UserChangeInfoReq(mModel.getUserName(), mModel.getUserLogin(), it.image))
+                            }
                             .subscribeBy(onComplete = {
                                 view.updateAvatarPhoto(Uri.parse(mModel.getUserAvatar()))
                             })
                 }
             }
+        }
+
+        fun changeUserInfo(user : UserChangeInfoReq){
+            mModel.changeUserInfo(user).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeBy {  }
         }
 
         fun chooseCamera() {

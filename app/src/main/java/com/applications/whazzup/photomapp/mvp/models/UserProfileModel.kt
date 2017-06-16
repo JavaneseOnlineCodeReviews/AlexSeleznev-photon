@@ -55,4 +55,12 @@ class UserProfileModel : AbstractModel() {
     fun changeUserInfo(userInfo : UserChangeInfoReq): Observable<UserRes>{
         return mDataManager.changeUserInfo(userInfo)
     }
+
+    fun getUserName(): String {
+        return mDataManager.mPreferencesManager.getUserName()
+    }
+
+    fun getUserLogin(): String {
+        return mDataManager.mPreferencesManager.getUserLogin()
+    }
 }

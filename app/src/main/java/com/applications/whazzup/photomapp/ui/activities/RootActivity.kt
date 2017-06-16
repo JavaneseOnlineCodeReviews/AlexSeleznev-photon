@@ -199,7 +199,7 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
         btn.setOnClickListener {
             if((loginErrorHint.text == "" && nameErrorHint.text == "")&&
                     (!nameEt.text.isEmpty()&&!loginEt.text.isEmpty())) {
-                mRootPresenter.changeUserInfo(UserChangeInfoReq(nameEt.text.toString(), loginEt.text.toString()))
+                mRootPresenter.changeUserInfo(UserChangeInfoReq(nameEt.text.toString(), loginEt.text.toString(), mRootPresenter.mRootModel.getUserAvatar()))
 
             }
         }

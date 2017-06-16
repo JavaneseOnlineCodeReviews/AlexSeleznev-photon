@@ -115,9 +115,9 @@ class UserProfileAuthView(context: Context, attrs: AttributeSet) : AbstractView<
 
     fun initView(res: UserRes?) {
         mUserNameTxt.setText(res?.name + "/" + res?.login)
-        mAlbumCount.text = res?.albums?.size.toString()
-        mCardCount.text = mPresenter.getCardCount(res)
-        Picasso.with(context).load(mPresenter.getUserAvatar()).into(mUserAvatar)
+        mAlbumCount.text = res?.albumCount.toString()
+        mCardCount.text = res?.photocardCount.toString()
+        Picasso.with(context).load(res?.avatar).into(mUserAvatar)
 
         if(res?.albums!!.isEmpty()){
             mUserAlbumRecycler.visibility = View.GONE

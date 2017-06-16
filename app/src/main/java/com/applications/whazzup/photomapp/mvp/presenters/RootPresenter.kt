@@ -22,6 +22,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 import mortar.Presenter
 import mortar.bundler.BundleService
@@ -35,7 +36,7 @@ class RootPresenter private constructor() : Presenter<IRootView>() {
     val DEFAULT_MODE = 0
     val TAB_MODE = 1
 
-    val mActivityResultObs: BehaviorSubject<ActivityResultDto> = BehaviorSubject.create()
+    val mActivityResultObs: PublishSubject<ActivityResultDto> = PublishSubject.create()
 
     companion object {
         val INSTANCE = RootPresenter()
