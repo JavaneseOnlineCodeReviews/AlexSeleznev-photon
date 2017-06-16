@@ -13,7 +13,6 @@ import kotlinx.android.synthetic.main.screen_photo_card_list.view.*
 
 class PhotoCardListView(context: Context, attrs: AttributeSet) : AbstractView<PhotoCardListScreen.PhotoCardListPresenter>(context, attrs) {
 
-
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         with(card_lit_recycler){

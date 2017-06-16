@@ -49,20 +49,20 @@ class FilterScreen : AbstractScreen<RootActivity.RootComponent>(), TreeKey {
     inner class FilterPresenterModule {
 
         @Provides
-        @DaggerScope(FilterView::class)
+        @DaggerScope(FilterScreen::class)
         internal fun providePresenter() : FilterPresenter {
             return FilterPresenter()
         }
 
         @Provides
-        @DaggerScope(FilterView::class)
+        @DaggerScope(FilterScreen::class)
         internal fun provideModel() : FilterModel {
             return FilterModel()
         }
     }
 
     @Component(dependencies = arrayOf(RootActivity.RootComponent::class), modules = arrayOf(FilterPresenterModule::class))
-    @DaggerScope(FilterView::class)
+    @DaggerScope(FilterScreen::class)
     interface FilterPresenterComponent {
         fun inject(presenter: FilterPresenter)
         fun inject(view: FilterView)
