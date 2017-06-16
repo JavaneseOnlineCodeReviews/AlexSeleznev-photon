@@ -109,7 +109,6 @@ class UserProfileAuthView(context: Context, attrs: AttributeSet) : AbstractView<
             false
         })
         val menuHelper = MenuPopupHelper(context, menu.menu as MenuBuilder, view)
-        menuHelper.show(0,-110)
         menuHelper.setForceShowIcon(true)
         menuHelper.show()
     }
