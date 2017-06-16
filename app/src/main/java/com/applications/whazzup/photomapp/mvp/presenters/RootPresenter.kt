@@ -8,8 +8,10 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 
 import com.applications.whazzup.photomapp.App
+import com.applications.whazzup.photomapp.data.network.req.UserChangeInfoReq
 import com.applications.whazzup.photomapp.data.network.req.UserLogInReq
 import com.applications.whazzup.photomapp.data.network.req.UserSigInReq
+import com.applications.whazzup.photomapp.data.network.res.user.UserRes
 import com.applications.whazzup.photomapp.data.storage.dto.ActivityResultDto
 import com.applications.whazzup.photomapp.mvp.models.RootModel
 import com.applications.whazzup.photomapp.mvp.views.IRootView
@@ -33,7 +35,7 @@ class RootPresenter private constructor() : Presenter<IRootView>() {
     val DEFAULT_MODE = 0
     val TAB_MODE = 1
 
-   val mActivityResultObs : BehaviorSubject<ActivityResultDto> = BehaviorSubject.create()
+    val mActivityResultObs: BehaviorSubject<ActivityResultDto> = BehaviorSubject.create()
 
     companion object {
         val INSTANCE = RootPresenter()
@@ -53,13 +55,13 @@ class RootPresenter private constructor() : Presenter<IRootView>() {
 
     fun signUpUser(user: UserSigInReq) {
         mRootModel.signUpUser(user)
-                .doOnNext { mRootModel.saveUserInfo(it)  }
+                .doOnNext { mRootModel.saveUserInfo(it) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(onComplete = {
                     view.showMessage("Регистрациия прошла успешно")
                     view.hideAlertDialog()
-                    if(view.currentScreen is UserProfileIdleView) run {
+                    if (view.currentScreen is UserProfileIdleView) run {
                         (view.currentScreen as UserProfileIdleView).changeScreen()
                     }
                 }, onError = {
@@ -67,7 +69,7 @@ class RootPresenter private constructor() : Presenter<IRootView>() {
                 })
     }
 
-    fun logInUser(user: UserLogInReq){
+    fun logInUser(user: UserLogInReq) {
         mRootModel.logInUser(user)
                 .doOnNext { mRootModel.saveUserInfo(it) }
                 .subscribeOn(Schedulers.io())
@@ -75,7 +77,7 @@ class RootPresenter private constructor() : Presenter<IRootView>() {
                 .subscribeBy(onComplete = {
                     view.showMessage("Добрро пожаловать")
                     view.hideAlertDialog()
-                    if(view.currentScreen is UserProfileIdleView) run {
+                    if (view.currentScreen is UserProfileIdleView) run {
                         (view.currentScreen as UserProfileIdleView).changeScreen()
                     }
                 }, onError = {
@@ -83,10 +85,9 @@ class RootPresenter private constructor() : Presenter<IRootView>() {
                 })
     }
 
-    fun isUserAuth():Boolean{
+    fun isUserAuth(): Boolean {
         return mRootModel.isUserAuth()
     }
-
 
 
     fun newActionBarBuilder(): ActionBarBuilder {
@@ -172,6 +173,25 @@ class RootPresenter private constructor() : Presenter<IRootView>() {
 
     fun onRequestPermissionResult(requestCode: Int, permissions: Array<String>, grantResult: IntArray) {
         //Implements me
+    }
+
+    fun changeUserInfo(userChangeInfoReq: UserChangeInfoReq) {
+        var res: UserRes? = null
+        mRootModel.changeUserInfo(userChangeInfoReq).doOnNext {
+            res = it
+            mRootModel.saveUserInfo(it)
+        }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeBy(onComplete = {
+                    view.showMessage("Данные пользователя успешно изменены")
+                    view.hideAlertDialog()
+                    if (view.currentScreen is UserProfileAuthView) run {
+                        (view.currentScreen as UserProfileAuthView).initView(res)
+                    }
+                }, onError = {
+                    view.showMessage("Что-то пошло не так. повторите попытку пойзже")
+                })
     }
 }
 

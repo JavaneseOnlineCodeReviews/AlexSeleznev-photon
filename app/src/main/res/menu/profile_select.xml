@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/add_album"
-        android:icon="@drawable/ic_custom_edit_black_24dp"
+        android:icon="@drawable/ic_custom_big_picture_with_landscape"
         android:title="Добавить альбом"/>
     <item
         android:id="@+id/change_user"
@@ -12,10 +12,10 @@
 
     <item
         android:id="@+id/change_user_avatar"
-        android:icon="@drawable/ic_custom_delete_black_24dp"
+        android:icon="@drawable/ic_custom_avatar_inside_a_circle"
         android:title="Изменить аватар"/>
     <item
         android:id="@+id/logout"
-        android:icon="@drawable/ic_custom_delete_black_24dp"
+        android:icon="@drawable/ic_custom_circular_power_on_button"
         android:title="Выйти"/>
 </menu>

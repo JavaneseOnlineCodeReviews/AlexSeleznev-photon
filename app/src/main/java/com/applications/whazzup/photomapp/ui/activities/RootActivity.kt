@@ -21,6 +21,7 @@ import android.widget.*
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.applications.whazzup.photomapp.R
+import com.applications.whazzup.photomapp.data.network.req.UserChangeInfoReq
 import com.applications.whazzup.photomapp.data.network.req.UserLogInReq
 import com.applications.whazzup.photomapp.data.network.req.UserSigInReq
 import com.applications.whazzup.photomapp.di.DaggerScope
@@ -48,6 +49,7 @@ import mortar.bundler.BundleServiceRunner
 import javax.inject.Inject
 
 class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
+
 
 
     @BindView(R.id.root_frame) lateinit var mRootFrame: FrameLayout
@@ -180,6 +182,36 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
         builder?.show()
 
     }
+
+    override fun createChangeUserInfoDialog() {
+        builder = AlertDialog.Builder(this).create()
+        val v: View=LayoutInflater.from(this).inflate(R.layout.change_user_dialog, null)
+        val btn : Button =v.findViewById(R.id.apply_btn) as Button
+        val cancelBtn = v.findViewById(R.id.cancel_btn) as Button
+        val nameEt : EditText = v.findViewById(R.id.name_et) as EditText
+        val loginEt =v.findViewById(R.id.login_et) as EditText
+        val loginErrorHint = v.findViewById(R.id.login_error_hint) as TextView
+        val nameErrorHint = v.findViewById(R.id.name_error_hint) as TextView
+
+        nameEt.addTextChangedListener(CustomTextWatcher(nameEt, nameErrorHint))
+        loginEt.addTextChangedListener(CustomTextWatcher(loginEt, loginErrorHint))
+
+        btn.setOnClickListener {
+            if((loginErrorHint.text == "" && nameErrorHint.text == "")&&
+                    (!nameEt.text.isEmpty()&&!loginEt.text.isEmpty())) {
+                mRootPresenter.changeUserInfo(UserChangeInfoReq(nameEt.text.toString(), loginEt.text.toString()))
+
+            }
+        }
+        cancelBtn.setOnClickListener {
+            builder?.cancel()
+        }
+        builder?.setView(v)
+        builder?.show()
+
+    }
+
+
 
     override fun hideAlertDialog(){
         builder.cancel()

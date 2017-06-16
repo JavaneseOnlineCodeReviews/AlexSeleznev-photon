@@ -12,6 +12,7 @@ interface IRootView : IView {
     fun hideBottomNavigation(isVisible: Boolean)
     fun createSignInAlertDialog()
     fun createLoginDialog()
+    fun createChangeUserInfoDialog()
     fun showtoolBar()
     fun hideToolBar()
     fun hideAlertDialog()

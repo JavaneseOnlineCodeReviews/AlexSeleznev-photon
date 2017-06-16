@@ -2,6 +2,7 @@ package com.applications.whazzup.photomapp.mvp.models
 
 import android.net.Uri
 import com.applications.whazzup.photomapp.data.network.req.AddAlbumReq
+import com.applications.whazzup.photomapp.data.network.req.UserChangeInfoReq
 import com.applications.whazzup.photomapp.data.network.res.AddAlbumRes
 import com.applications.whazzup.photomapp.data.network.res.UserAvatarRes
 import com.applications.whazzup.photomapp.data.network.res.user.UserAlbumRes
@@ -49,5 +50,9 @@ class UserProfileModel : AbstractModel() {
 
     fun getUserAvatar() : String{
         return mDataManager.getUserAvatar()
+    }
+
+    fun changeUserInfo(userInfo : UserChangeInfoReq): Observable<UserRes>{
+        return mDataManager.changeUserInfo(userInfo)
     }
 }

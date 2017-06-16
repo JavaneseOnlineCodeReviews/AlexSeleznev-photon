@@ -17,6 +17,7 @@ import android.support.v7.view.menu.MenuPopupHelper
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.PopupMenu
 import android.support.v7.widget.RecyclerView
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.widget.*
 import butterknife.OnClick
@@ -93,7 +94,7 @@ class UserProfileAuthView(context: Context, attrs: AttributeSet) : AbstractView<
         menu.setOnMenuItemClickListener({
             when(it.itemId) {
                 R.id.change_user ->{
-                    mPresenter.mRootPresenter.rootView?.showMessage("Изменение юзера")
+                    mPresenter.mRootPresenter.rootView?.createChangeUserInfoDialog()
                 }
                 R.id.logout ->{
                     mPresenter.logOut()
@@ -108,6 +109,7 @@ class UserProfileAuthView(context: Context, attrs: AttributeSet) : AbstractView<
             false
         })
         val menuHelper = MenuPopupHelper(context, menu.menu as MenuBuilder, view)
+        menuHelper.show(0,-110)
         menuHelper.setForceShowIcon(true)
         menuHelper.show()
     }

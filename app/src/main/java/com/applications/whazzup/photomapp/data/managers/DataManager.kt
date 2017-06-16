@@ -4,6 +4,7 @@ package com.applications.whazzup.photomapp.data.managers
 import com.applications.whazzup.photomapp.App
 import com.applications.whazzup.photomapp.data.network.RestService
 import com.applications.whazzup.photomapp.data.network.req.AddAlbumReq
+import com.applications.whazzup.photomapp.data.network.req.UserChangeInfoReq
 import com.applications.whazzup.photomapp.data.network.req.UserLogInReq
 import com.applications.whazzup.photomapp.data.network.req.UserSigInReq
 import com.applications.whazzup.photomapp.data.network.res.AddAlbumRes
@@ -72,6 +73,10 @@ class DataManager {
 
     fun deleteUser() : Observable<Response<Void>> {
         return mRestService.deleteUser(mPreferencesManager.getUserId(), mPreferencesManager.getUserToken())
+    }
+
+    fun changeUserInfo(userInfo: UserChangeInfoReq) : Observable<UserRes>{
+        return mRestService.changeUserInfo(mPreferencesManager.getUserId(), mPreferencesManager.getUserToken(), userInfo)
     }
 
     fun uploadPhoto(file : MultipartBody.Part) : Observable<UserAvatarRes>{
