@@ -54,7 +54,7 @@ class UserProfileAuthView(context: Context, attrs: AttributeSet) : AbstractView<
        DaggerService.getDaggerComponent<DaggerUserProfileAuthScreen_Component>(context!!).inject(this)
     }
 
-    fun addAlbum(view: View) {
+    fun addAlbum() {
         builder = AlertDialog.Builder(context).create()
         val v: View= LayoutInflater.from(context).inflate(R.layout.dialog_customview_login, null)
         val mAlbumName = v.findViewById(R.id.album_name_et) as EditText
@@ -93,10 +93,16 @@ class UserProfileAuthView(context: Context, attrs: AttributeSet) : AbstractView<
         menu.setOnMenuItemClickListener({
             when(it.itemId) {
                 R.id.change_user ->{
-
+                    mPresenter.mRootPresenter.rootView?.showMessage("Изменение юзера")
                 }
-                R.id.delete_user ->{
-                    mPresenter.deleteUser()
+                R.id.logout ->{
+                    mPresenter.logOut()
+                }
+                R.id.add_album ->{
+                    addAlbum()
+                }
+                R.id.change_user_avatar->{
+                    showSourceDialog()
                 }
             }
             false
@@ -110,7 +116,7 @@ class UserProfileAuthView(context: Context, attrs: AttributeSet) : AbstractView<
         mUserNameTxt.setText(res?.name + "/" + res?.login)
         mAlbumCount.text = res?.albums?.size.toString()
         mCardCount.text = mPresenter.getCardCount(res)
-        //Picasso.with(context).load(mPresenter.getUserAvater()).into(mUserAvatar)
+        Picasso.with(context).load(mPresenter.getUserAvatar()).into(mUserAvatar)
 
         if(res?.albums!!.isEmpty()){
             mUserAlbumRecycler.visibility = View.GONE

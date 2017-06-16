@@ -12,27 +12,35 @@
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:layout_gravity="center"
+    >
     <ImageView
         android:id="@+id/user_avatar_img"
-        android:layout_width="50dp"
-        android:layout_height="100dp"
-        app:srcCompat="@drawable/ic_delete_black_24dp"/>
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        app:srcCompat="@drawable/ic_delete_black_24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp"
+        android:scaleType="centerCrop"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center_vertical"
-       >
+        >
         <TextView
             android:id="@+id/user_name_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="123"/>
         <RelativeLayout
             android:id="@+id/album_card_wrapper"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
             >
             <TextView
                 android:id="@+id/album_hint"
@@ -44,12 +52,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Карты"
-                android:layout_toRightOf="@+id/album_hint"/>
+                android:layout_toRightOf="@+id/album_hint"
+                android:layout_marginLeft="8dp"
+                />
             <TextView
                 android:id="@+id/album_count_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="5"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
                 android:layout_below="@+id/album_hint"/>
             <TextView
                 android:id="@+id/card_count_txt"
@@ -57,6 +69,8 @@
                 android:layout_height="wrap_content"
                 android:text="5"
                 android:layout_alignLeft="@id/card_hint"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
                 android:layout_below="@+id/card_hint"/>
         </RelativeLayout>
     </LinearLayout>

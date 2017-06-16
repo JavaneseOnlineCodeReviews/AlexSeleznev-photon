@@ -26,6 +26,7 @@ import com.applications.whazzup.photomapp.mvp.views.IRootView
 import com.applications.whazzup.photomapp.ui.activities.RootActivity
 import com.applications.whazzup.photomapp.ui.screens.user_profile_idle.UserProfileIdleScreen
 import com.applications.whazzup.photomapp.util.ConstantManager
+import com.applications.whazzup.photomapp.util.UriGetter
 import dagger.Provides
 import flow.Direction
 import flow.Flow
@@ -46,7 +47,7 @@ import java.util.*
 @Screen(R.layout.screen_user_profile)
 class UserProfileAuthScreen : AbstractScreen<RootActivity.RootComponent>() {
 
-    lateinit var mPhotoFile : File
+    lateinit var mPhotoFile: File
 
 
     override fun createScreenComponent(parentComponent: RootActivity.RootComponent): Any {
@@ -58,7 +59,7 @@ class UserProfileAuthScreen : AbstractScreen<RootActivity.RootComponent>() {
 
     inner class UserProfilePresenter : SubscribePresenter<UserProfileAuthView, UserProfileModel>() {
 
-        lateinit var mActivityresultSub : Disposable
+        lateinit var mActivityresultSub: Disposable
 
 
         override fun getRootView(): IRootView? {
@@ -71,12 +72,11 @@ class UserProfileAuthScreen : AbstractScreen<RootActivity.RootComponent>() {
 
         override fun onEnterScope(scope: MortarScope?) {
             super.onEnterScope(scope)
-
+            subscribeOnActivityResult()
         }
 
         override fun onLoad(savedInstanceState: Bundle?) {
             super.onLoad(savedInstanceState)
-            subscribeOnActivityResult()
             var res: UserRes? = null
             mModel.getUserById().subscribeOn(Schedulers.io())
                     .doOnNext { res = it }
@@ -95,10 +95,6 @@ class UserProfileAuthScreen : AbstractScreen<RootActivity.RootComponent>() {
             mRootPresenter.newActionBarBuilder()
                     .setVisible(true)
                     .setTitle("Профиль")
-                    .addAction(MenuItemHolder("Добавить альбом", R.layout.add_album_menu_item, listener = {
-                        view.addAlbum(it)
-                        true
-                    }))
                     .addAction(MenuItemHolder("Пункты меню", R.layout.dots_menu_item, listener = {
                         view.showPopupMenu(it)
                         true
@@ -131,19 +127,15 @@ class UserProfileAuthScreen : AbstractScreen<RootActivity.RootComponent>() {
         }
 
 
-        fun deleteUser() {
-            mModel.deleteUser().subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeBy(onComplete = {
-                        Flow.get(view).replaceTop(UserProfileIdleScreen(), Direction.REPLACE)
-                    })
+        fun logOut() {
             mModel.logOut()
+            Flow.get(view).replaceTop(UserProfileIdleScreen(), Direction.REPLACE)
         }
 
         fun chooseGallery() {
             if (rootView != null) {
                 val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
-                if (mRootPresenter. checkPermissionAndRequestIfNotGranted(permissions, ConstantManager.REQUEST_PERMISSION_READ_EXTERNAL_STORAGE)) {
+                if (mRootPresenter.checkPermissionAndRequestIfNotGranted(permissions, ConstantManager.REQUEST_PERMISSION_READ_EXTERNAL_STORAGE)) {
                     takePhotoFromGallery()
                 }
             }
@@ -159,8 +151,8 @@ class UserProfileAuthScreen : AbstractScreen<RootActivity.RootComponent>() {
 
         }
 
-        fun subscribeOnActivityResult(){
-            val activityResultObs = mRootPresenter.mActivityResultObs//.filter({ activityResultDto -> activityResultDto.resultCode === Activity.RESULT_OK })
+        fun subscribeOnActivityResult() {
+            val activityResultObs = mRootPresenter.mActivityResultObs.filter({ activityResultDto -> activityResultDto.resultCode === Activity.RESULT_OK })
             mActivityresultSub = subscribe(activityResultObs, object : ViewSubscriber<ActivityResultDto>() {
                 override fun onNext(activityResultDto: ActivityResultDto) {
                     handleActivityResult(activityResultDto)
@@ -168,48 +160,41 @@ class UserProfileAuthScreen : AbstractScreen<RootActivity.RootComponent>() {
             })
         }
 
-        fun getUserAvater(): String{
+        fun getUserAvatar(): String {
             return mModel.getUserAvatar()
         }
 
         fun handleActivityResult(activityResultDto: ActivityResultDto) {
-            when(activityResultDto.requestCode){
-                ConstantManager.REQUEST_PROFILE_PHOTO->{
-                    mRootPresenter.rootView?.showMessage("Галерея")
-                    if(activityResultDto.data!=null){
-                       var  photoUrl = activityResultDto.data.data.toString()
-                       /* mModel.uploadPhoto(photoUrl).subscribeOn(Schedulers.io())
+            when (activityResultDto.requestCode) {
+                ConstantManager.REQUEST_PROFILE_PHOTO -> {
+                    if (activityResultDto.data != null) {
+                        var photoUrl = UriGetter.getPath(view.context, activityResultDto.data.data)
+                        mModel.uploadPhoto(Uri.parse(photoUrl)).subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
-                                .doOnNext {mModel.saveAvatarUrl(it.avatarUrl) }
+                                .doOnNext { mModel.saveAvatarUrl(it.image) }
                                 .subscribeBy(onComplete = {
-
-                                })*/
-                        view.updateAvatarPhoto(Uri.parse(photoUrl))
-
-                    }
-                }
-                ConstantManager.REQUEST_PROFILE_PHOTO_CAMERA->{
-                    mRootPresenter.rootView?.showMessage("Камера")
-                    if(mPhotoFile!=null){
-                        view.updateAvatarPhoto(Uri.fromFile(mPhotoFile))
-                         mModel.uploadPhoto(Uri.fromFile(mPhotoFile)).subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .doOnNext {mModel.saveAvatarUrl(it.image) }
-                                .subscribeBy(onComplete = {
-                                view.updateAvatarPhoto(Uri.parse(mModel.getUserAvatar()))
+                                    view.updateAvatarPhoto(Uri.parse(mModel.getUserAvatar()))
                                 })
                     }
-
+                }
+                ConstantManager.REQUEST_PROFILE_PHOTO_CAMERA -> {
+                    view.updateAvatarPhoto(Uri.fromFile(mPhotoFile))
+                    mModel.uploadPhoto(Uri.fromFile(mPhotoFile)).subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .doOnNext { mModel.saveAvatarUrl(it.image) }
+                            .subscribeBy(onComplete = {
+                                view.updateAvatarPhoto(Uri.parse(mModel.getUserAvatar()))
+                            })
+                }
             }
-        }
         }
 
         fun chooseCamera() {
-            if(rootView!=null){
+            if (rootView != null) {
                 val permissions = arrayOf(WRITE_EXTERNAL_STORAGE, CAMERA)
-                if(mRootPresenter.checkPermissionAndRequestIfNotGranted(permissions, ConstantManager.REQUEST_PERMISSON_CAMERA)){
+                if (mRootPresenter.checkPermissionAndRequestIfNotGranted(permissions, ConstantManager.REQUEST_PERMISSON_CAMERA)) {
                     mPhotoFile = createImageFile()
-                    if(mPhotoFile == null){
+                    if (mPhotoFile == null) {
                         rootView?.showMessage("Файл не может быть создан")
                     }
                     takePhotoFromCamera()
@@ -229,12 +214,11 @@ class UserProfileAuthScreen : AbstractScreen<RootActivity.RootComponent>() {
             val dateTimeInstance = SimpleDateFormat.getTimeInstance(DateFormat.MEDIUM)
             val timeStamp = dateTimeInstance.format(Date())
             val imageFileName = "IMG_" + timeStamp
-            val storageDir =view.context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+            val storageDir = view.context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
             val imageFile = File.createTempFile(imageFileName, ".jpg", storageDir)
             return imageFile
         }
     }
-
 
 
     //endregion
@@ -242,25 +226,25 @@ class UserProfileAuthScreen : AbstractScreen<RootActivity.RootComponent>() {
     //region===============================DI==========================
 
     @dagger.Module
-    inner class UserProfileModule{
+    inner class UserProfileModule {
         @Provides
-        @DaggerScope(UserProfileAuthScreen:: class)
-        internal fun providePresenter(): UserProfilePresenter{
+        @DaggerScope(UserProfileAuthScreen::class)
+        internal fun providePresenter(): UserProfilePresenter {
             return UserProfilePresenter()
         }
 
         @Provides
-        @DaggerScope(UserProfileAuthScreen:: class)
-        internal  fun provideModel(): UserProfileModel{
-            return  UserProfileModel()
+        @DaggerScope(UserProfileAuthScreen::class)
+        internal fun provideModel(): UserProfileModel {
+            return UserProfileModel()
         }
     }
 
     @dagger.Component(dependencies = arrayOf(RootActivity.RootComponent::class), modules = arrayOf(UserProfileModule::class))
     @DaggerScope(UserProfileAuthScreen::class)
-    interface Component{
-        fun inject(view : UserProfileAuthView)
-        fun inject(presenter : UserProfilePresenter)
+    interface Component {
+        fun inject(view: UserProfileAuthView)
+        fun inject(presenter: UserProfilePresenter)
         fun inject(adapter: UserProfileAlbumRecycler)
     }
 
