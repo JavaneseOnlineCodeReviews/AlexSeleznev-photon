@@ -23,7 +23,9 @@ import android.widget.*
 import butterknife.OnClick
 import com.applications.whazzup.photomapp.data.network.req.AddAlbumReq
 import com.applications.whazzup.photomapp.data.network.res.user.UserRes
+import com.applications.whazzup.photomapp.ui.screens.album_info.AlbumInfoScreen
 import com.squareup.picasso.Picasso
+import flow.Flow
 import kotlinx.android.synthetic.main.screen_user_profile.view.*
 import java.io.IOException
 
@@ -129,6 +131,7 @@ class UserProfileAuthView(context: Context, attrs: AttributeSet) : AbstractView<
             with(user_info_album_recycler){
                 layoutManager = GridLayoutManager(context, 2)
                 adapter = userAdapter
+                (adapter as UserProfileAlbumRecycler).addListener { Flow.get(context).set(AlbumInfoScreen()) }
         }
         }
     }

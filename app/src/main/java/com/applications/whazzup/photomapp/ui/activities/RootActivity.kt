@@ -326,7 +326,8 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
     }
 
     override fun setBackArrow(enable: Boolean) {
-
+        mActionBar.setDisplayHomeAsUpEnabled(enable)
+        mActionBar.setHomeAsUpIndicator(R.drawable.ic_custom_back_black_24dp)
     }
 
     override fun setMenuItem(items: List<MenuItemHolder>) {
