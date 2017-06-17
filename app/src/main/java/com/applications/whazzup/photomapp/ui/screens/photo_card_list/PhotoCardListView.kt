@@ -19,7 +19,8 @@ class PhotoCardListView(context: Context, attrs: AttributeSet) : AbstractView<Ph
         with(card_lit_recycler){
             layoutManager = GridLayoutManager(context, 2)
             adapter = PhotoCardListAdapter(mPresenter.mRootPresenter.mRootModel.cardList)
-            (adapter as PhotoCardListAdapter).addListener({ Flow.get(context).set(PhotoDetailInfoScreen()) })
+            (adapter as PhotoCardListAdapter).addListener({
+                Flow.get(context).set(PhotoDetailInfoScreen((adapter as PhotoCardListAdapter).getItem(it))) })
         }
     }
 

@@ -47,6 +47,7 @@ class PhotoCardListAdapter(cardList : List<PhotoCardDto>) : RecyclerView.Adapter
         return list.size
     }
 
+    fun getItem(position: Int): PhotoCardDto = list[position]
 
     class ViewHolder(item: View, onItemClick: ((Int) -> Unit)?) : RecyclerView.ViewHolder(item), View.OnClickListener {
 

@@ -1,6 +1,8 @@
 package com.applications.whazzup.photomapp.ui.screens.photo_detail_info
 
+import android.os.Bundle
 import com.applications.whazzup.photomapp.R
+import com.applications.whazzup.photomapp.data.storage.dto.PhotoCardDto
 import com.applications.whazzup.photomapp.di.DaggerScope
 import com.applications.whazzup.photomapp.di.DaggerService
 import com.applications.whazzup.photomapp.flow.AbstractScreen
@@ -14,7 +16,10 @@ import flow.TreeKey
 import mortar.MortarScope
 
 @Screen(R.layout.screen_photo_detail_info)
-class PhotoDetailInfoScreen : AbstractScreen<RootActivity.RootComponent>(), TreeKey {
+class PhotoDetailInfoScreen(photoCard: PhotoCardDto) : AbstractScreen<RootActivity.RootComponent>(), TreeKey {
+
+    var photoCard: PhotoCardDto = photoCard
+
     override fun createScreenComponent(parentComponent: RootActivity.RootComponent): Any {
         return DaggerPhotoDetailInfoScreen_Component.builder()
                 .rootComponent(parentComponent)
@@ -26,6 +31,11 @@ class PhotoDetailInfoScreen : AbstractScreen<RootActivity.RootComponent>(), Tree
 
     //region ================= Presenter =================
     inner class PhotoDetailInfoPresenter : AbstractPresenter<PhotoDetailInfoView, PhotoDetailInfoModel>() {
+
+        override fun onLoad(savedInstanceState: Bundle?) {
+            super.onLoad(savedInstanceState)
+            view.showImageInfo(photoCard)
+        }
 
         override fun initToolbar() {
             mRootPresenter.newActionBarBuilder()
