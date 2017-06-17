@@ -56,13 +56,19 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackground"
-                android:gravity="center"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:paddingBottom="16dp"
                 android:paddingLeft="24dp"
                 android:paddingRight="24dp"
                 android:paddingTop="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
 
                 <ImageView
                     android:layout_width="32dp"
@@ -141,7 +147,12 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!--todo: Дописать разметку для отображения тегов-->
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/tag_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
 
         </android.support.v4.widget.NestedScrollView>
     </android.support.design.widget.CoordinatorLayout>
