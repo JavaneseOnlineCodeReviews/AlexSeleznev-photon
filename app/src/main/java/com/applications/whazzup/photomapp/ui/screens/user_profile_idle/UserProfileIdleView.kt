@@ -36,6 +36,11 @@ class UserProfileIdleView(context: Context, attrs: AttributeSet): AbstractView<U
         mPresenter.mRootPresenter.rootView?.createLoginDialog()
     }
 
+    @OnClick(R.id.signIn_btn)
+    fun clickToSignBtn(){
+        mPresenter.mRootPresenter.rootView?.createSignInAlertDialog()
+    }
+
     fun changeScreen(){
         Flow.get(this).replaceTop(UserProfileAuthScreen(), Direction.REPLACE)
     }
