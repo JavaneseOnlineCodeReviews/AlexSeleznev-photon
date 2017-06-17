@@ -12,19 +12,21 @@ import mortar.MortarScope
 
 class SearchAdapter : PagerAdapter() {
 
-    override fun isViewFromObject(view: View?, `object`: Any?): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    lateinit var screen: AbstractScreen<*>
+
+
+    override fun isViewFromObject(view: View, `object`: Any?): Boolean {
+        return view.equals(`object`)
     }
 
-    override fun instantiateItem(container: ViewGroup?, position: Int): Any {
-        var screen: AbstractScreen<*>? = null
+    override fun instantiateItem(container: ViewGroup, position: Int): Any {
 
         when (position) {
             0 -> screen = FilterScreen()
-            1 -> screen = FilterScreen()
+//            1 -> screen = FilterScreen()
         }
 
-        val screenScope = createScreenScopeFromContext(container!!.context, screen)
+        val screenScope = createScreenScopeFromContext(container.context, screen)
         val screenContext = screenScope.createContext(container.context)
 
         val newView = LayoutInflater
@@ -35,27 +37,31 @@ class SearchAdapter : PagerAdapter() {
     }
 
     override fun getCount(): Int {
-        return 2
+        return 1
+    }
+
+    override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
+        container.removeView(`object` as View)
     }
 
     override fun getPageTitle(position: Int): CharSequence {
-        when(position) {
+        when (position) {
             0 -> return "Поиск"
             1 -> return "Фильтры"
         }
         return ""
     }
 
-    private fun createScreenScopeFromContext(context: Context, screen: AbstractScreen<*>?): MortarScope {
+    private fun createScreenScopeFromContext(context: Context, screen: AbstractScreen<*>): MortarScope {
         val parentScope = MortarScope.getScope(context)
-        var childScope: MortarScope = parentScope.findChild(screen!!.scopeName)
+        var childScope: MortarScope = parentScope.findChild(screen.scopeName)
 
         if (childScope == null) {
-            val screenComponent = screen!!.createScreenComponent(parentScope.getService(DaggerService.SERVICE_NAME)) ?: throw IllegalStateException(" don`t create screen component for " + screen!!.scopeName)
+            val screenComponent = screen?.createScreenComponent(parentScope.getService(DaggerService.SERVICE_NAME))
 
             childScope = parentScope.buildChild()
                     .withService(DaggerService.SERVICE_NAME, screenComponent)
-                    .build(screen!!.scopeName)
+                    .build(screen.scopeName)
         }
 
         return childScope

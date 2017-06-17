@@ -7,21 +7,25 @@ import com.applications.whazzup.photomapp.flow.AbstractScreen
 import com.applications.whazzup.photomapp.flow.Screen
 import com.applications.whazzup.photomapp.mvp.models.SearchModel
 import com.applications.whazzup.photomapp.mvp.presenters.AbstractPresenter
-import com.applications.whazzup.photomapp.mvp.views.ISearchView
+import com.applications.whazzup.photomapp.mvp.presenters.RootPresenter
 import com.applications.whazzup.photomapp.ui.activities.RootActivity
+import com.applications.whazzup.photomapp.ui.screens.photo_card_list.PhotoCardListScreen
 import dagger.Component
 import dagger.Module
 import dagger.Provides
+import flow.TreeKey
 import mortar.MortarScope
 
 @Screen(R.layout.screen_search)
-class SearchScreen : AbstractScreen<RootActivity.RootComponent>() {
+class SearchScreen : AbstractScreen<RootActivity.RootComponent>(), TreeKey {
     override fun createScreenComponent(parentComponent: RootActivity.RootComponent): Any {
         return DaggerSearchScreen_SearchPresenterComponent.builder()
                 .rootComponent(parentComponent)
                 .searchPresenterModule(SearchPresenterModule())
                 .build()
     }
+
+    override fun getParentKey(): Any = PhotoCardListScreen()
 
     inner class SearchPresenter : AbstractPresenter<SearchView, SearchModel>() {
         override fun initDagger(scope: MortarScope) {
@@ -57,6 +61,8 @@ class SearchScreen : AbstractScreen<RootActivity.RootComponent>() {
     interface SearchPresenterComponent {
         fun inject(presenter : SearchPresenter)
         fun inject(view : SearchView)
+
+        val rootPresenter : RootPresenter
     }
 
 

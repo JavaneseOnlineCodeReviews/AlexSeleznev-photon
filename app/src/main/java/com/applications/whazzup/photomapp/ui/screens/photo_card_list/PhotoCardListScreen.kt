@@ -14,7 +14,7 @@ import com.applications.whazzup.photomapp.mvp.models.PhotoCardListModel
 import com.applications.whazzup.photomapp.mvp.presenters.AbstractPresenter
 import com.applications.whazzup.photomapp.mvp.presenters.MenuItemHolder
 import com.applications.whazzup.photomapp.ui.activities.RootActivity
-import com.applications.whazzup.photomapp.ui.screens.search.filter.FilterScreen
+import com.applications.whazzup.photomapp.ui.screens.search.SearchScreen
 import dagger.Provides
 import flow.Flow
 import mortar.MortarScope
@@ -35,7 +35,7 @@ class PhotoCardListScreen : AbstractScreen<RootActivity.RootComponent>() {
                     .setVisible(true)
                     .setTitle("Фотон")
                     .addAction(MenuItemHolder("Поиск", R.layout.search_menu_item,listener =  {
-                        showFilterScreen()
+                        showSearchScreen()
                         true
                     }))
                     .addAction(MenuItemHolder("Настройки", R.layout.settings_menu_item,listener =  {
@@ -45,8 +45,8 @@ class PhotoCardListScreen : AbstractScreen<RootActivity.RootComponent>() {
                     .build()
         }
 
-        fun showFilterScreen() {
-            Flow.get(view).set(FilterScreen())
+        fun showSearchScreen() {
+            Flow.get(view).set(SearchScreen())
         }
 
         fun showPopUpMenu(view : View){
