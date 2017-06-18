@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.BottomNavigationView
 import android.support.design.widget.CoordinatorLayout
+import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -329,6 +330,21 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
 
     }
 
+    override fun setTabLayout(viewPager: ViewPager?) {
+        val tabView = TabLayout(this) //создаём tab layout
+        tabView.setupWithViewPager(viewPager)      //связываем его с ViewPager
+        mAppBarLayout.addView(tabView) //добавляем табы в appbar
+        viewPager?.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabView))
+        //регистрируем обработчик переключения по табам для viewPager
+    }
+
+    override fun removeTabLayout() {
+        val tabView = mAppBarLayout.getChildAt(1)
+        if (tabView != null && tabView is TabLayout) { //проверяем есть ли у appBar дочерние View, являющиеся TabLayout
+            mAppBarLayout.removeView(tabView)
+        }
+    }
+
     override fun setMenuItem(items: List<MenuItemHolder>) {
         mActionBarMenuItem = items as MutableList<MenuItemHolder>
         supportInvalidateOptionsMenu()
@@ -349,16 +365,6 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
         }
 
         return super.onPrepareOptionsMenu(menu)
-    }
-
-
-
-    override fun setTabLayout(viewPager: ViewPager?) {
-
-    }
-
-    override fun removeTabLayout() {
-
     }
 
     // endregion

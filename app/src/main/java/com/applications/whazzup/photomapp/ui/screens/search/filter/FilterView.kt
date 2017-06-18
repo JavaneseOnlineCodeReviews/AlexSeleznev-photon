@@ -1,4 +1,4 @@
-package com.applications.whazzup.photomapp.ui.screens.filter
+package com.applications.whazzup.photomapp.ui.screens.search.filter
 
 import android.content.Context
 import android.util.AttributeSet

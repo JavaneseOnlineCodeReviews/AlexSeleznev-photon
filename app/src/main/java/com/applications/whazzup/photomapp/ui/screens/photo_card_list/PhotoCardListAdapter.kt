@@ -46,6 +46,5 @@ class PhotoCardListAdapter(cardList : List<PhotoCardDto>) : RecyclerView.Adapter
         val picture = item.card_image
         val favoriteCount = item.favorite_count_txt
         val viewCount = item.views_count_txt
-
     }
 }

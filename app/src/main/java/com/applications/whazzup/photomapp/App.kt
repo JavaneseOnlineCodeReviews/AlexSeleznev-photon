@@ -2,9 +2,9 @@ package com.applications.whazzup.photomapp
 
 
 import android.app.Application
+import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
-
 import com.applications.whazzup.photomapp.di.DaggerService
 import com.applications.whazzup.photomapp.di.components.AppComponent
 import com.applications.whazzup.photomapp.di.components.DaggerAppComponent
@@ -17,7 +17,6 @@ import com.applications.whazzup.photomapp.ui.activities.RootActivity
 import com.facebook.stetho.Stetho
 import com.uphyca.stetho_realm.RealmInspectorModulesProvider
 import io.realm.Realm
-
 import mortar.MortarScope
 import mortar.bundler.BundleServiceRunner
 
@@ -27,6 +26,10 @@ class App : Application() {
 
     override fun getSystemService(name: String): Any {
         return if (mRootScope != null && mRootScope!!.hasService(name)) mRootScope!!.getService<Any>(name) else super.getSystemService(name)
+    }
+
+    init {
+        instance = this
     }
 
     override fun onCreate() {
@@ -68,6 +71,12 @@ class App : Application() {
     }
 
     companion object {
+
+        private var instance : App? = null
+
+        fun applicationContezt() : Context {
+            return instance!!.applicationContext
+        }
 
         var appComponent: AppComponent? = null
             private set

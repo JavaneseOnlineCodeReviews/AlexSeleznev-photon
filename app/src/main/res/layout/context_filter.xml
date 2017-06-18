@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.applications.whazzup.photomapp.ui.screens.filter.FilterView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.applications.whazzup.photomapp.ui.screens.search.filter.FilterView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -17,17 +16,15 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <LinearLayout
-                style="@style/TitleFilter">
+            <LinearLayout style="@style/TitleFilter">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Блюда"/>
+                    android:text="Блюда" />
             </LinearLayout>
 
-            <LinearLayout
-                style="@style/ItemFilterWrapper">
+            <LinearLayout style="@style/ItemFilterWrapper">
 
                 <LinearLayout
                     android:id="@+id/meat_filter_wrapper"
@@ -35,11 +32,11 @@
 
                     <ImageView
                         style="@style/ImageItemFilter"
-                        app:srcCompat="@drawable/ic_custom_meat_black_24dp"/>
+                        app:srcCompat="@drawable/ic_custom_meat_black_24dp" />
 
                     <TextView
                         style="@style/TitleItemFilter"
-                        android:text="@string/meat_title"/>
+                        android:text="@string/meat_title" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -48,11 +45,11 @@
 
                     <ImageView
                         style="@style/ImageItemFilter"
-                        app:srcCompat="@drawable/ic_custom_fish_black_24dp"/>
+                        app:srcCompat="@drawable/ic_custom_fish_black_24dp" />
 
                     <TextView
                         style="@style/TitleItemFilter"
-                        android:text="@string/fish_title"/>
+                        android:text="@string/fish_title" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -61,11 +58,11 @@
 
                     <ImageView
                         style="@style/ImageItemFilter"
-                        app:srcCompat="@drawable/ic_custom_vegetables_black_24dp"/>
+                        app:srcCompat="@drawable/ic_custom_vegetables_black_24dp" />
 
                     <TextView
                         style="@style/TitleItemFilter"
-                        android:text="@string/vegetables_title"/>
+                        android:text="@string/vegetables_title" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -74,11 +71,11 @@
 
                     <ImageView
                         style="@style/ImageItemFilter"
-                        app:srcCompat="@drawable/ic_custom_fruit_black_24dp"/>
+                        app:srcCompat="@drawable/ic_custom_fruit_black_24dp" />
 
                     <TextView
                         style="@style/TitleItemFilter"
-                        android:text="@string/fruit_title"/>
+                        android:text="@string/fruit_title" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -87,11 +84,11 @@
 
                     <ImageView
                         style="@style/ImageItemFilter"
-                        app:srcCompat="@drawable/ic_custom_cheese_black_24dp"/>
+                        app:srcCompat="@drawable/ic_custom_cheese_black_24dp" />
 
                     <TextView
                         style="@style/TitleItemFilter"
-                        android:text="@string/cheese_title"/>
+                        android:text="@string/cheese_title" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -100,11 +97,11 @@
 
                     <ImageView
                         style="@style/ImageItemFilter"
-                        app:srcCompat="@drawable/ic_custom_cocktail_black_24dp"/>
+                        app:srcCompat="@drawable/ic_dish_desserts" />
 
                     <TextView
                         style="@style/TitleItemFilter"
-                        android:text="@string/dessert_title"/>
+                        android:text="@string/dessert_title" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -113,113 +110,233 @@
 
                     <ImageView
                         style="@style/ImageItemFilter"
-                        app:srcCompat="@drawable/ic_custom_drinks_black_24dp"/>
+                        app:srcCompat="@drawable/ic_custom_drinks_black_24dp" />
 
                     <TextView
                         style="@style/TitleItemFilter"
-                        android:text="@string/drinks_title"/>
+                        android:text="@string/drinks_title" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout style="@style/TitleFilter">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Оттенки" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/ItemFilterWrapper">
+
+                <LinearLayout
+                    android:id="@+id/red_filter_wrapper"
+                    style="@style/ItemIconFilterWrapper">
+
+                    <ImageView
+                        android:id="@+id/red_imageView"
+                        style="@style/ImageItemFilter"
+                        android:tint="@color/colorRed"
+                        app:srcCompat="@drawable/ic_circle_24dp" />
+
+                    <TextView
+                        style="@style/TitleItemFilter"
+                        android:text="@string/red" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/orange_filter_wrapper"
+                    style="@style/ItemIconFilterWrapper">
+
+                    <ImageView
+                        android:id="@+id/orange_imageView"
+                        style="@style/ImageItemFilter"
+                        android:tint="@color/colorOrange"
+                        app:srcCompat="@drawable/ic_circle_24dp" />
+
+                    <TextView
+                        style="@style/TitleItemFilter"
+                        android:text="@string/orange" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/yellow_filter_wrapper"
+                    style="@style/ItemIconFilterWrapper">
+
+                    <ImageView
+                        android:id="@+id/yellow_imageView"
+                        style="@style/ImageItemFilter"
+                        android:tint="@color/colorYellow"
+                        app:srcCompat="@drawable/ic_circle_24dp" />
+
+                    <TextView
+                        style="@style/TitleItemFilter"
+                        android:text="@string/yellow" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/green_filter_wrapper"
+                    style="@style/ItemIconFilterWrapper">
+
+                    <ImageView
+                        android:id="@+id/green_imageView"
+                        style="@style/ImageItemFilter"
+                        android:tint="@color/colorGreen"
+                        app:srcCompat="@drawable/ic_circle_24dp" />
+
+                    <TextView
+                        style="@style/TitleItemFilter"
+                        android:text="@string/green" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/blue_filter_wrapper"
+                    style="@style/ItemIconFilterWrapper">
+
+                    <ImageView
+                        android:id="@+id/blue_imageView"
+                        style="@style/ImageItemFilter"
+                        android:tint="@color/colorBlue"
+                        app:srcCompat="@drawable/ic_circle_24dp" />
+
+                    <TextView
+                        style="@style/TitleItemFilter"
+                        android:text="@string/blue" />
                 </LinearLayout>
 
             </LinearLayout>
 
             <LinearLayout
-                style="@style/TitleFilter">
+                style="@style/ItemFilterWrapper"
+                android:layout_marginTop="@dimen/spacing_normal_16"
+                >
+
+                <LinearLayout
+                    android:id="@+id/navy_blue_filter_wrapper"
+                    style="@style/ItemIconFilterWrapper">
+
+                    <ImageView
+                        android:id="@+id/navy_blue_imageView"
+                        style="@style/ImageItemFilter"
+                        android:tint="@color/colorNavyBlue"
+                        app:srcCompat="@drawable/ic_circle_24dp" />
+
+                    <TextView
+                        style="@style/TitleItemFilter"
+                        android:text="@string/navy_blue" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/purple_filter_wrapper"
+                    style="@style/ItemIconFilterWrapper">
+
+                    <ImageView
+                        android:id="@+id/purple_imageView"
+                        style="@style/ImageItemFilter"
+                        android:tint="@color/colorPurple"
+                        app:srcCompat="@drawable/ic_circle_24dp" />
+
+                    <TextView
+                        style="@style/TitleItemFilter"
+                        android:text="@string/purple" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/brown_filter_wrapper"
+                    style="@style/ItemIconFilterWrapper">
+
+                    <ImageView
+                        android:id="@+id/brown_imageView"
+                        style="@style/ImageItemFilter"
+                        android:tint="@color/colorBrown"
+                        app:srcCompat="@drawable/ic_circle_24dp" />
+
+                    <TextView
+                        style="@style/TitleItemFilter"
+                        android:text="@string/brown" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/black_filter_wrapper"
+                    style="@style/ItemIconFilterWrapper">
+
+                    <ImageView
+                        android:id="@+id/black_imageView"
+                        style="@style/ImageItemFilter"
+                        android:tint="@color/colorBlack"
+                        app:srcCompat="@drawable/ic_circle_24dp" />
+
+                    <TextView
+                        style="@style/TitleItemFilter"
+                        android:text="@string/black" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/white_filter_wrapper"
+                    style="@style/ItemIconFilterWrapper">
+
+                    <ImageView
+                        android:id="@+id/white_imageView"
+                        style="@style/ImageItemFilter"
+                        android:tint="@color/colorWhite"
+                        app:srcCompat="@drawable/ic_circle_24dp" />
+
+                    <TextView
+                        style="@style/TitleItemFilter"
+                        android:text="@string/white" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout style="@style/TitleFilter">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Оттенки"/>
+                    android:text="Оформление" />
             </LinearLayout>
 
-            <!--<LinearLayout-->
-            <!--style="@style/ItemFilterWrapper">-->
+            <LinearLayout style="@style/ItemFilterWrapper">
 
-            <!--<ImageView-->
-            <!--style="@style/ItemIconFilter"-->
-            <!--app:srcCompat="@drawable/ic_red"/>-->
+                <LinearLayout
+                    android:id="@+id/normal_filter_wrapper"
+                    style="@style/ItemIconFilterWrapper">
 
-            <!--<ImageView-->
-            <!--style="@style/ItemIconFilter"-->
-            <!--app:srcCompat="@drawable/"/>-->
+                    <ImageView
+                        android:id="@+id/normal_imageView"
+                        style="@style/ImageItemFilter"
+                        app:srcCompat="@drawable/ic_custom_tea_black_24dp" />
 
-            <!--<ImageView-->
-            <!--style="@style/ItemIconFilter"-->
-            <!--app:srcCompat="@drawable/"/>-->
+                    <TextView
+                        style="@style/TitleItemFilter"
+                        android:text="@string/normal_decor" />
+                </LinearLayout>
 
-            <!--<ImageView-->
-            <!--style="@style/ItemIconFilter"-->
-            <!--app:srcCompat="@drawable/"/>-->
+                <LinearLayout
+                    android:id="@+id/festive_filter_wrapper"
+                    style="@style/ItemIconFilterWrapper">
 
-            <!--<ImageView-->
-            <!--style="@style/ItemIconFilter"-->
-            <!--app:srcCompat="@drawable/"/>-->
+                    <ImageView
+                        android:id="@+id/festive_imageView"
+                        style="@style/ImageItemFilter"
+                        app:srcCompat="@drawable/ic_custom_cocktail_black_24dp" />
 
-            <!--<ImageView-->
-            <!--style="@style/ItemIconFilter"-->
-            <!--app:srcCompat="@drawable/"/>-->
-            <!---->
-            <!--</LinearLayout>-->
-            <!--<LinearLayout-->
-            <!--style="@style/ItemFilterWrapper">-->
+                    <TextView
+                        style="@style/TitleItemFilter"
+                        android:text="@string/festive_decor" />
+                </LinearLayout>
 
-            <!--<ImageView-->
-            <!--style="@style/ItemIconFilter"-->
-            <!--app:srcCompat="@drawable/ic_red"/>-->
+            </LinearLayout>
 
-            <!--<ImageView-->
-            <!--style="@style/ItemIconFilter"-->
-            <!--app:srcCompat="@drawable/"/>-->
-
-            <!--<ImageView-->
-            <!--style="@style/ItemIconFilter"-->
-            <!--app:srcCompat="@drawable/"/>-->
-
-            <!--<ImageView-->
-            <!--style="@style/ItemIconFilter"-->
-            <!--app:srcCompat="@drawable/"/>-->
-
-            <!--<ImageView-->
-            <!--style="@style/ItemIconFilter"-->
-            <!--app:srcCompat="@drawable/"/>-->
-
-            <!--<ImageView-->
-            <!--style="@style/ItemIconFilter"-->
-            <!--app:srcCompat="@drawable/"/>-->
-            <!---->
-            <!--</LinearLayout>-->
-
-            <LinearLayout
-                style="@style/TitleFilter">
+            <LinearLayout style="@style/TitleFilter">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Оформление"/>
+                    android:text="Температура" />
             </LinearLayout>
 
-            <!--<LinearLayout-->
-            <!--style="@style/ItemFilterWrapper">-->
-
-            <!--<ImageView-->
-            <!--style="@style/ItemIconFilter"-->
-            <!--app:srcCompat="@drawable/"/>-->
-
-            <!--<ImageView-->
-            <!--style="@style/ItemIconFilter"-->
-            <!--app:srcCompat="@drawable/"/>-->
-            <!--</LinearLayout>-->
-
-            <LinearLayout
-                style="@style/TitleFilter">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Температура"/>
-            </LinearLayout>
-
-            <LinearLayout
-                style="@style/ItemFilterWrapper">
+            <LinearLayout style="@style/ItemFilterWrapper">
 
                 <LinearLayout
                     android:id="@+id/hot_temperature_filter_wrapper"
@@ -227,11 +344,11 @@
 
                     <ImageView
                         style="@style/ImageItemFilter"
-                        app:srcCompat="@drawable/ic_custom_temperature_hot_black_24dp"/>
+                        app:srcCompat="@drawable/ic_custom_temperature_hot_black_24dp" />
 
                     <TextView
                         style="@style/TitleItemFilter"
-                        android:text="@string/hot_temperature_title"/>
+                        android:text="@string/hot_temperature_title" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -240,11 +357,11 @@
 
                     <ImageView
                         style="@style/ImageItemFilter"
-                        app:srcCompat="@drawable/ic_custom_temperature_comfort_black_24dp"/>
+                        app:srcCompat="@drawable/ic_custom_temperature_comfort_black_24dp" />
 
                     <TextView
                         style="@style/TitleItemFilter"
-                        android:text="@string/comfort_temperature_title"/>
+                        android:text="@string/comfort_temperature_title" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -253,25 +370,23 @@
 
                     <ImageView
                         style="@style/ImageItemFilter"
-                        app:srcCompat="@drawable/ic_custom_temperature_cold_black_24dp"/>
+                        app:srcCompat="@drawable/ic_custom_temperature_cold_black_24dp" />
 
                     <TextView
                         style="@style/TitleItemFilter"
-                        android:text="@string/cold_temperature_title"/>
+                        android:text="@string/cold_temperature_title" />
                 </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
-                style="@style/TitleFilter">
+            <LinearLayout style="@style/TitleFilter">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Свет"/>
+                    android:text="Свет" />
             </LinearLayout>
 
-            <LinearLayout
-                style="@style/ItemFilterWrapper">
+            <LinearLayout style="@style/ItemFilterWrapper">
 
                 <LinearLayout
                     android:id="@+id/natural_light_filter_wrapper"
@@ -279,11 +394,11 @@
 
                     <ImageView
                         style="@style/ImageItemFilter"
-                        app:srcCompat="@drawable/ic_custom_light_natural_black_24dp"/>
+                        app:srcCompat="@drawable/ic_custom_light_natural_black_24dp" />
 
                     <TextView
                         style="@style/TitleItemFilter"
-                        android:text="@string/natural_light_title"/>
+                        android:text="@string/natural_light_title" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -292,11 +407,11 @@
 
                     <ImageView
                         style="@style/ImageItemFilter"
-                        app:srcCompat="@drawable/ic_custom_light_synthetic_black_24dp"/>
+                        app:srcCompat="@drawable/ic_custom_light_synthetic_black_24dp" />
 
                     <TextView
                         style="@style/TitleItemFilter"
-                        android:text="@string/synthetic_light_title"/>
+                        android:text="@string/synthetic_light_title" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -305,25 +420,23 @@
 
                     <ImageView
                         style="@style/ImageItemFilter"
-                        app:srcCompat="@drawable/ic_custom_light_mixed_black_24dp"/>
+                        app:srcCompat="@drawable/ic_custom_light_mixed_black_24dp" />
 
                     <TextView
                         style="@style/TitleItemFilter"
-                        android:text="@string/mixed_light_title"/>
+                        android:text="@string/mixed_light_title" />
                 </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
-                style="@style/TitleFilter">
+            <LinearLayout style="@style/TitleFilter">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Направление света"/>
+                    android:text="Направление света" />
             </LinearLayout>
 
-            <LinearLayout
-                style="@style/ItemFilterWrapper">
+            <LinearLayout style="@style/ItemFilterWrapper">
 
                 <LinearLayout
                     android:id="@+id/dir_front_light_filter_wrapper"
@@ -331,11 +444,11 @@
 
                     <ImageView
                         style="@style/ImageItemFilter"
-                        app:srcCompat="@drawable/ic_custom_light_dir_front_black_24dp"/>
+                        app:srcCompat="@drawable/ic_custom_light_dir_front_black_24dp" />
 
                     <TextView
                         style="@style/TitleItemFilter"
-                        android:text="@string/dir_front_light_title"/>
+                        android:text="@string/dir_front_light_title" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -344,11 +457,11 @@
 
                     <ImageView
                         style="@style/ImageItemFilter"
-                        app:srcCompat="@drawable/ic_custom_light_dir_back_black_24dp"/>
+                        app:srcCompat="@drawable/ic_custom_light_dir_back_black_24dp" />
 
                     <TextView
                         style="@style/TitleItemFilter"
-                        android:text="@string/dir_back_light_title"/>
+                        android:text="@string/dir_back_light_title" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -357,11 +470,11 @@
 
                     <ImageView
                         style="@style/ImageItemFilter"
-                        app:srcCompat="@drawable/ic_custom_light_dir_side_black_24dp"/>
+                        app:srcCompat="@drawable/ic_custom_light_dir_side_black_24dp" />
 
                     <TextView
                         style="@style/TitleItemFilter"
-                        android:text="@string/dir_side_light_title"/>
+                        android:text="@string/dir_side_light_title" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -370,26 +483,24 @@
 
                     <ImageView
                         style="@style/ImageItemFilter"
-                        app:srcCompat="@drawable/ic_custom_light_dir_mixed"/>
+                        app:srcCompat="@drawable/ic_custom_light_dir_mixed" />
 
                     <TextView
                         style="@style/TitleItemFilter"
-                        android:text="@string/dir_mixed_light_title"/>
+                        android:text="@string/dir_mixed_light_title" />
                 </LinearLayout>
 
             </LinearLayout>
 
-            <LinearLayout
-                style="@style/TitleFilter">
+            <LinearLayout style="@style/TitleFilter">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Источник света"/>
+                    android:text="Источник света" />
             </LinearLayout>
 
-            <LinearLayout
-                style="@style/ItemFilterWrapper">
+            <LinearLayout style="@style/ItemFilterWrapper">
 
                 <LinearLayout
                     android:id="@+id/one_light_count_filter_wrapper"
@@ -397,11 +508,11 @@
 
                     <ImageView
                         style="@style/ImageItemFilter"
-                        app:srcCompat="@drawable/ic_custom_light_count_1_black_24dp"/>
+                        app:srcCompat="@drawable/ic_custom_light_count_1_black_24dp" />
 
                     <TextView
                         style="@style/TitleItemFilter"
-                        android:text="@string/one_light_count_title"/>
+                        android:text="@string/one_light_count_title" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -410,11 +521,11 @@
 
                     <ImageView
                         style="@style/ImageItemFilter"
-                        app:srcCompat="@drawable/ic_custom_light_count_2_black_24dp"/>
+                        app:srcCompat="@drawable/ic_custom_light_count_2_black_24dp" />
 
                     <TextView
                         style="@style/TitleItemFilter"
-                        android:text="@string/two_light_count_title"/>
+                        android:text="@string/two_light_count_title" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -423,11 +534,11 @@
 
                     <ImageView
                         style="@style/ImageItemFilter"
-                        app:srcCompat="@drawable/ic_custom_light_count_3_black_24dp"/>
+                        app:srcCompat="@drawable/ic_custom_light_count_3_black_24dp" />
 
                     <TextView
                         style="@style/TitleItemFilter"
-                        android:text="@string/three_light_count_title"/>
+                        android:text="@string/three_light_count_title" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -435,4 +546,4 @@
 
     </android.support.v4.widget.NestedScrollView>
 
-</com.applications.whazzup.photomapp.ui.screens.filter.FilterView>
+</com.applications.whazzup.photomapp.ui.screens.search.filter.FilterView>
