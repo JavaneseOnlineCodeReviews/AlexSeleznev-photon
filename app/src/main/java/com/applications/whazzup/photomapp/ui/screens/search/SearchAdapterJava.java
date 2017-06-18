@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.applications.whazzup.photomapp.di.DaggerService;
 import com.applications.whazzup.photomapp.flow.AbstractScreen;
 import com.applications.whazzup.photomapp.ui.screens.search.filter.FilterScreen;
 
@@ -13,7 +14,6 @@ import mortar.MortarScope;
 
 public class SearchAdapterJava extends PagerAdapter {
 
-    private static final String SERVICE_NAME = "SERVICE_NAME";
     @Override
     public int getCount() {
         return 2;
@@ -71,14 +71,14 @@ public class SearchAdapterJava extends PagerAdapter {
         MortarScope childScope = parentScope.findChild(screen.getScopeName());
 
         if (childScope == null) {
-            Object screenComponent = screen.createScreenComponent(parentScope.getService(SERVICE_NAME));
+            Object screenComponent = screen.createScreenComponent(parentScope.getService(DaggerService.Companion.getSERVICE_NAME()));
 
             if (screenComponent == null) {
                 throw new IllegalStateException(" don`t create screen component for " + screen.getScopeName());
             }
 
             childScope = parentScope.buildChild()
-                    .withService(SERVICE_NAME, screenComponent)
+                    .withService(DaggerService.Companion.getSERVICE_NAME(), screenComponent)
                     .build(screen.getScopeName());
         }
 
