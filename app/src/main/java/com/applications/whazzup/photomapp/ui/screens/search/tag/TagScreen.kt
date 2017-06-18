@@ -53,7 +53,7 @@ class TagScreen : AbstractScreen<SearchScreen.SearchPresenterComponent>() {
                     .doOnNext { tagList = it }
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeBy(onComplete = {
-                        view.initView(tagList)
+                        view.initServerAdapter(tagList)
                     })
         }
 

@@ -1,6 +1,7 @@
 package com.applications.whazzup.photomapp.ui.screens.search.tag
 
 import android.content.Context
+import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
@@ -10,6 +11,7 @@ import butterknife.BindView
 import com.applications.whazzup.photomapp.R
 import com.applications.whazzup.photomapp.di.DaggerService
 import com.applications.whazzup.photomapp.mvp.views.AbstractView
+import com.applications.whazzup.photomapp.ui.adapters.RecentlyTagsAdapter
 import com.applications.whazzup.photomapp.ui.adapters.ServerTagsAdapter
 import kotlinx.android.synthetic.main.content_tag.view.*
 
@@ -32,9 +34,18 @@ class TagView(context: Context, attrs: AttributeSet) : AbstractView<TagScreen.Ta
         DaggerService.getDaggerComponent<TagScreen.TagPresenterComponent>(context).inject(this)
     }
 
-    fun initView(tagList: List<String>?) {
+
+    fun updateRecentlyTagList(recentlyTagList: MutableList<String>?) {
+        with(recently_tag_list) {
+            val llm = LinearLayoutManager(context)
+            layoutManager = llm
+            adapter = RecentlyTagsAdapter(recentlyTagList!!)
+        }
+    }
+
+    fun initServerAdapter(tagList: List<String>?) {
         setupSearchView()
-        with(tag_list) {
+        with(tag_server_list) {
             isNestedScrollingEnabled = false
             val llm = com.google.android.flexbox.FlexboxLayoutManager(context)
             llm.flexDirection = com.google.android.flexbox.FlexDirection.ROW
@@ -85,10 +96,6 @@ class TagView(context: Context, attrs: AttributeSet) : AbstractView<TagScreen.Ta
     }
 
     fun showEmptyTagSearchError() {
-
-    }
-
-    fun updateRecentlyTagList(tagList: MutableList<String>?) {
 
     }
 

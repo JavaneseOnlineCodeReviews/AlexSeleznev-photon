@@ -43,7 +43,7 @@
 
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/searched_tag_list"
+                android:id="@+id/recently_tag_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -62,7 +62,7 @@
                 android:text="@string/tags" />
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/tag_list"
+                android:id="@+id/tag_server_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
