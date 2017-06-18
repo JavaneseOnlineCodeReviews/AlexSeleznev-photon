@@ -90,4 +90,8 @@ class DataManager {
     fun getUserAvatar(): String {
       return  mPreferencesManager.getUserAvatar()
     }
+
+    fun getAlbumById(albumId : String) : Observable<UserAlbumRes>{
+        return mRestService.getAlbumById(mPreferencesManager.getUserId(), albumId)
+    }
 }

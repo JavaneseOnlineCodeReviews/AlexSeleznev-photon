@@ -330,6 +330,16 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
         mActionBar.setHomeAsUpIndicator(R.drawable.ic_custom_back_black_24dp)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when(item?.itemId){
+            android.R.id.home -> {
+                Flow.get(this).goBack()
+                return false
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
+    }
+
     override fun setMenuItem(items: List<MenuItemHolder>) {
         mActionBarMenuItem = items as MutableList<MenuItemHolder>
         supportInvalidateOptionsMenu()

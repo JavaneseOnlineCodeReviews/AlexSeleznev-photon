@@ -17,7 +17,6 @@ import android.support.v7.view.menu.MenuPopupHelper
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.PopupMenu
 import android.support.v7.widget.RecyclerView
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.widget.*
 import butterknife.OnClick
@@ -131,7 +130,7 @@ class UserProfileAuthView(context: Context, attrs: AttributeSet) : AbstractView<
             with(user_info_album_recycler){
                 layoutManager = GridLayoutManager(context, 2)
                 adapter = userAdapter
-                (adapter as UserProfileAlbumRecycler).addListener { Flow.get(context).set(AlbumInfoScreen()) }
+                (adapter as UserProfileAlbumRecycler).addListener { Flow.get(context).set(AlbumInfoScreen((adapter as UserProfileAlbumRecycler).getItem(it))) }
         }
         }
     }

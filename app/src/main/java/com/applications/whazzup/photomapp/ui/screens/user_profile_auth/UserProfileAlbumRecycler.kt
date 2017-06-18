@@ -38,6 +38,10 @@ class UserProfileAlbumRecycler() : RecyclerView.Adapter< UserProfileAlbumRecycle
         return userAlbums.size
     }
 
+    fun getItem(position: Int): UserAlbumRes{
+        return userAlbums[position]
+    }
+
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView?) {
         super.onAttachedToRecyclerView(recyclerView)
         DaggerService.getDaggerComponent<DaggerUserProfileAuthScreen_Component>(recyclerView!!.context).inject(this)

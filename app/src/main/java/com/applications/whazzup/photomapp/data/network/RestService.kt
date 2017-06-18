@@ -44,4 +44,7 @@ interface RestService {
     @POST("user/{userId}/image/upload")
     fun uploadPhoto(@Path("userId") userId : String, @Part file : MultipartBody.Part, @Header("Authorization") userToken : String) : Observable<UserAvatarRes>
 
+    @GET("user/{userId}/album/{albumId}")
+    fun getAlbumById(@Path("userId") userId : String, @Path("albumId") albumId : String) : Observable<UserAlbumRes>
+
 }
