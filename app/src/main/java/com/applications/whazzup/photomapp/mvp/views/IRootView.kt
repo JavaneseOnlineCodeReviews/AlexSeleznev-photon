@@ -1,5 +1,8 @@
 package com.applications.whazzup.photomapp.mvp.views
 
+import android.content.Intent
+import android.view.View
+
 interface IRootView : IView {
     fun showMessage(message: String)
     fun showError(e: Throwable)
@@ -9,6 +12,7 @@ interface IRootView : IView {
     fun hideBottomNavigation(isVisible: Boolean)
     fun createSignInAlertDialog()
     fun createLoginDialog()
+    fun createChangeUserInfoDialog()
     fun showtoolBar()
     fun hideToolBar()
     fun hideAlertDialog()

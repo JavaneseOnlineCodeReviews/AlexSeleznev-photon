@@ -45,19 +45,20 @@ class PhotoCardListScreen : AbstractScreen<RootActivity.RootComponent>() {
                     .build()
         }
 
+
         fun showSearchScreen() {
             Flow.get(view).set(SearchScreen())
         }
 
         fun showPopUpMenu(view : View){
-            var menu = PopupMenu(getView().context, view)
+            var menu = PopupMenu(view.context, view)
             if(mRootPresenter.isUserAuth()){
                 menu.inflate(R.menu.popup_exit)
             }else {
                 menu.inflate(R.menu.popup)
             }
             menu.setOnMenuItemClickListener({
-                when(it.itemId){
+                when(it.itemId) {
                    sign_in_item->{
                        mRootPresenter.rootView?.createSignInAlertDialog()
                    }

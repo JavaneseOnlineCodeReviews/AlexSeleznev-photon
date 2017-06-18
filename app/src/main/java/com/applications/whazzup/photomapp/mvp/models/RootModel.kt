@@ -1,5 +1,6 @@
 package com.applications.whazzup.photomapp.mvp.models
 
+import com.applications.whazzup.photomapp.data.network.req.UserChangeInfoReq
 import com.applications.whazzup.photomapp.data.network.req.UserLogInReq
 import com.applications.whazzup.photomapp.data.network.req.UserSigInReq
 import com.applications.whazzup.photomapp.data.network.res.user.UserRes
@@ -33,5 +34,13 @@ class RootModel : AbstractModel() {
 
     fun logOut() {
         mDataManager.logOut()
+    }
+
+    fun changeUserInfo(userInfo : UserChangeInfoReq): Observable<UserRes>{
+        return mDataManager.changeUserInfo(userInfo)
+    }
+
+    fun getUserAvatar(): String {
+        return mDataManager.mPreferencesManager.getUserAvatar()
     }
 }

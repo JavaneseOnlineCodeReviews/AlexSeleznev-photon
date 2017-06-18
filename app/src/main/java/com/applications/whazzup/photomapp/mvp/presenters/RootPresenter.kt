@@ -1,17 +1,28 @@
 package com.applications.whazzup.photomapp.mvp.presenters
 
 
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
+import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 
 import com.applications.whazzup.photomapp.App
+import com.applications.whazzup.photomapp.data.network.req.UserChangeInfoReq
 import com.applications.whazzup.photomapp.data.network.req.UserLogInReq
 import com.applications.whazzup.photomapp.data.network.req.UserSigInReq
+import com.applications.whazzup.photomapp.data.network.res.user.UserRes
+import com.applications.whazzup.photomapp.data.storage.dto.ActivityResultDto
 import com.applications.whazzup.photomapp.mvp.models.RootModel
 import com.applications.whazzup.photomapp.mvp.views.IRootView
 import com.applications.whazzup.photomapp.ui.activities.RootActivity
+import com.applications.whazzup.photomapp.ui.screens.user_profile_auth.UserProfileAuthView
+import com.applications.whazzup.photomapp.ui.screens.user_profile_idle.UserProfileIdleView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 import mortar.Presenter
 import mortar.bundler.BundleService
@@ -24,6 +35,8 @@ class RootPresenter private constructor() : Presenter<IRootView>() {
 
     val DEFAULT_MODE = 0
     val TAB_MODE = 1
+
+    val mActivityResultObs: PublishSubject<ActivityResultDto> = PublishSubject.create()
 
     companion object {
         val INSTANCE = RootPresenter()
@@ -43,18 +56,21 @@ class RootPresenter private constructor() : Presenter<IRootView>() {
 
     fun signUpUser(user: UserSigInReq) {
         mRootModel.signUpUser(user)
-                .doOnNext { mRootModel.saveUserInfo(it)  }
+                .doOnNext { mRootModel.saveUserInfo(it) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(onComplete = {
                     view.showMessage("Регистрациия прошла успешно")
                     view.hideAlertDialog()
+                    if (view.currentScreen is UserProfileIdleView) run {
+                        (view.currentScreen as UserProfileIdleView).changeScreen()
+                    }
                 }, onError = {
                     view.showMessage("Такой пользователь уже существует")
                 })
     }
 
-    fun logInUser(user: UserLogInReq){
+    fun logInUser(user: UserLogInReq) {
         mRootModel.logInUser(user)
                 .doOnNext { mRootModel.saveUserInfo(it) }
                 .subscribeOn(Schedulers.io())
@@ -62,15 +78,17 @@ class RootPresenter private constructor() : Presenter<IRootView>() {
                 .subscribeBy(onComplete = {
                     view.showMessage("Добрро пожаловать")
                     view.hideAlertDialog()
+                    if (view.currentScreen is UserProfileIdleView) run {
+                        (view.currentScreen as UserProfileIdleView).changeScreen()
+                    }
                 }, onError = {
                     view.showMessage("Такого пользователя не существует")
                 })
     }
 
-    fun isUserAuth():Boolean{
+    fun isUserAuth(): Boolean {
         return mRootModel.isUserAuth()
     }
-
 
 
     fun newActionBarBuilder(): ActionBarBuilder {
@@ -130,6 +148,51 @@ class RootPresenter private constructor() : Presenter<IRootView>() {
 
     fun logOut() {
         mRootModel.logOut()
+    }
+
+    fun checkPermissionAndRequestIfNotGranted(permissions: Array<String>, requestCode: Int): Boolean {
+        var allGranted = true
+        for (permission in permissions) {
+            val selfPermission = ContextCompat.checkSelfPermission(view as RootActivity, permission)
+            if (selfPermission != PackageManager.PERMISSION_GRANTED) {
+                allGranted = false
+                break
+            }
+        }
+        if (!allGranted) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                (view as RootActivity).requestPermissions(permissions, requestCode)
+            }
+            return false
+        }
+        return allGranted
+    }
+
+    fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
+        mActivityResultObs.onNext(ActivityResultDto(requestCode, resultCode, intent))
+    }
+
+    fun onRequestPermissionResult(requestCode: Int, permissions: Array<String>, grantResult: IntArray) {
+        //Implements me
+    }
+
+    fun changeUserInfo(userChangeInfoReq: UserChangeInfoReq) {
+        var res: UserRes? = null
+        mRootModel.changeUserInfo(userChangeInfoReq).doOnNext {
+            res = it
+            mRootModel.saveUserInfo(it)
+        }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeBy(onComplete = {
+                    view.showMessage("Данные пользователя успешно изменены")
+                    view.hideAlertDialog()
+                    if (view.currentScreen is UserProfileAuthView) run {
+                        (view.currentScreen as UserProfileAuthView).initView(res)
+                    }
+                }, onError = {
+                    view.showMessage("Что-то пошло не так. повторите попытку пойзже")
+                })
     }
 }
 

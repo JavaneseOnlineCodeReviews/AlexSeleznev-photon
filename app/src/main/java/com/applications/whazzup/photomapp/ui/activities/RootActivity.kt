@@ -5,6 +5,7 @@ package com.applications.whazzup.photomapp.ui.activities
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -21,6 +22,7 @@ import android.widget.*
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.applications.whazzup.photomapp.R
+import com.applications.whazzup.photomapp.data.network.req.UserChangeInfoReq
 import com.applications.whazzup.photomapp.data.network.req.UserLogInReq
 import com.applications.whazzup.photomapp.data.network.req.UserSigInReq
 import com.applications.whazzup.photomapp.di.DaggerScope
@@ -34,15 +36,21 @@ import com.applications.whazzup.photomapp.mvp.presenters.RootPresenter
 import com.applications.whazzup.photomapp.mvp.views.IActionBarView
 import com.applications.whazzup.photomapp.mvp.views.IRootView
 import com.applications.whazzup.photomapp.mvp.views.IView
+import com.applications.whazzup.photomapp.ui.screens.photo_card_list.PhotoCardListScreen
 import com.applications.whazzup.photomapp.ui.screens.splash.SplashScreen
+import com.applications.whazzup.photomapp.ui.screens.user_profile_auth.UserProfileAuthScreen
+import com.applications.whazzup.photomapp.ui.screens.user_profile_idle.UserProfileIdleScreen
 import com.applications.whazzup.photomapp.util.CustomTextWatcher
 import com.squareup.picasso.Picasso
+import flow.Direction
 import flow.Flow
+import flow.History
 import mortar.MortarScope
 import mortar.bundler.BundleServiceRunner
 import javax.inject.Inject
 
 class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
+
 
 
     @BindView(R.id.root_frame) lateinit var mRootFrame: FrameLayout
@@ -80,8 +88,18 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
-            R.id.navigation_home -> return@OnNavigationItemSelectedListener true
-            R.id.navigation_dashboard -> return@OnNavigationItemSelectedListener true
+            R.id.navigation_home -> {
+                Flow.get(this).set(PhotoCardListScreen())
+                true
+            }
+            R.id.navigation_dashboard -> {
+                if(mRootPresenter.isUserAuth()) {
+                    Flow.get(this).setHistory(History.single(UserProfileAuthScreen()), Direction.FORWARD)
+                } else {
+                    Flow.get(this).setHistory(History.single(UserProfileIdleScreen()), Direction.FORWARD)
+                }
+                true
+            }
             R.id.navigation_notifications -> return@OnNavigationItemSelectedListener true
             else -> return@OnNavigationItemSelectedListener false
         }
@@ -97,6 +115,11 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
         mRootPresenter.takeView(this)
         setSupportActionBar(mToolbar)
         mActionBar = supportActionBar!!
+    }
+
+    override fun startActivityForResult(intent: Intent?, requestCode: Int) {
+
+        super.startActivityForResult(intent, requestCode)
     }
 
    override fun createSignInAlertDialog(){
@@ -161,6 +184,36 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
 
     }
 
+    override fun createChangeUserInfoDialog() {
+        builder = AlertDialog.Builder(this).create()
+        val v: View=LayoutInflater.from(this).inflate(R.layout.change_user_dialog, null)
+        val btn : Button =v.findViewById(R.id.apply_btn) as Button
+        val cancelBtn = v.findViewById(R.id.cancel_btn) as Button
+        val nameEt : EditText = v.findViewById(R.id.name_et) as EditText
+        val loginEt =v.findViewById(R.id.login_et) as EditText
+        val loginErrorHint = v.findViewById(R.id.login_error_hint) as TextView
+        val nameErrorHint = v.findViewById(R.id.name_error_hint) as TextView
+
+        nameEt.addTextChangedListener(CustomTextWatcher(nameEt, nameErrorHint))
+        loginEt.addTextChangedListener(CustomTextWatcher(loginEt, loginErrorHint))
+
+        btn.setOnClickListener {
+            if((loginErrorHint.text == "" && nameErrorHint.text == "")&&
+                    (!nameEt.text.isEmpty()&&!loginEt.text.isEmpty())) {
+                mRootPresenter.changeUserInfo(UserChangeInfoReq(nameEt.text.toString(), loginEt.text.toString(), mRootPresenter.mRootModel.getUserAvatar()))
+
+            }
+        }
+        cancelBtn.setOnClickListener {
+            builder?.cancel()
+        }
+        builder?.setView(v)
+        builder?.show()
+
+    }
+
+
+
     override fun hideAlertDialog(){
         builder.cancel()
     }
@@ -200,6 +253,17 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
         if (mProgressDialog!!.isShowing) {
             mProgressDialog!!.hide()
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        mRootPresenter.onActivityResult(requestCode, resultCode, data)
+        }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        mRootPresenter.onRequestPermissionResult(requestCode, permissions as Array<String>, grantResults)
     }
 
     override fun hideBottomNavigation(isVisible: Boolean) {
