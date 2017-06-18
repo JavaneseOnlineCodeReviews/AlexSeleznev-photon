@@ -28,7 +28,9 @@ class FilterScreen : AbstractScreen<SearchScreen.SearchPresenterComponent>() {
     inner class FilterPresenter : AbstractPresenter<FilterView, FilterModel>() {
 
         override fun initToolbar() {
-            mRootPresenter.newActionBarBuilder().setVisible(false).build()
+            mRootPresenter.newActionBarBuilder()
+                    .setVisible(false)
+                    .build()
         }
 
         override fun initDagger(scope: MortarScope) {

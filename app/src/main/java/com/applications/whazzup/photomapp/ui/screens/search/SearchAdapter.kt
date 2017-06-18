@@ -27,7 +27,7 @@ class SearchAdapter : PagerAdapter() {
         }
 
         val screenScope = createScreenScopeFromContext(container.context, screen)
-        val screenContext = screenScope.createContext(container.context)
+        val screenContext = screenScope?.createContext(container.context)
 
         val newView = LayoutInflater
                 .from(screenContext)
@@ -52,12 +52,12 @@ class SearchAdapter : PagerAdapter() {
         return ""
     }
 
-    private fun createScreenScopeFromContext(context: Context, screen: AbstractScreen<*>): MortarScope {
+    private fun createScreenScopeFromContext(context: Context, screen: AbstractScreen<*>): MortarScope? {
         val parentScope = MortarScope.getScope(context)
-        var childScope: MortarScope = parentScope.findChild(screen.scopeName)
+        var childScope: MortarScope? = parentScope.findChild(screen.scopeName)
 
         if (childScope == null) {
-            val screenComponent = screen?.createScreenComponent(parentScope.getService(DaggerService.SERVICE_NAME))
+            val screenComponent = screen?.createScreenComponent(parentScope.getService(DaggerService.SERVICE_NAME)) ?: throw IllegalStateException(" don`t create screen component for " + screen.scopeName)
 
             childScope = parentScope.buildChild()
                     .withService(DaggerService.SERVICE_NAME, screenComponent)

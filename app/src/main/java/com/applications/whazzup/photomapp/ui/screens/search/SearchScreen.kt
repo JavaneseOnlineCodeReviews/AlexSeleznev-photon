@@ -18,6 +18,7 @@ import mortar.MortarScope
 
 @Screen(R.layout.screen_search)
 class SearchScreen : AbstractScreen<RootActivity.RootComponent>(), TreeKey {
+
     override fun createScreenComponent(parentComponent: RootActivity.RootComponent): Any {
         return DaggerSearchScreen_SearchPresenterComponent.builder()
                 .rootComponent(parentComponent)
@@ -36,6 +37,7 @@ class SearchScreen : AbstractScreen<RootActivity.RootComponent>(), TreeKey {
             mRootPresenter
                     .newActionBarBuilder()
                     .setVisible(false)
+                    .setTab(view.mViewPager)
                     .build()
         }
     }
