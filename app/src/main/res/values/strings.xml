@@ -53,4 +53,8 @@
     <string name="password">Пароль</string>
     <string name="desc_album">Описание</string>
 
+    <string name="search">Поиск</string>
+    <string name="tags">Теги</string>
+    <string name="filters">Фильтры</string>
+
 </resources>

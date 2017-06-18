@@ -5,25 +5,27 @@ import android.support.v4.view.PagerAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.applications.whazzup.photomapp.App
+import com.applications.whazzup.photomapp.R
 import com.applications.whazzup.photomapp.di.DaggerService
 import com.applications.whazzup.photomapp.flow.AbstractScreen
 import com.applications.whazzup.photomapp.ui.screens.search.filter.FilterScreen
+import com.applications.whazzup.photomapp.ui.screens.search.tag.TagScreen
 import mortar.MortarScope
 
 class SearchAdapter : PagerAdapter() {
 
-    lateinit var screen: AbstractScreen<*>
-
+    lateinit var screen: AbstractScreen<SearchScreen.SearchPresenterComponent>
 
     override fun isViewFromObject(view: View, `object`: Any?): Boolean {
         return view.equals(`object`)
     }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-
+//        DaggerService.getDaggerComponent<DaggerSearchScreen_SearchPresenterComponent>(container.context).inject(this)
         when (position) {
-            0 -> screen = FilterScreen()
-//            1 -> screen = FilterScreen()
+            0 -> screen = TagScreen()
+            1 -> screen = FilterScreen()
         }
 
         val screenScope = createScreenScopeFromContext(container.context, screen)
@@ -37,7 +39,7 @@ class SearchAdapter : PagerAdapter() {
     }
 
     override fun getCount(): Int {
-        return 1
+        return 2
     }
 
     override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
@@ -46,13 +48,13 @@ class SearchAdapter : PagerAdapter() {
 
     override fun getPageTitle(position: Int): CharSequence {
         when (position) {
-            0 -> return "Поиск"
-            1 -> return "Фильтры"
+            0 -> return App.applicationContext().getString(R.string.search)
+            1 -> return App.applicationContext().getString(R.string.filters)
         }
         return ""
     }
 
-    private fun createScreenScopeFromContext(context: Context, screen: AbstractScreen<*>): MortarScope? {
+    private fun createScreenScopeFromContext(context: Context, screen: AbstractScreen<SearchScreen.SearchPresenterComponent>): MortarScope? {
         val parentScope = MortarScope.getScope(context)
         var childScope: MortarScope? = parentScope.findChild(screen.scopeName)
 

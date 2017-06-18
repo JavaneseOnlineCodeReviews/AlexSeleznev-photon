@@ -42,7 +42,7 @@ class SplashScreen : AbstractScreen<RootActivity.RootComponent>() {
             mModel.getPhotoCard(60, 0)
                     .flatMap { Observable.fromIterable(it) }
                     .doOnNext {
-                        mModel.savePhotocardToRealm(it)
+                        mModel.savePhotoCardToRealm(it)
                         mRootPresenter.mRootModel.addToCardList(PhotoCardDto(it))
                     }
                     .subscribeOn(Schedulers.io())

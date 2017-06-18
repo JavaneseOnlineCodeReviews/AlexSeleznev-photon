@@ -60,7 +60,7 @@ class UserProfileAuthScreen : AbstractScreen<RootActivity.RootComponent>() {
 
     inner class UserProfilePresenter : SubscribePresenter<UserProfileAuthView, UserProfileModel>() {
 
-        lateinit var mActivityresultSub: Disposable
+        lateinit var mActivityResultSub: Disposable
 
 
         override fun getRootView(): IRootView? {
@@ -89,7 +89,7 @@ class UserProfileAuthScreen : AbstractScreen<RootActivity.RootComponent>() {
 
         override fun onExitScope() {
             super.onExitScope()
-            mActivityresultSub.dispose()
+            mActivityResultSub.dispose()
         }
 
         override fun initToolbar() {
@@ -154,7 +154,7 @@ class UserProfileAuthScreen : AbstractScreen<RootActivity.RootComponent>() {
 
         fun subscribeOnActivityResult() {
             val activityResultObs = mRootPresenter.mActivityResultObs.filter({ activityResultDto -> activityResultDto.resultCode === Activity.RESULT_OK })
-            mActivityresultSub = subscribe(activityResultObs, object : ViewSubscriber<ActivityResultDto>() {
+            mActivityResultSub = subscribe(activityResultObs, object : ViewSubscriber<ActivityResultDto>() {
                 override fun onNext(activityResultDto: ActivityResultDto) {
                     handleActivityResult(activityResultDto)
                 }

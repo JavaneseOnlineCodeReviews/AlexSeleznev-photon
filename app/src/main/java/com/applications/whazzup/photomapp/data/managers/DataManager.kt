@@ -7,7 +7,6 @@ import com.applications.whazzup.photomapp.data.network.req.AddAlbumReq
 import com.applications.whazzup.photomapp.data.network.req.UserChangeInfoReq
 import com.applications.whazzup.photomapp.data.network.req.UserLogInReq
 import com.applications.whazzup.photomapp.data.network.req.UserSigInReq
-import com.applications.whazzup.photomapp.data.network.res.AddAlbumRes
 import com.applications.whazzup.photomapp.data.network.res.PhotocardRes
 import com.applications.whazzup.photomapp.data.network.res.UserAvatarRes
 import com.applications.whazzup.photomapp.data.network.res.user.UserAlbumRes
@@ -37,6 +36,10 @@ class DataManager {
 
     fun getPhotoCard(limit: Int, offset: Int): Observable<List<PhotocardRes>> {
         return mRestService.getPhotoCard(limit, offset)
+    }
+
+    fun getTagsObs() : Observable<List<String>> {
+        return mRestService.getTags()
     }
 
     fun savePhotocardToRealm(photocardRes: PhotocardRes) {

@@ -47,13 +47,13 @@ class SearchScreen : AbstractScreen<RootActivity.RootComponent>(), TreeKey {
 
         @Provides
         @DaggerScope(SearchScreen::class)
-        internal fun providePresenter() : SearchPresenter {
+        internal fun providePresenter(): SearchPresenter {
             return SearchPresenter()
         }
 
         @Provides
         @DaggerScope(SearchScreen::class)
-        internal fun provideModel() : SearchModel {
+        internal fun provideModel(): SearchModel {
             return SearchModel()
         }
     }
@@ -61,10 +61,11 @@ class SearchScreen : AbstractScreen<RootActivity.RootComponent>(), TreeKey {
     @Component(dependencies = arrayOf(RootActivity.RootComponent::class), modules = arrayOf(SearchPresenterModule::class))
     @DaggerScope(SearchScreen::class)
     interface SearchPresenterComponent {
-        fun inject(presenter : SearchPresenter)
-        fun inject(view : SearchView)
+        fun inject(presenter: SearchPresenter)
+        fun inject(view: SearchView)
+        fun inject(adapter: SearchAdapter)
 
-        val rootPresenter : RootPresenter
+        val rootPresenter: RootPresenter
     }
 
 

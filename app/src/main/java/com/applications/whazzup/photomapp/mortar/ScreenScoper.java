@@ -68,9 +68,9 @@ public class ScreenScoper {
         Log.e(TAG, "createScreenScope with name " + screen.getScopeName());
         String parentScopeName = getParentScopeName(screen);
         MortarScope parentScope = sScopeMap.get(parentScopeName);
-        Object screenComponent = screen.createScreenComponent(parentScope.getService(DaggerService.Companion.getSERVICE_NAME()));
+        Object screenComponent = screen.createScreenComponent(parentScope.getService(DaggerService.INSTANCE.getSERVICE_NAME()));
         MortarScope newScope = parentScope.buildChild()
-                .withService(DaggerService.Companion.getSERVICE_NAME(), screenComponent)
+                .withService(DaggerService.INSTANCE.getSERVICE_NAME(), screenComponent)
                 .build(screen.getScopeName());
         registerScope(newScope);
         return newScope;
