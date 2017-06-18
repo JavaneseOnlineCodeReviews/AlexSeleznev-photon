@@ -7,4 +7,5 @@
     <color name="progressDialogColor">#414141</color>
     <color name="colorGreenDark">#757575</color>
     <color name="colorLightGrey">#EDEFF3</color>
+    <color name="colorWhite">#FFFFFF</color>
 </resources>

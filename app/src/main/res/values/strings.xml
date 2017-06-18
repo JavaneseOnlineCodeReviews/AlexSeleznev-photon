@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">PhotomApp</string>
-    <string name="title_home">Home</string>
+    <string name="title_home">Главная</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="signIn_hint">Регистрация</string>
@@ -37,4 +37,6 @@
     <string name="name">Имя</string>
     <string name="password">Пароль</string>
     <string name="desc_album">Описание</string>
+    <string name="download_photo">Загрузить</string>
+    <string name="title_profile">Профиль</string>
 </resources>
