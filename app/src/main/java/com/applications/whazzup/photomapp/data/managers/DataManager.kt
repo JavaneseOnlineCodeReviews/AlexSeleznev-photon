@@ -43,7 +43,7 @@ class DataManager {
     }
 
     fun savePhotocardToRealm(photocardRes: PhotocardRes) {
-        mRealmManager.savePhotocardResponseToRealm(photocardRes)
+        mRealmManager.savePhotoCardResponseToRealm(photocardRes)
     }
 
     fun signUpUser(user : UserSigInReq): Observable<UserRes>{

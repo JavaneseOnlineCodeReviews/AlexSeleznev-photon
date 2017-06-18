@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.applications.whazzup.photomapp.ui.screens.search.tag.TagView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.applications.whazzup.photomapp.ui.screens.search.tag.TagView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -10,31 +10,62 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/tag_search_et"
+        <LinearLayout
+            android:id="@+id/tag_search_wrapper"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/search" />
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/searched_tag_list"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/tag_search_et"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#00000000"
+                    android:hint="@string/search" />
+
+                <ImageView
+                    android:id="@+id/perform_tag_search_iv"
+                    style="@style/TagSearchImageView"
+                    app:srcCompat="@drawable/ic_done_black_24dp" />
+
+                <ImageView
+                    android:id="@+id/close_tag_search_iv"
+                    style="@style/TagSearchImageView"
+                    app:srcCompat="@drawable/ic_close_black_24dp" />
+            </LinearLayout>
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/searched_tag_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tal_list_wrapper"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-        </android.support.v7.widget.RecyclerView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_normal_16"
+                android:text="@string/tags" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_normal_16"
-            android:text="@string/tags" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/tag_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        </android.support.v7.widget.RecyclerView>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/tag_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
     </LinearLayout>
 </com.applications.whazzup.photomapp.ui.screens.search.tag.TagView>

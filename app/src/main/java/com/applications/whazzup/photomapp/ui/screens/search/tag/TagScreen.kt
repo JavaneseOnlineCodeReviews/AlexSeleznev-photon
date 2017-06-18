@@ -1,6 +1,7 @@
 package com.applications.whazzup.photomapp.ui.screens.search.tag
 
 import android.os.Bundle
+import android.text.TextUtils
 import com.applications.whazzup.photomapp.R
 import com.applications.whazzup.photomapp.di.DaggerScope
 import com.applications.whazzup.photomapp.di.DaggerService
@@ -31,6 +32,8 @@ class TagScreen : AbstractScreen<SearchScreen.SearchPresenterComponent>() {
 
     inner class TagPresenter : AbstractPresenter<TagView, TagModel>() {
 
+        private var mSearchTag: String? = null
+
         //region ================= AbstractPresenter =================
 
         override fun initDagger(scope: MortarScope) {
@@ -52,6 +55,34 @@ class TagScreen : AbstractScreen<SearchScreen.SearchPresenterComponent>() {
                     .subscribeBy(onComplete = {
                         view.initView(tagList)
                     })
+        }
+
+        fun closeSearch() {
+            view.clearSearchTag()
+        }
+
+        fun performSearch() {
+            if (TextUtils.isEmpty(mSearchTag)) {
+                view.showEmptyTagSearchError()
+            } else {
+                var tagList: MutableList<String>? = null
+                mModel.saveTagRealm(mSearchTag!!)
+                mModel.getRecentlyTagList()
+                        .doOnNext {
+                            for (i in 1..it.size) {
+                                tagList!!.add(it[i].name!!)
+                            }
+                        }
+                        .subscribeOn(AndroidSchedulers.mainThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeBy(onComplete = {
+                            view.updateRecentlyTagList(tagList)
+                        })
+            }
+        }
+
+        fun setSearchTag(searchTag: String) {
+            mSearchTag = searchTag
         }
 
         //endregion

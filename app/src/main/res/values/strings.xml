@@ -57,4 +57,6 @@
     <string name="tags">Теги</string>
     <string name="filters">Фильтры</string>
 
+    <string name="hash_tag">#%s</string>
+
 </resources>
