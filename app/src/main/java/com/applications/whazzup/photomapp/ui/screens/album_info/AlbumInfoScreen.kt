@@ -9,6 +9,7 @@ import com.applications.whazzup.photomapp.flow.AbstractScreen
 import com.applications.whazzup.photomapp.flow.Screen
 import com.applications.whazzup.photomapp.mvp.models.AlbumInfoModel
 import com.applications.whazzup.photomapp.mvp.presenters.AbstractPresenter
+import com.applications.whazzup.photomapp.mvp.presenters.MenuItemHolder
 import com.applications.whazzup.photomapp.ui.activities.RootActivity
 import com.applications.whazzup.photomapp.ui.screens.user_profile_auth.UserProfileAuthScreen
 import dagger.Provides
@@ -34,7 +35,10 @@ class AlbumInfoScreen(var item: UserAlbumRes) : AbstractScreen<RootActivity.Root
     inner class AlbumInfoPresenter : AbstractPresenter<AlbumInfoView, AlbumInfoModel>(){
 
         override fun initToolbar() {
-            mRootPresenter.newActionBarBuilder().setTitle("Альбом").setBackArrow(true).build()
+            mRootPresenter.newActionBarBuilder().setTitle("Альбом").setBackArrow(true).addAction(MenuItemHolder("Пункты меню", R.layout.dots_menu_item, listener = {
+                //view.showPopupMenu(it)
+                true
+            })).build()
         }
 
         override fun initDagger(scope: MortarScope?) {

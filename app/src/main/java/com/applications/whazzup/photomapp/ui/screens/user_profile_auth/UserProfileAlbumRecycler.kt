@@ -21,8 +21,7 @@ class UserProfileAlbumRecycler() : RecyclerView.Adapter< UserProfileAlbumRecycle
     var listener : ((Int)->Unit)?=null
 
     constructor(albums : List<UserAlbumRes>?) : this() {
-    userAlbums = albums as MutableList<UserAlbumRes>
-}
+    userAlbums = albums as MutableList<UserAlbumRes> }
 
     fun addListener(onItemClick : (Int)->Unit){
         this.listener = onItemClick
@@ -72,8 +71,8 @@ class UserProfileAlbumRecycler() : RecyclerView.Adapter< UserProfileAlbumRecycle
         notifyDataSetChanged()
     }
 
-
     class ViewHolder(item : View, onItemClick : ((Int)->Unit)?) : RecyclerView.ViewHolder(item), View.OnClickListener {
+
         override fun onClick(v: View?) {
         listener?.invoke(adapterPosition)
         }

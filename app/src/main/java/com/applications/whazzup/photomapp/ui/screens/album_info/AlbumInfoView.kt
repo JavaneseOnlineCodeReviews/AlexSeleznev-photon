@@ -3,7 +3,9 @@ package com.applications.whazzup.photomapp.ui.screens.album_info
 import android.content.Context
 import android.support.v7.widget.GridLayoutManager
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.widget.TextView
+import android.widget.Toast
 import butterknife.BindView
 import com.applications.whazzup.photomapp.R
 import com.applications.whazzup.photomapp.data.network.res.PhotocardRes
@@ -40,6 +42,14 @@ class AlbumInfoView(context : Context, attrs : AttributeSet) : AbstractView<Albu
         with(album_info_recycler){
             layoutManager = GridLayoutManager(context, 3)
             adapter = AlbumInfoAdapter(res.photocards as MutableList<PhotocardRes>)
+            (adapter as AlbumInfoAdapter).addEditListener { Toast.makeText(context, "Edit push", Toast.LENGTH_LONG).show()}
+             (adapter as AlbumInfoAdapter).addDeleteListener { Toast.makeText(context, "Delete push", Toast.LENGTH_LONG).show()}
+            setOnTouchListener { v, event -> run {
+                if (event.action == MotionEvent.ACTION_DOWN && findChildViewUnder(event.getX(), event.getY()) != null) {
+                    Toast.makeText(context, "Push any", Toast.LENGTH_LONG).show()
+                }
+            }
+                false }
         }
     }
 }

@@ -2,6 +2,7 @@ package com.applications.whazzup.photomapp
 
 
 import android.app.Application
+import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
 
@@ -68,11 +69,12 @@ class App : Application() {
     }
 
     companion object {
-
         var appComponent: AppComponent? = null
             private set
         var rootComponent: RootActivity.RootComponent? = null
             private set
         var sharedPreferences: SharedPreferences? = null
+
+
     }
 }
