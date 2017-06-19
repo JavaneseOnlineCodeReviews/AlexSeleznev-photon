@@ -227,6 +227,14 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
         if (!currentScreen?.viewOnBackPressed()!! && !Flow.get(this).goBack()) super.onBackPressed()
     }
 
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item?.itemId == android.R.id.home) {
+            onBackPressed()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     // region================IRootView==============
     override fun viewOnBackPressed(): Boolean {
         return false
@@ -321,13 +329,18 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
 
     override fun setActionBarVisible(visible: Boolean) {
         if(visible){
-       supportActionBar?.show()
+            supportActionBar?.show()
         }else {
             supportActionBar?.hide()}
     }
 
     override fun setBackArrow(enable: Boolean) {
-
+        if (enable) {
+            mActionBar.setDisplayHomeAsUpEnabled(true)
+            mActionBar.setHomeAsUpIndicator(R.drawable.ic_custom_back_black_24dp)
+        } else {
+            mActionBar.setDisplayHomeAsUpEnabled(false)
+        }
     }
 
     override fun setTabLayout(viewPager: ViewPager?) {
