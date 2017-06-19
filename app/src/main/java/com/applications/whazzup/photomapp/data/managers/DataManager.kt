@@ -7,7 +7,6 @@ import com.applications.whazzup.photomapp.data.network.req.AddAlbumReq
 import com.applications.whazzup.photomapp.data.network.req.UserChangeInfoReq
 import com.applications.whazzup.photomapp.data.network.req.UserLogInReq
 import com.applications.whazzup.photomapp.data.network.req.UserSigInReq
-import com.applications.whazzup.photomapp.data.network.res.AddAlbumRes
 import com.applications.whazzup.photomapp.data.network.res.PhotocardRes
 import com.applications.whazzup.photomapp.data.network.res.UserAvatarRes
 import com.applications.whazzup.photomapp.data.network.res.user.UserAlbumRes
@@ -33,6 +32,10 @@ class DataManager {
                 .localModule(LocalModule())
                 .networkModule(NetworkModule())
                 .build().inject(this)
+    }
+
+    companion object {
+        val INSTANCE = DataManager()
     }
 
     fun getPhotoCard(limit: Int, offset: Int): Observable<List<PhotocardRes>> {
@@ -89,5 +92,9 @@ class DataManager {
 
     fun getUserAvatar(): String {
       return  mPreferencesManager.getUserAvatar()
+    }
+
+    fun uploadUserPhoto(body: MultipartBody.Part?): Observable<UserAvatarRes> {
+        return mRestService.uploadPhoto(mPreferencesManager.getUserId(), body!!, mPreferencesManager.getUserToken());
     }
 }

@@ -4,7 +4,6 @@ package com.applications.whazzup.photomapp
 import android.app.Application
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
-
 import com.applications.whazzup.photomapp.di.DaggerService
 import com.applications.whazzup.photomapp.di.components.AppComponent
 import com.applications.whazzup.photomapp.di.components.DaggerAppComponent
@@ -17,7 +16,6 @@ import com.applications.whazzup.photomapp.ui.activities.RootActivity
 import com.facebook.stetho.Stetho
 import com.uphyca.stetho_realm.RealmInspectorModulesProvider
 import io.realm.Realm
-
 import mortar.MortarScope
 import mortar.bundler.BundleServiceRunner
 
@@ -28,6 +26,7 @@ class App : Application() {
     override fun getSystemService(name: String): Any {
         return if (mRootScope != null && mRootScope!!.hasService(name)) mRootScope!!.getService<Any>(name) else super.getSystemService(name)
     }
+
 
     override fun onCreate() {
         super.onCreate()
@@ -67,6 +66,10 @@ class App : Application() {
         appComponent = DaggerAppComponent.builder().appModule(AppModule(applicationContext)).build()
     }
 
+    fun getContext() {
+        return getContext()
+    }
+
     companion object {
 
         var appComponent: AppComponent? = null
@@ -74,5 +77,8 @@ class App : Application() {
         var rootComponent: RootActivity.RootComponent? = null
             private set
         var sharedPreferences: SharedPreferences? = null
+
+
+//        val appContext: Context by lazy { applicationContext }
     }
 }
