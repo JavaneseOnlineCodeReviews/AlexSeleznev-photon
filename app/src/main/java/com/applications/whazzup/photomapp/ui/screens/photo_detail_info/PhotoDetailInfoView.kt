@@ -1,7 +1,11 @@
 package com.applications.whazzup.photomapp.ui.screens.photo_detail_info
 
 import android.content.Context
+import android.support.v7.view.menu.MenuBuilder
+import android.support.v7.view.menu.MenuPopupHelper
+import android.support.v7.widget.PopupMenu
 import android.util.AttributeSet
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import butterknife.BindView
@@ -51,6 +55,25 @@ class PhotoDetailInfoView(context: Context, attrs: AttributeSet) : AbstractView<
         name.text = user.name
         albumCount.text = user.albumCount.toString()
         photocardCount.text = user.photocardCount.toString()
+    }
+
+    fun showPopupMenu(view : View){
+        var menu = PopupMenu(view.context, view)
+        menu.inflate(R.menu.detail_info_menu)
+        menu.setOnMenuItemClickListener({
+            when(it.itemId) {
+                R.id.to_favorite ->{
+                }
+                R.id.share ->{
+                }
+                R.id.download ->{
+                }
+            }
+            false
+        })
+        val menuHelper = MenuPopupHelper(context, menu.menu as MenuBuilder, view)
+        menuHelper.setForceShowIcon(true)
+        menuHelper.show()
     }
 
     //region ================= AbstractView =================

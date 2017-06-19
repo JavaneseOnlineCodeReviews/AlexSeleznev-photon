@@ -9,6 +9,7 @@ import com.applications.whazzup.photomapp.flow.AbstractScreen
 import com.applications.whazzup.photomapp.flow.Screen
 import com.applications.whazzup.photomapp.mvp.models.PhotoDetailInfoModel
 import com.applications.whazzup.photomapp.mvp.presenters.AbstractPresenter
+import com.applications.whazzup.photomapp.mvp.presenters.MenuItemHolder
 import com.applications.whazzup.photomapp.ui.activities.RootActivity
 import com.applications.whazzup.photomapp.ui.screens.photo_card_list.PhotoCardListScreen
 import dagger.Provides
@@ -55,6 +56,10 @@ class PhotoDetailInfoScreen(photoCard: PhotoCardDto) : AbstractScreen<RootActivi
                     .setVisible(true)
                     .setTitle("Фотокарточка")
                     .setBackArrow(true)
+                    .addAction(MenuItemHolder("Пункты меню", R.layout.dots_menu_item, listener = {
+                        view.showPopupMenu(it)
+                        true
+                    }))
                     .build()
         }
 
