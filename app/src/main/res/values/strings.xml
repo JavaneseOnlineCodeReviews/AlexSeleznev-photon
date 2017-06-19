@@ -53,5 +53,7 @@
     <string name="name">Имя</string>
     <string name="password">Пароль</string>
     <string name="desc_album">Описание</string>
+    <string name="albums">Альбомы</string>
+    <string name="cards">Карты</string>
 
 </resources>

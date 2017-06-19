@@ -13,6 +13,9 @@ import com.applications.whazzup.photomapp.ui.activities.RootActivity
 import com.applications.whazzup.photomapp.ui.screens.photo_card_list.PhotoCardListScreen
 import dagger.Provides
 import flow.TreeKey
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.subscribeBy
+import io.reactivex.schedulers.Schedulers
 import mortar.MortarScope
 
 @Screen(R.layout.screen_photo_detail_info)
@@ -35,6 +38,11 @@ class PhotoDetailInfoScreen(photoCard: PhotoCardDto) : AbstractScreen<RootActivi
         override fun onLoad(savedInstanceState: Bundle?) {
             super.onLoad(savedInstanceState)
             view.showImageInfo(photoCard)
+
+            mModel.getUserById(photoCard.owner)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeBy(onNext = {view.showOwnerInfo(it)})
         }
 
         override fun initToolbar() {
