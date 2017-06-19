@@ -94,4 +94,8 @@ class DataManager {
     fun getAlbumById(albumId : String) : Observable<UserAlbumRes>{
         return mRestService.getAlbumById(mPreferencesManager.getUserId(), albumId)
     }
+
+    fun deletePhotoCard(cardId : String) : Observable<Response<Void>>{
+        return mRestService.deletePhotoCard(mPreferencesManager.getUserId(), mPreferencesManager.getUserToken(), cardId)
+    }
 }

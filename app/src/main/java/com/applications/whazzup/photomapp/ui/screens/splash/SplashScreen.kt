@@ -41,6 +41,7 @@ class SplashScreen : AbstractScreen<RootActivity.RootComponent>() {
             rootView?.showLoad()
             mModel.getPhotoCard(60, 0)
                     .flatMap { Observable.fromIterable(it) }
+                    .filter { it -> it.active }
                     .doOnNext {
                         mModel.savePhotocardToRealm(it)
                         mRootPresenter.mRootModel.addToCardList(PhotoCardDto(it))
@@ -58,7 +59,6 @@ class SplashScreen : AbstractScreen<RootActivity.RootComponent>() {
                                 Log.d("TAG", it.message)
                             }
                     )
-
         }
 
         override fun initDagger(scope: MortarScope) {

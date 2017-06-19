@@ -47,4 +47,7 @@ interface RestService {
     @GET("user/{userId}/album/{albumId}")
     fun getAlbumById(@Path("userId") userId : String, @Path("albumId") albumId : String) : Observable<UserAlbumRes>
 
+    @DELETE("user/{userId}/photocard/{cardId}")
+    fun deletePhotoCard(@Path("userId") userId : String, @Header("Authorization") userToken : String, @Path("cardId") cardId: String) : Observable<Response<Void>>
+
 }

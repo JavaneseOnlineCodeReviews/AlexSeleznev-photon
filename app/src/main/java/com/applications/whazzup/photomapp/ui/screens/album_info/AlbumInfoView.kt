@@ -16,16 +16,18 @@ import com.applications.whazzup.photomapp.ui.screens.photo_card_list.PhotoCardLi
 import kotlinx.android.synthetic.main.screen_album_info.view.*
 
 
-class AlbumInfoView(context : Context, attrs : AttributeSet) : AbstractView<AlbumInfoScreen.AlbumInfoPresenter>(context, attrs) {
+class AlbumInfoView(context: Context, attrs: AttributeSet) : AbstractView<AlbumInfoScreen.AlbumInfoPresenter>(context, attrs) {
 
     @BindView(R.id.album_title)
-    lateinit var mAlbumTitle : TextView
+    lateinit var mAlbumTitle: TextView
 
     @BindView(R.id.card_count)
-    lateinit  var mAlbumsCardCount : TextView
+    lateinit var mAlbumsCardCount: TextView
 
     @BindView(R.id.album_description)
-    lateinit var mAlbumDesc : TextView
+    lateinit var mAlbumDesc: TextView
+
+    lateinit var adapter : AlbumInfoAdapter
 
     override fun viewOnBackPressed(): Boolean {
         return false
@@ -35,21 +37,16 @@ class AlbumInfoView(context : Context, attrs : AttributeSet) : AbstractView<Albu
         DaggerService.getDaggerComponent<DaggerAlbumInfoScreen_AlbumInfoComponent>(context!!).inject(this)
     }
 
-    fun initView(res : UserAlbumRes){
+    fun initView(res: UserAlbumRes) {
         mAlbumTitle.text = res.title
         mAlbumsCardCount.text = res.photocards.size.toString()
         mAlbumDesc.text = res.description
-        with(album_info_recycler){
+        with(album_info_recycler) {
             layoutManager = GridLayoutManager(context, 3)
             adapter = AlbumInfoAdapter(res.photocards as MutableList<PhotocardRes>)
-            (adapter as AlbumInfoAdapter).addEditListener { Toast.makeText(context, "Edit push", Toast.LENGTH_LONG).show()}
-             (adapter as AlbumInfoAdapter).addDeleteListener { Toast.makeText(context, "Delete push", Toast.LENGTH_LONG).show()}
-            setOnTouchListener { v, event -> run {
-                if (event.action == MotionEvent.ACTION_DOWN && findChildViewUnder(event.getX(), event.getY()) != null) {
-                    Toast.makeText(context, "Push any", Toast.LENGTH_LONG).show()
-                }
-            }
-                false }
+            (adapter as AlbumInfoAdapter).addEditListener {
+                mPresenter.deletePhotoCard((adapter as AlbumInfoAdapter).getItem(it).id, it) }
+            (adapter as AlbumInfoAdapter).addDeleteListener { Toast.makeText(context, "Delete push", Toast.LENGTH_LONG).show() }
         }
     }
 }

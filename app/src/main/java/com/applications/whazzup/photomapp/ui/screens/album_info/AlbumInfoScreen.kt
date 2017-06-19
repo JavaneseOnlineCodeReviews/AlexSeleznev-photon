@@ -55,6 +55,12 @@ class AlbumInfoScreen(var item: UserAlbumRes) : AbstractScreen<RootActivity.Root
                         view.initView(res!!)})
         }
 
+        fun deletePhotoCard(cardId: String, position : Int){
+            mModel.deletePhotoCard(cardId).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe()
+        }
+
     }
     // endregion
 
