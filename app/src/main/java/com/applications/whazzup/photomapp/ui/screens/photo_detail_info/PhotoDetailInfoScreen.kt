@@ -39,10 +39,15 @@ class PhotoDetailInfoScreen(photoCard: PhotoCardDto) : AbstractScreen<RootActivi
             super.onLoad(savedInstanceState)
             view.showImageInfo(photoCard)
 
+            mModel.addView(photoCard.id)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeBy(onError = {it.printStackTrace()})
+
             mModel.getUserById(photoCard.owner)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeBy(onNext = {view.showOwnerInfo(it)})
+                    .subscribeBy(onNext = {view.showOwnerInfo(it)}, onError = {it.printStackTrace()})
         }
 
         override fun initToolbar() {
