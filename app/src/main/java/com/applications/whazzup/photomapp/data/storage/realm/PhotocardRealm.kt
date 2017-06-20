@@ -5,10 +5,6 @@ import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 
-/**
- * Created by VZ on 02.06.2017.
- */
-
 open class PhotocardRealm() : RealmObject() {
     @PrimaryKey
     var id: String = ""
