@@ -41,7 +41,7 @@ class UploadPhotoJob(private val mImageUri: String) : Job(Params(JobPriority.HIG
         if (file != null) {
             val sendFile = RequestBody.create(MediaType.parse("multipart/form-data"), file)
 
-            val mBody = MultipartBody.Part.createFormData("photo", file.name, sendFile)
+            val mBody = MultipartBody.Part.createFormData("image", file.name, sendFile)
 
             DataManager.INSTANCE
                     .uploadUserPhoto(mBody)
