@@ -10,6 +10,6 @@
         android:title="Поделиться"/>
     <item
         android:id="@+id/download"
-        android:icon="@drawable/ic_custom_favorites_black_24dp"
+        android:icon="@drawable/ic_file_download_black_24dp"
         android:title="Скачать"/>
 </menu>

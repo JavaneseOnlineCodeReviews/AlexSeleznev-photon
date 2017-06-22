@@ -1,6 +1,9 @@
 package com.applications.whazzup.photomapp.ui.screens.photo_detail_info
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
+import android.os.Environment
 import android.support.v7.view.menu.MenuBuilder
 import android.support.v7.view.menu.MenuPopupHelper
 import android.support.v7.widget.PopupMenu
@@ -18,8 +21,14 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.squareup.picasso.Picasso
+import com.squareup.picasso.Target
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.screen_photo_detail_info.view.*
+import java.io.File
+import java.io.FileOutputStream
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 
@@ -35,7 +44,11 @@ class PhotoDetailInfoView(context: Context, attrs: AttributeSet) : AbstractView<
     @BindView(R.id.photocard_count) lateinit var photocardCount: TextView
     @BindView(R.id.owner_img) lateinit var ownerImg: CircleImageView
 
+    private var photocard: PhotoCardDto ?= null
+
     fun showImageInfo(photoCard: PhotoCardDto) {
+        this.photocard = photoCard
+
         picasso.load(photoCard.photo).fit().centerCrop().into(image)
         photoName.text = photoCard.title
 
@@ -67,6 +80,7 @@ class PhotoDetailInfoView(context: Context, attrs: AttributeSet) : AbstractView<
                 R.id.share ->{
                 }
                 R.id.download ->{
+                    mPresenter.downloadPermissionAccess()
                 }
             }
             false
@@ -74,6 +88,33 @@ class PhotoDetailInfoView(context: Context, attrs: AttributeSet) : AbstractView<
         val menuHelper = MenuPopupHelper(context, menu.menu as MenuBuilder, view)
         menuHelper.setForceShowIcon(true)
         menuHelper.show()
+    }
+
+    fun downloadImage() {
+        picasso.load(photocard?.photo).into(target)
+    }
+
+    private val target = object : Target {
+        override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
+            val dateTimeInstance = SimpleDateFormat.getTimeInstance(DateFormat.MEDIUM)
+            val timeStamp = dateTimeInstance.format(Date())
+            val imageFileName = "IMG_" + timeStamp
+
+            val file = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).absolutePath, "$imageFileName.jpg")
+            try {
+                file.createNewFile()
+                val ostream = FileOutputStream(file)
+                bitmap?.compress(Bitmap.CompressFormat.JPEG, 80, ostream)
+                ostream.flush()
+                ostream.close()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+        override fun onBitmapFailed(errorDrawable: Drawable?) { return }
+
+        override fun onPrepareLoad(placeHolderDrawable: Drawable?) { return }
     }
 
     //region ================= AbstractView =================

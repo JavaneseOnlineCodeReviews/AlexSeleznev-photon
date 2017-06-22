@@ -1,5 +1,6 @@
 package com.applications.whazzup.photomapp.ui.screens.photo_detail_info
 
+import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.os.Bundle
 import com.applications.whazzup.photomapp.R
 import com.applications.whazzup.photomapp.data.storage.dto.PhotoCardDto
@@ -12,6 +13,7 @@ import com.applications.whazzup.photomapp.mvp.presenters.AbstractPresenter
 import com.applications.whazzup.photomapp.mvp.presenters.MenuItemHolder
 import com.applications.whazzup.photomapp.ui.activities.RootActivity
 import com.applications.whazzup.photomapp.ui.screens.photo_card_list.PhotoCardListScreen
+import com.applications.whazzup.photomapp.util.ConstantManager
 import dagger.Provides
 import flow.TreeKey
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -65,6 +67,12 @@ class PhotoDetailInfoScreen(photoCard: PhotoCardDto) : AbstractScreen<RootActivi
 
         override fun initDagger(scope: MortarScope) {
             (scope.getService<Any>(DaggerService.SERVICE_NAME) as DaggerPhotoDetailInfoScreen_Component).inject(this)
+        }
+
+        fun downloadPermissionAccess() {
+            if (mRootPresenter.checkPermissionAndRequestIfNotGranted(arrayOf(WRITE_EXTERNAL_STORAGE), ConstantManager.REQUEST_DOWNLOAD_IMAGE)) {
+                view.downloadImage()
+            }
         }
 
     }
