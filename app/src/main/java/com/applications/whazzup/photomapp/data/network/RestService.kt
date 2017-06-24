@@ -20,8 +20,11 @@ interface RestService {
     @GET("photocard/list")
     fun getPhotoCard(@Query("limit") limit: Int, @Query("offset") offset: Int): Observable<List<PhotocardRes>>
 
-    @POST("photocard/{photocardId}/view")
-    fun addView(@Path("photocardId") photocardId: String): Observable<AddViewRes>
+    @GET("photocard/tags")
+    fun getTags() : Observable<List<String>>
+
+    @POST("photocard/{photoCardId}/view")
+    fun addView(@Path("photoCardId") photoCardId: String): Observable<AddViewRes>
 
     @POST("user/signUp")
     fun sigUpUser(@Body user : UserSigInReq): Observable<UserRes>

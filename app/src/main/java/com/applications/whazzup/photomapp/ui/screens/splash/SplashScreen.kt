@@ -43,7 +43,7 @@ class SplashScreen : AbstractScreen<RootActivity.RootComponent>() {
                     .flatMap { Observable.fromIterable(it) }
                     .sorted { o1, o2 -> compareValues(o1, o2)  }
                     .doOnNext {
-                        mModel.savePhotocardToRealm(it)
+                        mModel.savePhotoCardToRealm(it)
                         mRootPresenter.mRootModel.addToCardList(PhotoCardDto(it))
                     }
                     .subscribeOn(Schedulers.io())

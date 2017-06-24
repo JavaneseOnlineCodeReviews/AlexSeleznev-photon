@@ -56,4 +56,10 @@
     <string name="albums">Альбомы</string>
     <string name="cards">Карты</string>
 
+    <string name="search">Поиск</string>
+    <string name="tags">Теги</string>
+    <string name="filters">Фильтры</string>
+
+    <string name="hash_tag">#%s</string>
+
 </resources>

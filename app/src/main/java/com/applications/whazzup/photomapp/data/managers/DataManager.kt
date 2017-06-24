@@ -7,7 +7,9 @@ import com.applications.whazzup.photomapp.data.network.req.AddAlbumReq
 import com.applications.whazzup.photomapp.data.network.req.UserChangeInfoReq
 import com.applications.whazzup.photomapp.data.network.req.UserLogInReq
 import com.applications.whazzup.photomapp.data.network.req.UserSigInReq
+
 import com.applications.whazzup.photomapp.data.network.res.AddViewRes
+import javax.inject.Inject
 import com.applications.whazzup.photomapp.data.network.res.PhotocardRes
 import com.applications.whazzup.photomapp.data.network.res.UserAvatarRes
 import com.applications.whazzup.photomapp.data.network.res.user.UserAlbumRes
@@ -18,7 +20,6 @@ import com.applications.whazzup.photomapp.di.modules.NetworkModule
 import io.reactivex.Observable
 import okhttp3.MultipartBody
 import retrofit2.Response
-import javax.inject.Inject
 
 class DataManager {
 
@@ -39,12 +40,16 @@ class DataManager {
         return mRestService.getPhotoCard(limit, offset)
     }
 
+    fun getTagsObs() : Observable<List<String>> {
+        return mRestService.getTags()
+    }
+
     fun addView(photocardId: String): Observable<AddViewRes> {
         return mRestService.addView(photocardId)
     }
 
     fun savePhotocardToRealm(photocardRes: PhotocardRes) {
-        mRealmManager.savePhotocardResponseToRealm(photocardRes)
+        mRealmManager.savePhotoCardResponseToRealm(photocardRes)
     }
 
     fun signUpUser(user : UserSigInReq): Observable<UserRes>{

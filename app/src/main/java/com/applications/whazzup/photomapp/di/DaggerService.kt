@@ -1,9 +1,10 @@
 package com.applications.whazzup.photomapp.di
 
-
 import android.content.Context
 
+
 object DaggerService {
+
     val SERVICE_NAME = "SERVICE_NAME"
 
     fun <T> getDaggerComponent(context: Context): T {

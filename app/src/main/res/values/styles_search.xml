@@ -64,5 +64,8 @@
         <item name="android:layout_gravity">center_horizontal</item>
     </style>
 
-    <dimen name="spacing_small_8">8dp</dimen>
+    <style name="TagSearchImageView" parent="WrapDouble">
+        <item name="android:padding">@dimen/spacing_small_8</item>
+    </style>
+
 </resources>

@@ -24,10 +24,6 @@ class SearchView(context : Context, attrs : AttributeSet) : AbstractView<SearchS
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        search_pager.adapter = SearchAdapterJava()
+        search_pager.adapter = SearchAdapter()
     }
-
-//    override fun onAttachedToWindow() {
-//        super.onAttachedToWindow()
-//    }
 }

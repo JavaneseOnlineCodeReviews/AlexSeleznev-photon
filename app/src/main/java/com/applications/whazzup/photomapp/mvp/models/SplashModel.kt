@@ -8,7 +8,7 @@ class SplashModel : AbstractModel() {
         return mDataManager.getPhotoCard(limit, offset)
     }
 
-    fun savePhotocardToRealm(photocardRes: PhotocardRes) {
-        mDataManager.savePhotocardToRealm(photocardRes)
+    fun savePhotoCardToRealm(photoCardRes: PhotocardRes) {
+        mDataManager.savePhotocardToRealm(photoCardRes)
     }
 }
