@@ -4,6 +4,7 @@ import com.applications.whazzup.photomapp.data.network.req.AddAlbumReq
 import com.applications.whazzup.photomapp.data.network.req.UserChangeInfoReq
 import com.applications.whazzup.photomapp.data.network.req.UserLogInReq
 import com.applications.whazzup.photomapp.data.network.req.UserSigInReq
+import com.applications.whazzup.photomapp.data.network.res.AddViewRes
 import com.applications.whazzup.photomapp.data.network.res.PhotocardRes
 import com.applications.whazzup.photomapp.data.network.res.UserAvatarRes
 import com.applications.whazzup.photomapp.data.network.res.user.UserAlbumRes
@@ -21,6 +22,9 @@ interface RestService {
 
     @GET("photocard/tags")
     fun getTags() : Observable<List<String>>
+
+    @POST("photocard/{photoCardId}/view")
+    fun addView(@Path("photoCardId") photoCardId: String): Observable<AddViewRes>
 
     @POST("user/signUp")
     fun sigUpUser(@Body user : UserSigInReq): Observable<UserRes>

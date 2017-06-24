@@ -41,6 +41,7 @@ class SplashScreen : AbstractScreen<RootActivity.RootComponent>() {
             rootView?.showLoad()
             mModel.getPhotoCard(60, 0)
                     .flatMap { Observable.fromIterable(it) }
+                    .sorted { o1, o2 -> compareValues(o1, o2)  }
                     .doOnNext {
                         mModel.savePhotoCardToRealm(it)
                         mRootPresenter.mRootModel.addToCardList(PhotoCardDto(it))

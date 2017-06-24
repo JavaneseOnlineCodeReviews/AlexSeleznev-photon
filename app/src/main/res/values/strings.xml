@@ -10,6 +10,7 @@
     <string name="password_et_hint">Пароль</string>
     <string name="ok_btn_insc">OK</string>
     <string name="cancel_btn_insc">Отмена</string>
+    <string name="hashtag">#%s</string>
 
     <!--Filter-->
     <string name="meat_title">Мясо</string>
@@ -52,6 +53,8 @@
     <string name="name">Имя</string>
     <string name="password">Пароль</string>
     <string name="desc_album">Описание</string>
+    <string name="albums">Альбомы</string>
+    <string name="cards">Карты</string>
 
     <string name="search">Поиск</string>
     <string name="tags">Теги</string>

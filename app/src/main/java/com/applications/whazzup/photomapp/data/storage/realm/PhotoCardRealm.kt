@@ -15,14 +15,14 @@ open class PhotoCardRealm() : RealmObject() {
     var favorits: Int = 0
     var tags: RealmList<TagRealm> = RealmList()
 
-    constructor(photocard: PhotocardRes) : this() {
-        id = photocard.id
-        owner = photocard.owner
-        title = photocard.title
-        photo = photocard.photo
-        views = photocard.views
-        favorits = photocard.favorits
-        for (tag in photocard.tags) {
+    constructor(photoCard: PhotocardRes) : this() {
+        id = photoCard.id
+        owner = photoCard.owner
+        title = photoCard.title
+        photo = photoCard.photo
+        views = photoCard.views
+        favorits = photoCard.favorits
+        for (tag in photoCard.tags) {
             tags.add(TagRealm(tag))
         }
     }

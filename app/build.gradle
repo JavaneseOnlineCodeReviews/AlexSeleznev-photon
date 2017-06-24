@@ -95,6 +95,7 @@ dependencies {
     compile 'com.afollestad.material-dialogs:commons:0.9.4.5'
 
     compile 'de.hdodenhof:circleimageview:2.1.0'
+
     /*FlexBoxLayout*/
     compile 'com.google.android:flexbox:0.3.0-alpha4'
 }

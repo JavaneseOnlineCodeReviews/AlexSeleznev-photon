@@ -17,4 +17,7 @@
     <color name="colorPurple">#fa01e9</color>
     <color name="colorBrown">#47452e</color>
     <color name="colorWhite">#ffffff</color>
+
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
 </resources>
