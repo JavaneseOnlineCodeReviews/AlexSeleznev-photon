@@ -13,6 +13,7 @@ open class PhotoCardRealm() : RealmObject() {
     var photo:String = ""
     var views: Int = 0
     var favorits: Int = 0
+    var active : Boolean = false
     var tags: RealmList<TagRealm> = RealmList()
 
     constructor(photoCard: PhotocardRes) : this() {
@@ -21,6 +22,7 @@ open class PhotoCardRealm() : RealmObject() {
         title = photoCard.title
         photo = photoCard.photo
         views = photoCard.views
+        active = photoCard.active
         favorits = photoCard.favorits
         for (tag in photoCard.tags) {
             tags.add(TagRealm(tag))
