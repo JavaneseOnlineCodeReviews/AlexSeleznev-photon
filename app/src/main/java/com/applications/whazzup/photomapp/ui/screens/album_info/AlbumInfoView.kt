@@ -39,7 +39,7 @@ class AlbumInfoView(context: Context, attrs: AttributeSet) : AbstractView<AlbumI
 
     fun initView(res: UserAlbumRes) {
         mAlbumTitle.text = res.title
-        mAlbumsCardCount.text = res.photocards.size.toString()
+
         mAlbumDesc.text = res.description
         albumInfoAdapter = AlbumInfoAdapter()
         for(item in res.photocards){
@@ -52,5 +52,6 @@ class AlbumInfoView(context: Context, attrs: AttributeSet) : AbstractView<AlbumI
                 mPresenter.deletePhotoCard((adapter as AlbumInfoAdapter).getItem(it).id, it) }
             (adapter as AlbumInfoAdapter).addDeleteListener { Toast.makeText(context, "Delete push", Toast.LENGTH_LONG).show() }
         }
+        mAlbumsCardCount.text = albumInfoAdapter.adapterCardList.size.toString()
     }
 }

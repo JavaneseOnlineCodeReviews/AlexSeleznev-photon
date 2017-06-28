@@ -39,6 +39,15 @@ class SplashScreen : AbstractScreen<RootActivity.RootComponent>() {
             super.onEnterScope(scope)
             rootView?.hideBottomNavigation(false)
             rootView?.showLoad()
+            if(mModel.mDataManager.isUserAuth()){
+            mModel.getUserById() .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeBy(onNext = {
+                        for(item in it.albums){
+                            mModel.saveAlbumToRealm(item)
+                        }
+                    })
+            }
             mModel.getPhotoCard(60, 0)
                     .flatMap { Observable.fromIterable(it) }
                     .filter { it -> it.active }
@@ -52,7 +61,7 @@ class SplashScreen : AbstractScreen<RootActivity.RootComponent>() {
                             onComplete = {
                                 rootView?.hideLoad()
                                 rootView?.hideBottomNavigation(true)
-                               Flow.get(view.context).set(PhotoCardListScreen())
+                                Flow.get(view.context).set(PhotoCardListScreen())
                             },
                             onError = {
                                 rootView!!.hideLoad()

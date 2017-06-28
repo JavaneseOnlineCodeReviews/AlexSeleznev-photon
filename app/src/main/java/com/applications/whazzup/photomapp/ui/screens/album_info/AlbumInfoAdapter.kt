@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.applications.whazzup.photomapp.R
 import com.applications.whazzup.photomapp.data.network.res.PhotocardRes
+import com.applications.whazzup.photomapp.data.storage.realm.PhotocardRealm
 import com.applications.whazzup.photomapp.di.DaggerService
 import com.applications.whazzup.photomapp.ui.screens.album_info.AlbumInfoAdapter.ViewHolder
 import com.squareup.picasso.Picasso
@@ -23,7 +24,7 @@ class AlbumInfoAdapter() : RecyclerView.Adapter<ViewHolder>() {
     var editListener : ((Int)->Unit)? = null
     var deleteListener : ((Int)->Unit)? = null
     var selectedPosition : Int = -1
-    var adapterCardList = emptyList<PhotocardRes>()
+    var adapterCardList = mutableListOf<PhotocardRes>()
 
     constructor(cardList : MutableList<PhotocardRes>) : this(){
         adapterCardList = cardList
@@ -104,13 +105,13 @@ class AlbumInfoAdapter() : RecyclerView.Adapter<ViewHolder>() {
     }
 
     fun deleteItem(position: Int) {
-        (adapterCardList as MutableList).removeAt(position)
+        (adapterCardList).removeAt(position)
         notifyDataSetChanged()
     }
 
     fun addItem(photoCard : PhotocardRes){
         if(photoCard.active){
-            (adapterCardList as MutableList).add(photoCard)
+            (adapterCardList).add(photoCard)
             notifyDataSetChanged()
         }
     }
