@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.album_info_card_item.view.*
 import javax.inject.Inject
 
 
-class AlbumInfoAdapter(var cardList : MutableList<PhotocardRes>) : RecyclerView.Adapter<ViewHolder>() {
+class AlbumInfoAdapter() : RecyclerView.Adapter<ViewHolder>() {
 
     @Inject
     lateinit var mPicasso : Picasso
@@ -23,13 +23,18 @@ class AlbumInfoAdapter(var cardList : MutableList<PhotocardRes>) : RecyclerView.
     var editListener : ((Int)->Unit)? = null
     var deleteListener : ((Int)->Unit)? = null
     var selectedPosition : Int = -1
+    var adapterCardList = emptyList<PhotocardRes>()
+
+    constructor(cardList : MutableList<PhotocardRes>) : this(){
+        adapterCardList = cardList
+    }
 
     override fun getItemCount(): Int {
-       return cardList.size
+       return adapterCardList.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
-        var item = cardList[position]
+        var item = adapterCardList[position]
         mPicasso.load(item.photo).into(holder?.cardImage)
         if(selectedPosition != position){
             holder?.menu?.visibility = View.GONE
@@ -45,7 +50,7 @@ class AlbumInfoAdapter(var cardList : MutableList<PhotocardRes>) : RecyclerView.
     }
 
     fun getItem(position : Int) : PhotocardRes{
-        return cardList[position]
+        return adapterCardList[position]
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView?) {
@@ -99,8 +104,15 @@ class AlbumInfoAdapter(var cardList : MutableList<PhotocardRes>) : RecyclerView.
     }
 
     fun deleteItem(position: Int) {
-        cardList.removeAt(position)
+        (adapterCardList as MutableList).removeAt(position)
         notifyDataSetChanged()
+    }
+
+    fun addItem(photoCard : PhotocardRes){
+        if(photoCard.active){
+            (adapterCardList as MutableList).add(photoCard)
+            notifyDataSetChanged()
+        }
     }
 
 }

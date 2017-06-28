@@ -126,7 +126,10 @@ class UserProfileAuthView(context: Context, attrs: AttributeSet) : AbstractView<
         }else{
             mAlbumCardWrapper.visibility = View.VISIBLE
             mUserAlbumRecycler.visibility = View.VISIBLE
-            userAdapter = UserProfileAlbumRecycler(res?.albums)
+            userAdapter = UserProfileAlbumRecycler()
+            for(album in res.albums){
+                userAdapter.addAlbum(album)
+            }
             with(user_info_album_recycler){
                 layoutManager = GridLayoutManager(context, 2)
                 adapter = userAdapter

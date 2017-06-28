@@ -27,7 +27,7 @@ class AlbumInfoView(context: Context, attrs: AttributeSet) : AbstractView<AlbumI
     @BindView(R.id.album_description)
     lateinit var mAlbumDesc: TextView
 
-    lateinit var adapter : AlbumInfoAdapter
+    lateinit var albumInfoAdapter : AlbumInfoAdapter
 
     override fun viewOnBackPressed(): Boolean {
         return false
@@ -41,9 +41,13 @@ class AlbumInfoView(context: Context, attrs: AttributeSet) : AbstractView<AlbumI
         mAlbumTitle.text = res.title
         mAlbumsCardCount.text = res.photocards.size.toString()
         mAlbumDesc.text = res.description
+        albumInfoAdapter = AlbumInfoAdapter()
+        for(item in res.photocards){
+            albumInfoAdapter.addItem(item)
+        }
         with(album_info_recycler) {
             layoutManager = GridLayoutManager(context, 3)
-            adapter = AlbumInfoAdapter(res.photocards as MutableList<PhotocardRes>)
+            adapter = albumInfoAdapter
             (adapter as AlbumInfoAdapter).addEditListener {
                 mPresenter.deletePhotoCard((adapter as AlbumInfoAdapter).getItem(it).id, it) }
             (adapter as AlbumInfoAdapter).addDeleteListener { Toast.makeText(context, "Delete push", Toast.LENGTH_LONG).show() }

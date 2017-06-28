@@ -67,12 +67,13 @@ class UserProfileAlbumRecycler() : RecyclerView.Adapter< UserProfileAlbumRecycle
     }
 
     fun addAlbum(album : UserAlbumRes){
+        if(album.active){
         userAlbums.add(album)
         notifyDataSetChanged()
+        }
     }
 
     class ViewHolder(item : View, onItemClick : ((Int)->Unit)?) : RecyclerView.ViewHolder(item), View.OnClickListener {
-
         override fun onClick(v: View?) {
         listener?.invoke(adapterPosition)
         }
