@@ -1,18 +1,25 @@
 package com.applications.whazzup.photomapp.ui.screens.album_info
 
+import android.app.AlertDialog
 import android.content.Context
+import android.support.v7.view.menu.MenuBuilder
+import android.support.v7.view.menu.MenuPopupHelper
 import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.PopupMenu
+import android.text.Editable
 import android.util.AttributeSet
-import android.view.MotionEvent
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import butterknife.BindView
 import com.applications.whazzup.photomapp.R
-import com.applications.whazzup.photomapp.data.network.res.PhotocardRes
+import com.applications.whazzup.photomapp.data.network.req.AlbumChangeInfoReq
 import com.applications.whazzup.photomapp.data.network.res.user.UserAlbumRes
 import com.applications.whazzup.photomapp.di.DaggerService
 import com.applications.whazzup.photomapp.mvp.views.AbstractView
-import com.applications.whazzup.photomapp.ui.screens.photo_card_list.PhotoCardListAdapter
 import kotlinx.android.synthetic.main.screen_album_info.view.*
 
 
@@ -25,9 +32,11 @@ class AlbumInfoView(context: Context, attrs: AttributeSet) : AbstractView<AlbumI
     lateinit var mAlbumsCardCount: TextView
 
     @BindView(R.id.album_description)
-    lateinit var mAlbumDesc: TextView
+    lateinit var mAlbumDescription: TextView
 
     lateinit var albumInfoAdapter : AlbumInfoAdapter
+
+    lateinit  var builder : AlertDialog
 
     override fun viewOnBackPressed(): Boolean {
         return false
@@ -40,7 +49,7 @@ class AlbumInfoView(context: Context, attrs: AttributeSet) : AbstractView<AlbumI
     fun initView(res: UserAlbumRes) {
         mAlbumTitle.text = res.title
 
-        mAlbumDesc.text = res.description
+        mAlbumDescription.text = res.description
         albumInfoAdapter = AlbumInfoAdapter()
         for(item in res.photocards){
             albumInfoAdapter.addItem(item)
@@ -53,5 +62,46 @@ class AlbumInfoView(context: Context, attrs: AttributeSet) : AbstractView<AlbumI
             (adapter as AlbumInfoAdapter).addDeleteListener { Toast.makeText(context, "Delete push", Toast.LENGTH_LONG).show() }
         }
         mAlbumsCardCount.text = albumInfoAdapter.adapterCardList.size.toString()
+    }
+
+    fun showPopupMenu(it: View) {
+        var menu = PopupMenu(context, it)
+        menu.inflate(R.menu.album_info_popup_menu)
+        menu.setOnMenuItemClickListener({
+            when(it.itemId) {
+                R.id.change_album ->{
+                   changeAlbum()
+                }
+                R.id.delete_album -> {
+                    mPresenter.deleteAlbum()
+                }
+            }
+            false
+        })
+        val menuHelper = MenuPopupHelper(context, menu.menu as MenuBuilder, it)
+        menuHelper.setForceShowIcon(true)
+        menuHelper.show()
+    }
+
+    fun changeAlbum() {
+        builder = AlertDialog.Builder(context).create()
+        val v: View= LayoutInflater.from(context).inflate(R.layout.dialog_customview_login, null)
+        val mAlbumName = v.findViewById(R.id.album_name_et) as EditText
+        mAlbumName.setText(mAlbumTitle.text)
+        val mAlbumDesc = v.findViewById(R.id.album_desc_et) as EditText
+        mAlbumDesc.setText(mAlbumDescription.text)
+        val mAddAlbumBtn = v.findViewById(R.id.add_album_btn) as Button
+        mAddAlbumBtn.setText("Изменить")
+
+        builder.setTitle("Новый альбом!")
+        mAddAlbumBtn.setOnClickListener {
+            mPresenter.changeAlbumInfo(AlbumChangeInfoReq(mAlbumName.text.toString(), mAlbumDesc.text.toString()))
+        }
+        builder?.setView(v)
+        builder?.show()
+    }
+
+    fun hideDialog() {
+        builder.dismiss()
     }
 }

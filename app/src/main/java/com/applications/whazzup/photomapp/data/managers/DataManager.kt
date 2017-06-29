@@ -3,10 +3,7 @@ package com.applications.whazzup.photomapp.data.managers
 
 import com.applications.whazzup.photomapp.App
 import com.applications.whazzup.photomapp.data.network.RestService
-import com.applications.whazzup.photomapp.data.network.req.AddAlbumReq
-import com.applications.whazzup.photomapp.data.network.req.UserChangeInfoReq
-import com.applications.whazzup.photomapp.data.network.req.UserLogInReq
-import com.applications.whazzup.photomapp.data.network.req.UserSigInReq
+import com.applications.whazzup.photomapp.data.network.req.*
 import com.applications.whazzup.photomapp.data.network.res.AddAlbumRes
 import com.applications.whazzup.photomapp.data.network.res.PhotocardRes
 import com.applications.whazzup.photomapp.data.network.res.UserAvatarRes
@@ -97,5 +94,13 @@ class DataManager {
 
     fun deletePhotoCard(cardId : String) : Observable<Response<Void>>{
         return mRestService.deletePhotoCard(mPreferencesManager.getUserId(), mPreferencesManager.getUserToken(), cardId)
+    }
+
+    fun changeAlbumInfo(albumId : String, albuminfo : AlbumChangeInfoReq) : Observable<UserAlbumRes>{
+        return mRestService.changeAlbumInfo(mPreferencesManager.getUserId(), mPreferencesManager.getUserToken(), albumId, albuminfo)
+    }
+
+    fun deleteAlbum(albumId: String): Observable<Response<Void>>{
+        return mRestService.deleteAlbum(mPreferencesManager.getUserId(), mPreferencesManager.getUserToken(), albumId)
     }
 }

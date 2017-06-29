@@ -2,6 +2,7 @@ package com.applications.whazzup.photomapp.ui.screens.album_info
 
 import android.os.Bundle
 import com.applications.whazzup.photomapp.R
+import com.applications.whazzup.photomapp.data.network.req.AlbumChangeInfoReq
 import com.applications.whazzup.photomapp.data.network.res.user.UserAlbumRes
 import com.applications.whazzup.photomapp.di.DaggerScope
 import com.applications.whazzup.photomapp.di.DaggerService
@@ -13,6 +14,7 @@ import com.applications.whazzup.photomapp.mvp.presenters.MenuItemHolder
 import com.applications.whazzup.photomapp.ui.activities.RootActivity
 import com.applications.whazzup.photomapp.ui.screens.user_profile_auth.UserProfileAuthScreen
 import dagger.Provides
+import flow.Flow
 import flow.TreeKey
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
@@ -36,7 +38,7 @@ class AlbumInfoScreen(var item: UserAlbumRes) : AbstractScreen<RootActivity.Root
 
         override fun initToolbar() {
             mRootPresenter.newActionBarBuilder().setTitle("Альбом").setBackArrow(true).addAction(MenuItemHolder("Пункты меню", R.layout.dots_menu_item, listener = {
-                //view.showPopupMenu(it)
+                view.showPopupMenu(it)
                 true
             })).build()
         }
@@ -59,6 +61,28 @@ class AlbumInfoScreen(var item: UserAlbumRes) : AbstractScreen<RootActivity.Root
             mModel.deletePhotoCard(cardId).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe()
+        }
+
+        fun changeAlbumInfo(req: AlbumChangeInfoReq) {
+            var res : UserAlbumRes? = null
+            mModel.changeAlbumInfo(item.id, req).subscribeOn(Schedulers.io())
+                    .doOnNext {res = it}
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeBy(onComplete = {
+                        view.initView(res!!)
+                        view.hideDialog()
+                        })
+        }
+
+        fun deleteAlbum(){
+            mModel.deleteAlbum(item.id)   .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeBy(onComplete = {
+                        Flow.get(view.context).goBack()
+                    }
+                            ,onError = {
+                        mRootPresenter.rootView?.showError(it)
+                    })
         }
 
     }
