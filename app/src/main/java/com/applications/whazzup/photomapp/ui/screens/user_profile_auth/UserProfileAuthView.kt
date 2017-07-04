@@ -17,13 +17,14 @@ import android.support.v7.view.menu.MenuPopupHelper
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.PopupMenu
 import android.support.v7.widget.RecyclerView
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.widget.*
 import butterknife.OnClick
 import com.applications.whazzup.photomapp.data.network.req.AddAlbumReq
 import com.applications.whazzup.photomapp.data.network.res.user.UserRes
+import com.applications.whazzup.photomapp.ui.screens.album_info.AlbumInfoScreen
 import com.squareup.picasso.Picasso
+import flow.Flow
 import kotlinx.android.synthetic.main.screen_user_profile.view.*
 import java.io.IOException
 
@@ -125,10 +126,14 @@ class UserProfileAuthView(context: Context, attrs: AttributeSet) : AbstractView<
         }else{
             mAlbumCardWrapper.visibility = View.VISIBLE
             mUserAlbumRecycler.visibility = View.VISIBLE
-            userAdapter = UserProfileAlbumRecycler(res?.albums)
+            userAdapter = UserProfileAlbumRecycler()
+            for(album in res.albums){
+                userAdapter.addAlbum(album)
+            }
             with(user_info_album_recycler){
                 layoutManager = GridLayoutManager(context, 2)
                 adapter = userAdapter
+                (adapter as UserProfileAlbumRecycler).addListener { Flow.get(context).set(AlbumInfoScreen((adapter as UserProfileAlbumRecycler).getItem(it))) }
         }
         }
     }

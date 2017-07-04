@@ -329,7 +329,7 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
 
     override fun setActionBarVisible(visible: Boolean) {
         if(visible){
-            supportActionBar?.show()
+       supportActionBar?.show()
         }else {
             supportActionBar?.hide()}
     }
@@ -343,6 +343,14 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
         }
     }
 
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when(item?.itemId){
+            android.R.id.home -> {
+                Flow.get(this).goBack()
+                return false
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
     override fun setTabLayout(viewPager: ViewPager?) {
         val tabView = TabLayout(this) //создаём tab layout
         tabView.setupWithViewPager(viewPager)      //связываем его с ViewPager

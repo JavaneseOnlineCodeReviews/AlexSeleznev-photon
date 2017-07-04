@@ -4,7 +4,7 @@ import com.applications.whazzup.photomapp.data.network.req.AddAlbumReq
 import com.applications.whazzup.photomapp.data.network.req.UserChangeInfoReq
 import com.applications.whazzup.photomapp.data.network.req.UserLogInReq
 import com.applications.whazzup.photomapp.data.network.req.UserSigInReq
-import com.applications.whazzup.photomapp.data.network.res.AddViewRes
+import com.applications.whazzup.photomapp.data.network.res.AddAlbumRes
 import com.applications.whazzup.photomapp.data.network.res.PhotocardRes
 import com.applications.whazzup.photomapp.data.network.res.UserAvatarRes
 import com.applications.whazzup.photomapp.data.network.res.user.UserAlbumRes
@@ -49,5 +49,17 @@ interface RestService {
     @Multipart
     @POST("user/{userId}/image/upload")
     fun uploadPhoto(@Path("userId") userId : String, @Part file : MultipartBody.Part, @Header("Authorization") userToken : String) : Observable<UserAvatarRes>
+
+    @GET("user/{userId}/album/{albumId}")
+    fun getAlbumById(@Path("userId") userId : String, @Path("albumId") albumId : String) : Observable<UserAlbumRes>
+
+    @DELETE("user/{userId}/photocard/{cardId}")
+    fun deletePhotoCard(@Path("userId") userId : String, @Header("Authorization") userToken : String, @Path("cardId") cardId: String) : Observable<Response<Void>>
+
+    @PUT("user/{userId}/album/{albumId}")
+    fun changeAlbumInfo(@Path("userId") userId : String, @Header("Authorization") userToken : String, @Path("albumId") albumId : String, @Body albumInf : AlbumChangeInfoReq) : Observable<UserAlbumRes>
+
+    @DELETE("user/{userId}/album/{albumId}")
+    fun deleteAlbum(@Path("userId") userId : String, @Header("Authorization") userToken : String, @Path("albumId") albumId : String) : Observable<Response<Void>>
 
 }

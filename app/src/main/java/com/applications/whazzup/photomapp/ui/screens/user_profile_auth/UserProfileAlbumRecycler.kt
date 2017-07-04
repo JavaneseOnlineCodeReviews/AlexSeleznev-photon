@@ -18,11 +18,14 @@ class UserProfileAlbumRecycler() : RecyclerView.Adapter< UserProfileAlbumRecycle
     lateinit var mPicasso : Picasso
 
     var userAlbums : MutableList<UserAlbumRes>
+    var listener : ((Int)->Unit)?=null
 
     constructor(albums : List<UserAlbumRes>?) : this() {
-    userAlbums = albums as MutableList<UserAlbumRes>
-}
+    userAlbums = albums as MutableList<UserAlbumRes> }
 
+    fun addListener(onItemClick : (Int)->Unit){
+        this.listener = onItemClick
+    }
 
     init {
         userAlbums = mutableListOf()
@@ -32,6 +35,10 @@ class UserProfileAlbumRecycler() : RecyclerView.Adapter< UserProfileAlbumRecycle
 
     override fun getItemCount(): Int {
         return userAlbums.size
+    }
+
+    fun getItem(position: Int): UserAlbumRes{
+        return userAlbums[position]
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView?) {
@@ -56,20 +63,31 @@ class UserProfileAlbumRecycler() : RecyclerView.Adapter< UserProfileAlbumRecycle
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
         var inflater = LayoutInflater.from(parent?.context)
-        return ViewHolder(inflater.inflate(R.layout.item_album, parent, false))
+        return ViewHolder(inflater.inflate(R.layout.item_album, parent, false), listener)
     }
 
     fun addAlbum(album : UserAlbumRes){
+        if(album.active){
         userAlbums.add(album)
         notifyDataSetChanged()
+        }
     }
 
+    class ViewHolder(item : View, onItemClick : ((Int)->Unit)?) : RecyclerView.ViewHolder(item), View.OnClickListener {
+        override fun onClick(v: View?) {
+        listener?.invoke(adapterPosition)
+        }
 
-    class ViewHolder(item : View) : RecyclerView.ViewHolder(item) {
         var albumTitle = item.album_title!!
         var albumCardCount = item.album_card_count
         var viewCount = item.views_count_txt
         var favoriteCount = item.favorite_count_txt
         var albumPreview = item.album_image
+        var listener = onItemClick
+        init {
+            albumPreview.setOnClickListener (this)
+        }
+
+
     }
 }

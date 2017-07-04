@@ -83,5 +83,7 @@ class App : Application() {
         var rootComponent: RootActivity.RootComponent? = null
             private set
         var sharedPreferences: SharedPreferences? = null
+
+
     }
 }
