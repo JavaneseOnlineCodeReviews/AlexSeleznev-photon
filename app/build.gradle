@@ -103,4 +103,10 @@ dependencies {
     compile 'com.github.milk-machine:KotlinRxJava2Interop:0.9.3-rc1'
     compile 'com.google.android:flexbox:0.3.0-alpha4'
     compile 'com.google.android:flexbox:0.3.0-alpha4'
+
+    /*Jobs priority*/
+    compile 'com.birbit:android-priority-jobqueue:2.0.1'
+
+    /*Minimize photo size*/
+    compile 'id.zelory:compressor:1.0.4'
 }

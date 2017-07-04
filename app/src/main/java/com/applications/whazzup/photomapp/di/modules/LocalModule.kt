@@ -20,4 +20,5 @@ class LocalModule {
     internal fun provideRealmManager(): RealmManager {
         return RealmManager()
     }
+
 }

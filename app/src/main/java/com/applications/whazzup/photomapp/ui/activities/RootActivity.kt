@@ -38,6 +38,7 @@ import com.applications.whazzup.photomapp.mvp.views.IRootView
 import com.applications.whazzup.photomapp.mvp.views.IView
 import com.applications.whazzup.photomapp.ui.screens.photo_card_list.PhotoCardListScreen
 import com.applications.whazzup.photomapp.ui.screens.splash.SplashScreen
+import com.applications.whazzup.photomapp.ui.screens.upload_photo.UploadPhotoScreen
 import com.applications.whazzup.photomapp.ui.screens.user_profile_auth.UserProfileAuthScreen
 import com.applications.whazzup.photomapp.ui.screens.user_profile_idle.UserProfileIdleScreen
 import com.applications.whazzup.photomapp.util.CustomTextWatcher
@@ -99,7 +100,10 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
                 }
                 true
             }
-            R.id.navigation_notifications -> return@OnNavigationItemSelectedListener true
+            R.id.navigation_notifications -> {
+                Flow.get(this).setHistory(History.single(UploadPhotoScreen()), Direction.FORWARD)
+                true
+            }
             else -> return@OnNavigationItemSelectedListener false
         }
     }

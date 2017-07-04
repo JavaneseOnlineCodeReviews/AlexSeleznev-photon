@@ -20,4 +20,9 @@ object ConstantManager {
     val REQUEST_PROFILE_PHOTO_CAMERA = 1002
     
     val FILE_PROVIDER_AUTHORITY = "com.applications.whazzup.photomapp"
+    val INITIAL_BACK_OFF_IN_MS: Long = 1000
+    val MIN_CONSUMER_COUNT = 1
+    val MAX_CONSUMER_COUNT = 3
+    val LOAD_FACTOR = 3
+    val KEEP_ALIVE = 120
 }
