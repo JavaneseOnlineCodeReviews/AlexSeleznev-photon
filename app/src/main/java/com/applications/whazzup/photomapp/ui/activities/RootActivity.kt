@@ -88,7 +88,7 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_home -> {
-                Flow.get(this).set(PhotoCardListScreen())
+                Flow.get(this).setHistory(History.single(PhotoCardListScreen()), Direction.FORWARD)
                 true
             }
             R.id.navigation_dashboard -> {
