@@ -52,10 +52,9 @@ import javax.inject.Inject
 class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
 
 
-
     @BindView(R.id.root_frame) lateinit var mRootFrame: FrameLayout
     @BindView(R.id.navigation) lateinit var mNavigation: BottomNavigationView
-    @BindView(R.id.toolbar) lateinit  var mToolbar: Toolbar
+    @BindView(R.id.toolbar) lateinit var mToolbar: Toolbar
     @BindView(R.id.appbar_layout) lateinit var mAppBarLayout: AppBarLayout
 
     @Inject
@@ -63,9 +62,9 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
 
     var mProgressDialog: ProgressDialog? = null
 
-    lateinit var  mActionBar : android.support.v7.app.ActionBar
-    lateinit  var mActionBarMenuItem : MutableList<MenuItemHolder>
-    lateinit  var builder : AlertDialog
+    lateinit var mActionBar: android.support.v7.app.ActionBar
+    lateinit var mActionBarMenuItem: MutableList<MenuItemHolder>
+    lateinit var builder: AlertDialog
 
     override fun attachBaseContext(newBase: Context) {
         var newBase = Flow.configure(newBase, this)
@@ -93,7 +92,7 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
                 true
             }
             R.id.navigation_dashboard -> {
-                if(mRootPresenter.isUserAuth()) {
+                if (mRootPresenter.isUserAuth()) {
                     Flow.get(this).setHistory(History.single(UserProfileAuthScreen()), Direction.FORWARD)
                 } else {
                     Flow.get(this).setHistory(History.single(UserProfileIdleScreen()), Direction.FORWARD)
@@ -122,14 +121,14 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
         super.startActivityForResult(intent, requestCode)
     }
 
-   override fun createSignInAlertDialog(){
+    override fun createSignInAlertDialog() {
         builder = AlertDialog.Builder(this).create()
 
-        val v: View=LayoutInflater.from(this).inflate(R.layout.sign_in, null)
-        val btn : Button =v.findViewById(R.id.sign_btn) as Button
+        val v: View = LayoutInflater.from(this).inflate(R.layout.sign_in, null)
+        val btn: Button = v.findViewById(R.id.sign_btn) as Button
         val cancelBtn = v.findViewById(R.id.cancel_btn) as Button
-        val nameEt : EditText = v.findViewById(R.id.name_et) as EditText
-        val loginEt =v.findViewById(R.id.login_et) as EditText
+        val nameEt: EditText = v.findViewById(R.id.name_et) as EditText
+        val loginEt = v.findViewById(R.id.login_et) as EditText
         val emailEt = v.findViewById(R.id.email_et) as EditText
         val passwordEt = v.findViewById(R.id.password_et) as EditText
         val loginErrorHint = v.findViewById(R.id.login_error_hint) as TextView
@@ -143,8 +142,8 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
         passwordEt.addTextChangedListener(CustomTextWatcher(passwordEt, passwordErrorHint))
 
         btn.setOnClickListener {
-            if((loginErrorHint.text == "" && loginErrorHint.text == "" && nameErrorHint.text == "" && passwordErrorHint.text == "")&&
-                    (!loginEt.text.isEmpty()&&!nameEt.text.isEmpty()&&!emailEt.text.isEmpty()&&!passwordEt.text.isEmpty())) {
+            if ((loginErrorHint.text == "" && loginErrorHint.text == "" && nameErrorHint.text == "" && passwordErrorHint.text == "") &&
+                    (!loginEt.text.isEmpty() && !nameEt.text.isEmpty() && !emailEt.text.isEmpty() && !passwordEt.text.isEmpty())) {
                 var user = UserSigInReq(nameEt.text.toString(), loginEt.text.toString(), emailEt.text.toString(), passwordEt.text.toString())
                 mRootPresenter.signUpUser(user)
             }
@@ -159,8 +158,8 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
     override fun createLoginDialog() {
         builder = AlertDialog.Builder(this).create()
 
-        val v: View=LayoutInflater.from(this).inflate(R.layout.log_in, null)
-        val btn : Button =v.findViewById(R.id.sign_btn) as Button
+        val v: View = LayoutInflater.from(this).inflate(R.layout.log_in, null)
+        val btn: Button = v.findViewById(R.id.sign_btn) as Button
         val cancelBtn = v.findViewById(R.id.cancel_btn) as Button
         val emailEt = v.findViewById(R.id.email_et) as EditText
         val passwordEt = v.findViewById(R.id.password_et) as EditText
@@ -171,8 +170,8 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
         passwordEt.addTextChangedListener(CustomTextWatcher(passwordEt, passwordErrorHint))
 
         btn.setOnClickListener {
-            if((emailErrorHint.text == "" && passwordErrorHint.text == "")&&
-                    (!emailEt.text.isEmpty()&&!passwordEt.text.isEmpty())) {
+            if ((emailErrorHint.text == "" && passwordErrorHint.text == "") &&
+                    (!emailEt.text.isEmpty() && !passwordEt.text.isEmpty())) {
                 mRootPresenter.logInUser(UserLogInReq(emailEt.text.toString(), passwordEt.text.toString()))
             }
         }
@@ -186,11 +185,11 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
 
     override fun createChangeUserInfoDialog() {
         builder = AlertDialog.Builder(this).create()
-        val v: View=LayoutInflater.from(this).inflate(R.layout.change_user_dialog, null)
-        val btn : Button =v.findViewById(R.id.apply_btn) as Button
+        val v: View = LayoutInflater.from(this).inflate(R.layout.change_user_dialog, null)
+        val btn: Button = v.findViewById(R.id.apply_btn) as Button
         val cancelBtn = v.findViewById(R.id.cancel_btn) as Button
-        val nameEt : EditText = v.findViewById(R.id.name_et) as EditText
-        val loginEt =v.findViewById(R.id.login_et) as EditText
+        val nameEt: EditText = v.findViewById(R.id.name_et) as EditText
+        val loginEt = v.findViewById(R.id.login_et) as EditText
         val loginErrorHint = v.findViewById(R.id.login_error_hint) as TextView
         val nameErrorHint = v.findViewById(R.id.name_error_hint) as TextView
 
@@ -198,8 +197,8 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
         loginEt.addTextChangedListener(CustomTextWatcher(loginEt, loginErrorHint))
 
         btn.setOnClickListener {
-            if((loginErrorHint.text == "" && nameErrorHint.text == "")&&
-                    (!nameEt.text.isEmpty()&&!loginEt.text.isEmpty())) {
+            if ((loginErrorHint.text == "" && nameErrorHint.text == "") &&
+                    (!nameEt.text.isEmpty() && !loginEt.text.isEmpty())) {
                 mRootPresenter.changeUserInfo(UserChangeInfoReq(nameEt.text.toString(), loginEt.text.toString(), mRootPresenter.mRootModel.getUserAvatar()))
 
             }
@@ -213,8 +212,7 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
     }
 
 
-
-    override fun hideAlertDialog(){
+    override fun hideAlertDialog() {
         builder.cancel()
     }
 
@@ -227,13 +225,6 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
         if (!currentScreen?.viewOnBackPressed()!! && !Flow.get(this).goBack()) super.onBackPressed()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == android.R.id.home) {
-            onBackPressed()
-            return true
-        }
-        return super.onOptionsItemSelected(item)
-    }
 
     // region================IRootView==============
     override fun viewOnBackPressed(): Boolean {
@@ -241,7 +232,7 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
     }
 
     override fun showMessage(message: String) {
-        Toast.makeText(this, message,Toast.LENGTH_LONG).show()
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
     override fun showError(e: Throwable) {
@@ -266,7 +257,7 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         mRootPresenter.onActivityResult(requestCode, resultCode, data)
-        }
+    }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -275,7 +266,7 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
     }
 
     override fun hideBottomNavigation(isVisible: Boolean) {
-        if(isVisible) mNavigation.visibility = View.VISIBLE
+        if (isVisible) mNavigation.visibility = View.VISIBLE
         else mNavigation.visibility = View.GONE
     }
 
@@ -301,7 +292,7 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
         if (theme.resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
             actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, resources.displayMetrics)
         }
-         var layoutParams = mRootFrame.layoutParams as CoordinatorLayout.LayoutParams
+        var layoutParams = mRootFrame.layoutParams as CoordinatorLayout.LayoutParams
         layoutParams.setMargins(0, actionBarHeight, 0, 0)
         mRootFrame.layoutParams = layoutParams
     }
@@ -328,10 +319,11 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
     }
 
     override fun setActionBarVisible(visible: Boolean) {
-        if(visible){
-       supportActionBar?.show()
-        }else {
-            supportActionBar?.hide()}
+        if (visible) {
+            supportActionBar?.show()
+        } else {
+            supportActionBar?.hide()
+        }
     }
 
     override fun setBackArrow(enable: Boolean) {
@@ -343,14 +335,6 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when(item?.itemId){
-            android.R.id.home -> {
-                Flow.get(this).goBack()
-                return false
-            }
-            else -> return super.onOptionsItemSelected(item)
-        }
     override fun setTabLayout(viewPager: ViewPager?) {
         val tabView = TabLayout(this) //создаём tab layout
         tabView.setupWithViewPager(viewPager)      //связываем его с ViewPager
@@ -388,6 +372,16 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
         return super.onPrepareOptionsMenu(menu)
     }
 
-    // endregion
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            android.R.id.home -> {
+                Flow.get(this).goBack()
+                return false
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
 
+        // endregion
+
+    }
 }

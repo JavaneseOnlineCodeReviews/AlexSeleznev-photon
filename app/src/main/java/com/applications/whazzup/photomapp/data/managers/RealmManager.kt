@@ -3,6 +3,7 @@ package com.applications.whazzup.photomapp.data.managers
 import com.applications.whazzup.photomapp.data.network.res.PhotocardRes
 import com.applications.whazzup.photomapp.data.network.res.user.UserAlbumRes
 import com.applications.whazzup.photomapp.data.storage.realm.PhotocardRealm
+import com.applications.whazzup.photomapp.data.storage.realm.TagRealm
 import com.applications.whazzup.photomapp.data.storage.realm.UserAlbumRealm
 import com.milkmachine.rxjava2interop.toV2Observable
 import io.reactivex.Observable
@@ -19,7 +20,7 @@ class RealmManager {
     fun savePhotocardResponseToRealm(photoСard: PhotocardRes) {
         val realm = Realm.getDefaultInstance()
 
-        val photoCardRealm = PhotoCardRealm(photoCard)
+        val photoCardRealm = PhotocardRealm(photoСard)
 
         realm.executeTransaction { realm1 -> realm1.insertOrUpdate(photoCardRealm) }
         realm.close()

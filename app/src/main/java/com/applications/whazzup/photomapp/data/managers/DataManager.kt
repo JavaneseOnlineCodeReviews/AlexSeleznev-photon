@@ -3,11 +3,8 @@ package com.applications.whazzup.photomapp.data.managers
 
 import com.applications.whazzup.photomapp.App
 import com.applications.whazzup.photomapp.data.network.RestService
-import com.applications.whazzup.photomapp.data.network.req.AddAlbumReq
-import com.applications.whazzup.photomapp.data.network.req.UserChangeInfoReq
-import com.applications.whazzup.photomapp.data.network.req.UserLogInReq
-import com.applications.whazzup.photomapp.data.network.req.UserSigInReq
-import com.applications.whazzup.photomapp.data.network.res.AddAlbumRes
+import com.applications.whazzup.photomapp.data.network.req.*
+import com.applications.whazzup.photomapp.data.network.res.AddViewRes
 import com.applications.whazzup.photomapp.data.network.res.PhotocardRes
 import com.applications.whazzup.photomapp.data.network.res.UserAvatarRes
 import com.applications.whazzup.photomapp.data.network.res.user.UserAlbumRes
@@ -48,7 +45,7 @@ class DataManager {
     }
 
     fun savePhotocardToRealm(photocardRes: PhotocardRes) {
-        mRealmManager.savePhotoCardResponseToRealm(photocardRes)
+        mRealmManager.savePhotocardResponseToRealm(photocardRes)
     }
 
     fun signUpUser(user : UserSigInReq): Observable<UserRes>{
