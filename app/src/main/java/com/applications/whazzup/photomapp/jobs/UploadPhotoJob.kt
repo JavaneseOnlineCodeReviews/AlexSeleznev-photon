@@ -28,6 +28,11 @@ class UploadPhotoJob(private val mImageUri: String) : Job(Params(JobPriority.HIG
 
     override fun onAdded() {
         Log.e(TAG, "PRODUCT-AVATAR onAdded: "+mImageUri)
+    }
+
+    @Throws(Throwable::class)
+    override fun onRun() {
+        Log.e(TAG, "AVATAR onRun: ")
         var file: File? = null
 
         try {
@@ -48,6 +53,7 @@ class UploadPhotoJob(private val mImageUri: String) : Job(Params(JobPriority.HIG
                     .subscribeBy(onNext = {
                         Log.e("this", "fdsfds"+it.image);
                     }, onComplete = {
+                        Log.e("Job", "OnCompleteObservable")
 
                     }, onError = {
                         Log.e("this", "fdsfds"+it.message);
@@ -58,11 +64,6 @@ class UploadPhotoJob(private val mImageUri: String) : Job(Params(JobPriority.HIG
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ message -> Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show() })
         }
-    }
-
-    @Throws(Throwable::class)
-    override fun onRun() {
-        Log.e(TAG, "AVATAR onRun: ")
     }
 
     override fun onCancel(i: Int, @Nullable throwable: Throwable?) {

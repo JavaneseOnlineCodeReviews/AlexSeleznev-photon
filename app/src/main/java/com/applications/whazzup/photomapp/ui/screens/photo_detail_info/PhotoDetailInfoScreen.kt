@@ -11,6 +11,7 @@ import com.applications.whazzup.photomapp.flow.Screen
 import com.applications.whazzup.photomapp.mvp.models.PhotoDetailInfoModel
 import com.applications.whazzup.photomapp.mvp.presenters.AbstractPresenter
 import com.applications.whazzup.photomapp.mvp.presenters.MenuItemHolder
+import com.applications.whazzup.photomapp.mvp.presenters.RootPresenter
 import com.applications.whazzup.photomapp.ui.activities.RootActivity
 import com.applications.whazzup.photomapp.ui.screens.photo_card_list.PhotoCardListScreen
 import com.applications.whazzup.photomapp.util.ConstantManager
@@ -22,9 +23,15 @@ import io.reactivex.schedulers.Schedulers
 import mortar.MortarScope
 
 @Screen(R.layout.screen_photo_detail_info)
-class PhotoDetailInfoScreen(photoCard: PhotoCardDto) : AbstractScreen<RootActivity.RootComponent>(), TreeKey {
+class PhotoDetailInfoScreen() : AbstractScreen<RootActivity.RootComponent>(), TreeKey {
 
-    var photoCard: PhotoCardDto = photoCard
+    lateinit var photoCard: PhotoCardDto
+
+    constructor(photoCar: PhotoCardDto) : this() {
+        photoCard = photoCar
+    }
+
+
 
     override fun createScreenComponent(parentComponent: RootActivity.RootComponent): Any {
         return DaggerPhotoDetailInfoScreen_Component.builder()
@@ -100,6 +107,7 @@ class PhotoDetailInfoScreen(photoCard: PhotoCardDto) : AbstractScreen<RootActivi
     interface Component {
         fun inject(presenter: PhotoDetailInfoPresenter)
         fun inject(view: PhotoDetailInfoView)
+        val rootPresenter: RootPresenter
     }
     //endregion
 }

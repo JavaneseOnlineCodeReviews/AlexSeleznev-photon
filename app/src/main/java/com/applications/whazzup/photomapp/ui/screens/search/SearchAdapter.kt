@@ -50,8 +50,8 @@ class SearchAdapter : PagerAdapter() {
         when (position) {
             0 -> return App.applicationContext().getString(R.string.search)
             1 -> return App.applicationContext().getString(R.string.filters)
+            else -> return "some test"
         }
-        return ""
     }
 
     private fun createScreenScopeFromContext(context: Context, screen: AbstractScreen<SearchScreen.SearchPresenterComponent>): MortarScope? {

@@ -11,7 +11,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.BottomNavigationView
-import android.support.design.widget.CoordinatorLayout
+
 import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
@@ -281,7 +281,7 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
         if (supportActionBar != null) {
             supportActionBar?.hide()
         }
-        var layoutParams = mRootFrame.layoutParams as CoordinatorLayout.LayoutParams
+        var layoutParams = mRootFrame.layoutParams as LinearLayout.LayoutParams
         layoutParams.setMargins(0, 0, 0, 0)
         mRootFrame.layoutParams = layoutParams
         mRootFrame.fitsSystemWindows = true
@@ -296,7 +296,7 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
         if (theme.resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
             actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, resources.displayMetrics)
         }
-        var layoutParams = mRootFrame.layoutParams as CoordinatorLayout.LayoutParams
+        var layoutParams = mRootFrame.layoutParams as LinearLayout.LayoutParams
         layoutParams.setMargins(0, actionBarHeight, 0, 0)
         mRootFrame.layoutParams = layoutParams
     }
@@ -325,8 +325,10 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
     override fun setActionBarVisible(visible: Boolean) {
         if (visible) {
             supportActionBar?.show()
+            //showtoolBar()
         } else {
             supportActionBar?.hide()
+           // hideToolBar()
         }
     }
 
@@ -340,11 +342,19 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
     }
 
     override fun setTabLayout(viewPager: ViewPager?) {
-        val tabView = TabLayout(this) //создаём tab layout
-        tabView.setupWithViewPager(viewPager)      //связываем его с ViewPager
-        mAppBarLayout.addView(tabView) //добавляем табы в appbar
-        viewPager?.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabView))
-        //регистрируем обработчик переключения по табам для viewPager
+        var view = mAppBarLayout.getChildAt(1)
+        if(view == null) {
+            var tabView = TabLayout(this) //создаём tab layout
+            tabView.setBackgroundResource(R.color.white)
+            tabView.setupWithViewPager(viewPager)   //связываем его с ViewPager
+            mAppBarLayout.addView(tabView) //добавляем табы в appbar
+             viewPager?.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabView))
+            //регистрируем обработчик переключения по табам для viewPager
+        }else{
+            var tabView = view as TabLayout
+            tabView.setupWithViewPager(viewPager)
+            viewPager?.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabView))
+        }
     }
 
     override fun removeTabLayout() {
