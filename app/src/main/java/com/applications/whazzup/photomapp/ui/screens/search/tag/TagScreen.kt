@@ -41,9 +41,6 @@ class TagScreen : AbstractScreen<SearchScreen.SearchPresenterComponent>() {
         }
 
         override fun initToolbar() {
-            mRootPresenter.newActionBarBuilder()
-                    .setVisible(false)
-                    .build()
         }
 
         override fun onLoad(savedInstanceState: Bundle?) {

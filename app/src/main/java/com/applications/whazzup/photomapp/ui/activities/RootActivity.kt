@@ -342,6 +342,7 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
     override fun setTabLayout(viewPager: ViewPager?) {
         val tabView = TabLayout(this) //создаём tab layout
         tabView.setupWithViewPager(viewPager)      //связываем его с ViewPager
+        tabView.setBackgroundResource(R.color.white)
         mAppBarLayout.addView(tabView) //добавляем табы в appbar
         viewPager?.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabView))
         //регистрируем обработчик переключения по табам для viewPager
