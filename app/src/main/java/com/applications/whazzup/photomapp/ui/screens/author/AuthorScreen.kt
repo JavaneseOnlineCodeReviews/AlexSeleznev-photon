@@ -2,6 +2,7 @@ package com.applications.whazzup.photomapp.ui.screens.author
 
 import android.os.Bundle
 import com.applications.whazzup.photomapp.R
+import com.applications.whazzup.photomapp.data.network.res.user.UserRes
 import com.applications.whazzup.photomapp.di.DaggerScope
 import com.applications.whazzup.photomapp.di.DaggerService
 import com.applications.whazzup.photomapp.flow.AbstractScreen
@@ -33,8 +34,19 @@ class AuthorScreen(val userId : String) : AbstractScreen<PhotoDetailInfoScreen.C
 
         override fun onLoad(savedInstanceState: Bundle?) {
             super.onLoad(savedInstanceState)
+            var res : UserRes? = null
             mModel.getUserInfoById(userId).subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread()).subscribeBy(onNext = {}, onComplete = {}, onError = { print(it.toString())})
+                    .observeOn(AndroidSchedulers.mainThread()).subscribeBy(onNext = {
+                res = it
+                        for(album in it.albums){
+                            if(album.active) {
+                                view.authorAlbumAdapter.addItem(album)
+                            }
+                        }
+            }, onComplete = {
+                view.initView(res!!)
+            }, onError = {
+                print(it.toString())})
         }
 
         override fun initDagger(scope: MortarScope?) {
@@ -73,6 +85,7 @@ class AuthorScreen(val userId : String) : AbstractScreen<PhotoDetailInfoScreen.C
     interface Component{
         fun inject(view : AuthorView)
         fun inject(presenter : AuthorPresenter)
+        fun inject(adapter : AuthorAlbumAdapter)
     }
 
     //endregion

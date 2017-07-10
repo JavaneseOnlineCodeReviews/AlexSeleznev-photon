@@ -15,6 +15,7 @@ import com.applications.whazzup.photomapp.mvp.presenters.RootPresenter
 import com.applications.whazzup.photomapp.ui.activities.RootActivity
 import com.applications.whazzup.photomapp.ui.screens.photo_card_list.PhotoCardListScreen
 import com.applications.whazzup.photomapp.util.ConstantManager
+import com.squareup.picasso.Picasso
 import dagger.Provides
 import flow.TreeKey
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -108,6 +109,7 @@ class PhotoDetailInfoScreen() : AbstractScreen<RootActivity.RootComponent>(), Tr
         fun inject(presenter: PhotoDetailInfoPresenter)
         fun inject(view: PhotoDetailInfoView)
         val rootPresenter: RootPresenter
+        val picasso : Picasso
     }
     //endregion
 }
