@@ -48,7 +48,7 @@ class AuthorScreen() : AbstractScreen<RootActivity.RootComponent>(){
             }, onComplete = {
                 view.initView(res!!)
             }, onError = {
-                print(it.toString())})
+                mRootPresenter.rootView?.showMessage(it.toString())})
         }
 
         override fun initDagger(scope: MortarScope?) {

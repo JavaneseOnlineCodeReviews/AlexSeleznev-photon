@@ -81,6 +81,7 @@ class PhotoDetailInfoView(context: Context, attrs: AttributeSet) : AbstractView<
         menu.setOnMenuItemClickListener({
             when(it.itemId) {
                 R.id.to_favorite ->{
+
                 }
                 R.id.share ->{
 

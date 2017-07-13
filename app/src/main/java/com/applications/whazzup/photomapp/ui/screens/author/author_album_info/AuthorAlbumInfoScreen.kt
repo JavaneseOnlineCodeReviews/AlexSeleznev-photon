@@ -75,6 +75,8 @@ class AuthorAlbumInfoScreen() : AbstractScreen<RootActivity.RootComponent>(){
                         .forEach { view.authorAdapter.additem(it) }
             }, onComplete = {
                 view.initView(res!!)
+            }, onError = {
+                mRootPresenter.rootView?.showMessage(it.toString())
             })
         }
 

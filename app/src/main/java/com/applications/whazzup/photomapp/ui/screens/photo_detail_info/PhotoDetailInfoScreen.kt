@@ -69,12 +69,14 @@ class PhotoDetailInfoScreen() : AbstractScreen<RootActivity.RootComponent>() {
             mModel.addView(photoCard.id)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeBy(onError = {it.printStackTrace()})
+                    .subscribeBy(onError = {it.printStackTrace()
+                        mRootPresenter.rootView?.showMessage(it.toString())})
 
             mModel.getUserById(photoCard.owner)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeBy(onNext = {view.showOwnerInfo(it)}, onError = {it.printStackTrace()})
+                    .subscribeBy(onNext = {view.showOwnerInfo(it)}, onError = {it.printStackTrace()
+                        mRootPresenter.rootView?.showMessage(it.toString())})
         }
 
         override fun initToolbar() {
