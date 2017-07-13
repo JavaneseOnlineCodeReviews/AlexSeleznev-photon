@@ -9,6 +9,7 @@ import com.applications.whazzup.photomapp.flow.AbstractScreen
 import com.applications.whazzup.photomapp.flow.Screen
 import com.applications.whazzup.photomapp.mvp.models.AuthorAlbumInfoModel
 import com.applications.whazzup.photomapp.mvp.presenters.AbstractPresenter
+import com.applications.whazzup.photomapp.ui.activities.RootActivity
 import com.applications.whazzup.photomapp.ui.screens.author.AuthorScreen
 import dagger.Provides
 import flow.TreeKey
@@ -18,7 +19,7 @@ import io.reactivex.schedulers.Schedulers
 import mortar.MortarScope
 
 @Screen(R.layout.screen_author_album_info)
-class AuthorAlbumInfoScreen() : AbstractScreen<AuthorScreen.Component>(), TreeKey {
+class AuthorAlbumInfoScreen() : AbstractScreen<RootActivity.RootComponent>(){
 
    lateinit  var albumId : String
    lateinit  var albumRes : UserAlbumRes
@@ -33,13 +34,30 @@ class AuthorAlbumInfoScreen() : AbstractScreen<AuthorScreen.Component>(), TreeKe
     }
 
 
-    override fun createScreenComponent(parentComponent: AuthorScreen.Component): Any {
-        return DaggerAuthorAlbumInfoScreen_Component.builder().component(parentComponent).authorAlbumInfoModule(AuthorAlbumInfoModule()).build()
+    override fun createScreenComponent(parentComponent: RootActivity.RootComponent): Any {
+        return DaggerAuthorAlbumInfoScreen_Component.builder().rootComponent(parentComponent).authorAlbumInfoModule(AuthorAlbumInfoModule()).build()
     }
 
-    override fun getParentKey(): Any {
-        return AuthorScreen()
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other?.javaClass != javaClass) return false
+        if (!super.equals(other)) return false
+
+        other as AuthorAlbumInfoScreen
+
+        if (albumId != other.albumId) return false
+        if (albumRes != other.albumRes) return false
+
+        return true
     }
+
+    override fun hashCode(): Int {
+        var result = super.hashCode()
+        result = 31 * result + albumId.hashCode()
+        result = 31 * result + albumRes.hashCode()
+        return result
+    }
+
 
     //region===============================Presenter==========================
 
@@ -93,7 +111,7 @@ class AuthorAlbumInfoScreen() : AbstractScreen<AuthorScreen.Component>(), TreeKe
         }
     }
 
-    @dagger.Component(dependencies = arrayOf(AuthorScreen.Component :: class), modules = arrayOf(AuthorAlbumInfoModule :: class))
+    @dagger.Component(dependencies = arrayOf(RootActivity.RootComponent :: class), modules = arrayOf(AuthorAlbumInfoModule :: class))
     @DaggerScope(AuthorAlbumInfoScreen :: class)
     interface Component{
         fun inject(presenter : AuthorAlbumInfoPresenter)

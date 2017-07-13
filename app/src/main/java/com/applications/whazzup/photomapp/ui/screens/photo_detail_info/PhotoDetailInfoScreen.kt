@@ -24,16 +24,13 @@ import io.reactivex.schedulers.Schedulers
 import mortar.MortarScope
 
 @Screen(R.layout.screen_photo_detail_info)
-class PhotoDetailInfoScreen() : AbstractScreen<RootActivity.RootComponent>(), TreeKey {
+class PhotoDetailInfoScreen() : AbstractScreen<RootActivity.RootComponent>() {
 
     lateinit var photoCard: PhotoCardDto
 
     constructor( photoCar: PhotoCardDto) : this() {
         photoCard = photoCar
     }
-
-
-
 
     override fun createScreenComponent(parentComponent: RootActivity.RootComponent): Any {
         return DaggerPhotoDetailInfoScreen_Component.builder()
@@ -42,7 +39,24 @@ class PhotoDetailInfoScreen() : AbstractScreen<RootActivity.RootComponent>(), Tr
                 .build()
     }
 
-    override fun getParentKey(): Any = PhotoCardListScreen()
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other?.javaClass != javaClass) return false
+        if (!super.equals(other)) return false
+
+        other as PhotoDetailInfoScreen
+
+        if (photoCard != other.photoCard) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = super.hashCode()
+        result = 31 * result + photoCard.hashCode()
+        return result
+    }
 
 
     //region ================= Presenter =================

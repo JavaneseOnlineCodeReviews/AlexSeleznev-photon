@@ -11,6 +11,7 @@ import com.applications.whazzup.photomapp.flow.Screen
 import com.applications.whazzup.photomapp.mvp.models.AuthorModel
 import com.applications.whazzup.photomapp.mvp.presenters.AbstractPresenter
 import com.applications.whazzup.photomapp.mvp.presenters.RootPresenter
+import com.applications.whazzup.photomapp.ui.activities.RootActivity
 import com.applications.whazzup.photomapp.ui.screens.photo_detail_info.PhotoDetailInfoScreen
 import com.squareup.picasso.Picasso
 import dagger.Provides
@@ -22,7 +23,7 @@ import mortar.MortarScope
 import rx.Scheduler
 
 @Screen(R.layout.screen_author)
-class AuthorScreen() : AbstractScreen<PhotoDetailInfoScreen.Component>(), TreeKey {
+class AuthorScreen() : AbstractScreen<RootActivity.RootComponent>(){
 
     lateinit var userId : String
 
@@ -30,12 +31,8 @@ class AuthorScreen() : AbstractScreen<PhotoDetailInfoScreen.Component>(), TreeKe
        userId = id
     }
 
-    override fun getParentKey(): Any {
-        return PhotoDetailInfoScreen()
-    }
-
-    override fun createScreenComponent(parentComponent: PhotoDetailInfoScreen.Component): Any {
-        return DaggerAuthorScreen_Component.builder().component(parentComponent).authorModule(AuthorModule()).build()
+    override fun createScreenComponent(parentComponent: RootActivity.RootComponent): Any {
+        return DaggerAuthorScreen_Component.builder().rootComponent(parentComponent).authorModule(AuthorModule()).build()
     }
 
     //region===============================Presenter==========================
@@ -85,7 +82,7 @@ class AuthorScreen() : AbstractScreen<PhotoDetailInfoScreen.Component>(), TreeKe
 
 }
 
-    @dagger.Component(dependencies = arrayOf(PhotoDetailInfoScreen.Component :: class), modules = arrayOf(AuthorModule :: class))
+    @dagger.Component(dependencies = arrayOf(RootActivity.RootComponent :: class), modules = arrayOf(AuthorModule :: class))
     @DaggerScope(AuthorScreen :: class)
     interface Component{
         fun inject(view : AuthorView)
