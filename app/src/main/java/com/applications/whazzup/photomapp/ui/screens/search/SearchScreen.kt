@@ -37,6 +37,7 @@ class SearchScreen : AbstractScreen<RootActivity.RootComponent>(), TreeKey {
             mRootPresenter
                     .newActionBarBuilder()
                     .setVisible(false)
+                    .setTitle("Test title")
                     .setTab(view.mViewPager)
                     .build()
         }

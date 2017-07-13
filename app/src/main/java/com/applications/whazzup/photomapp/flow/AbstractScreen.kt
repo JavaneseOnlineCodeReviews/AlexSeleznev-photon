@@ -18,6 +18,10 @@ abstract class AbstractScreen<in T> : ClassKey() {
         ScreenScoper.destroyScreenScope(scopeName)
     }
 
+    fun unregisterScopeByName(scopeName : String){
+        ScreenScoper.destroyScreenScope(scopeName)
+    }
+
     val layoutResId: Int
         get() {
             val layout: Int

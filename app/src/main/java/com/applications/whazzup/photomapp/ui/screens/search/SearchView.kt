@@ -2,6 +2,7 @@ package com.applications.whazzup.photomapp.ui.screens.search
 
 import android.content.Context
 import android.support.v4.view.ViewPager
+
 import android.util.AttributeSet
 import butterknife.BindView
 import com.applications.whazzup.photomapp.R
@@ -14,6 +15,9 @@ class SearchView(context : Context, attrs : AttributeSet) : AbstractView<SearchS
     @BindView(R.id.search_pager)
     lateinit var mViewPager: ViewPager
 
+    var searchAdapter : SearchAdapter = SearchAdapter()
+
+
     override fun viewOnBackPressed(): Boolean {
         return false
     }
@@ -24,6 +28,11 @@ class SearchView(context : Context, attrs : AttributeSet) : AbstractView<SearchS
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        search_pager.adapter = SearchAdapter()
+
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        mViewPager.adapter = searchAdapter
     }
 }

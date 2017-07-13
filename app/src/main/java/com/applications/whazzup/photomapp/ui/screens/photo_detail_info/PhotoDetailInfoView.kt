@@ -17,12 +17,15 @@ import com.applications.whazzup.photomapp.data.network.res.user.UserRes
 import com.applications.whazzup.photomapp.data.storage.dto.PhotoCardDto
 import com.applications.whazzup.photomapp.di.DaggerService
 import com.applications.whazzup.photomapp.mvp.views.AbstractView
+import com.applications.whazzup.photomapp.ui.screens.author.AuthorScreen
+import com.applications.whazzup.photomapp.ui.screens.user_profile.UserProfileScreen
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
 import de.hdodenhof.circleimageview.CircleImageView
+import flow.Flow
 import kotlinx.android.synthetic.main.screen_photo_detail_info.view.*
 import java.io.File
 import java.io.FileOutputStream
@@ -44,7 +47,7 @@ class PhotoDetailInfoView(context: Context, attrs: AttributeSet) : AbstractView<
     @BindView(R.id.photocard_count) lateinit var photocardCount: TextView
     @BindView(R.id.owner_img) lateinit var ownerImg: CircleImageView
 
-    private var photocard: PhotoCardDto ?= null
+    private var photocard: PhotoCardDto?= null
 
     fun showImageInfo(photoCard: PhotoCardDto) {
         this.photocard = photoCard
@@ -64,10 +67,12 @@ class PhotoDetailInfoView(context: Context, attrs: AttributeSet) : AbstractView<
 
     fun showOwnerInfo(user: UserRes) {
         picasso.load(user.avatar).fit().centerCrop().into(ownerImg)
+        ownerImg.setOnClickListener { Flow.get(context).set(AuthorScreen(user.id)) }
 
         name.text = user.name
         albumCount.text = user.albumCount.toString()
         photocardCount.text = user.photocardCount.toString()
+
     }
 
     fun showPopupMenu(view : View){
@@ -76,8 +81,10 @@ class PhotoDetailInfoView(context: Context, attrs: AttributeSet) : AbstractView<
         menu.setOnMenuItemClickListener({
             when(it.itemId) {
                 R.id.to_favorite ->{
+
                 }
                 R.id.share ->{
+
                 }
                 R.id.download ->{
                     mPresenter.downloadPermissionAccess()
@@ -106,6 +113,7 @@ class PhotoDetailInfoView(context: Context, attrs: AttributeSet) : AbstractView<
                 val ostream = FileOutputStream(file)
                 bitmap?.compress(Bitmap.CompressFormat.JPEG, 80, ostream)
                 ostream.flush()
+                println(file.absolutePath)
                 ostream.close()
             } catch (e: Exception) {
                 e.printStackTrace()

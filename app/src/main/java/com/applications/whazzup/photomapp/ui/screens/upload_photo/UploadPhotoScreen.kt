@@ -92,7 +92,7 @@ class UploadPhotoScreen : AbstractScreen<RootActivity.RootComponent>() {
                 ConstantManager.REQUEST_PROFILE_PHOTO -> {
                     if (activityResultDto.data != null) {
                         var photoUrl = UriGetter.getPath(view.context, activityResultDto.data.data)
-                        mModel.uploadAvatarOnServer(Uri.parse(photoUrl).path);
+                        mModel.uploadAvatarOnServer(Uri.parse(photoUrl).path)
                     }
                 }
             }
@@ -100,8 +100,6 @@ class UploadPhotoScreen : AbstractScreen<RootActivity.RootComponent>() {
     }
 
     //endregion
-
-
 
     //region===============================DI==========================
 
