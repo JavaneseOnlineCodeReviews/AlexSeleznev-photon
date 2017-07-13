@@ -3,13 +3,16 @@ package com.applications.whazzup.photomapp.ui.screens.author
 import android.os.Bundle
 import com.applications.whazzup.photomapp.R
 import com.applications.whazzup.photomapp.data.network.res.user.UserRes
+import com.applications.whazzup.photomapp.data.storage.dto.PhotoCardDto
 import com.applications.whazzup.photomapp.di.DaggerScope
 import com.applications.whazzup.photomapp.di.DaggerService
 import com.applications.whazzup.photomapp.flow.AbstractScreen
 import com.applications.whazzup.photomapp.flow.Screen
 import com.applications.whazzup.photomapp.mvp.models.AuthorModel
 import com.applications.whazzup.photomapp.mvp.presenters.AbstractPresenter
+import com.applications.whazzup.photomapp.mvp.presenters.RootPresenter
 import com.applications.whazzup.photomapp.ui.screens.photo_detail_info.PhotoDetailInfoScreen
+import com.squareup.picasso.Picasso
 import dagger.Provides
 import flow.TreeKey
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -19,7 +22,14 @@ import mortar.MortarScope
 import rx.Scheduler
 
 @Screen(R.layout.screen_author)
-class AuthorScreen(val userId : String) : AbstractScreen<PhotoDetailInfoScreen.Component>(), TreeKey {
+class AuthorScreen() : AbstractScreen<PhotoDetailInfoScreen.Component>(), TreeKey {
+
+    lateinit var userId : String
+
+    constructor(id : String) : this(){
+       userId = id
+    }
+
     override fun getParentKey(): Any {
         return PhotoDetailInfoScreen()
     }
@@ -38,11 +48,6 @@ class AuthorScreen(val userId : String) : AbstractScreen<PhotoDetailInfoScreen.C
             mModel.getUserInfoById(userId).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread()).subscribeBy(onNext = {
                 res = it
-                        for(album in it.albums){
-                            if(album.active) {
-                                view.authorAlbumAdapter.addItem(album)
-                            }
-                        }
             }, onComplete = {
                 view.initView(res!!)
             }, onError = {
@@ -86,6 +91,8 @@ class AuthorScreen(val userId : String) : AbstractScreen<PhotoDetailInfoScreen.C
         fun inject(view : AuthorView)
         fun inject(presenter : AuthorPresenter)
         fun inject(adapter : AuthorAlbumAdapter)
+        val rootPresenter: RootPresenter
+        val picasso : Picasso
     }
 
     //endregion

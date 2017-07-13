@@ -26,6 +26,10 @@ class AuthorAlbumAdapter : RecyclerView.Adapter<AuthorAlbumAdapter.ViewHolder>()
 
     }
 
+    fun getItemByPosition(position : Int) : UserAlbumRes{
+        return authorAlbumList[position]
+    }
+
     fun addItem(album: UserAlbumRes) {
         authorAlbumList.add(album)
         notifyDataSetChanged()
@@ -39,6 +43,12 @@ class AuthorAlbumAdapter : RecyclerView.Adapter<AuthorAlbumAdapter.ViewHolder>()
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         var album = authorAlbumList[position]
+        var cardCount = 0
+        for(count in album.photocards){
+            if(count.active){
+                cardCount++
+            }
+        }
         if(!album.photocards.isEmpty()) {
             var albumPreview = album?.photocards[0].photo
 
@@ -47,7 +57,7 @@ class AuthorAlbumAdapter : RecyclerView.Adapter<AuthorAlbumAdapter.ViewHolder>()
             }
         }
         holder?.title?.text = album.title
-        holder?.cardCount?.text = album.photocards.size.toString()
+        holder?.cardCount?.text = cardCount.toString()
         holder?.viewsCount?.text = album.views.toString()
         holder?.favoriteCount?.text = album.favorits.toString()
 
@@ -57,6 +67,7 @@ class AuthorAlbumAdapter : RecyclerView.Adapter<AuthorAlbumAdapter.ViewHolder>()
         val inflater = LayoutInflater.from(parent?.context)
         return ViewHolder(inflater.inflate(R.layout.item_album, parent, false), listener)
     }
+
 
     override fun getItemCount(): Int {
         return authorAlbumList.size
@@ -70,6 +81,10 @@ class AuthorAlbumAdapter : RecyclerView.Adapter<AuthorAlbumAdapter.ViewHolder>()
         var favoriteCount = itemView.favorite_count_txt
         var viewsCount = itemView.views_count_txt
         var albumPreview = itemView.album_image
+
+        init {
+            albumPreview.setOnClickListener(this)
+        }
 
 
         override fun onClick(v: View?) {

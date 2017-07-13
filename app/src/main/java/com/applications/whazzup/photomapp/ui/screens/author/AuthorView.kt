@@ -11,7 +11,9 @@ import com.applications.whazzup.photomapp.R
 import com.applications.whazzup.photomapp.data.network.res.user.UserRes
 import com.applications.whazzup.photomapp.di.DaggerService
 import com.applications.whazzup.photomapp.mvp.views.AbstractView
+import com.applications.whazzup.photomapp.ui.screens.author.author_album_info.AuthorAlbumInfoScreen
 import com.squareup.picasso.Picasso
+import flow.Flow
 
 class AuthorView(context : Context, attrs : AttributeSet) : AbstractView<AuthorScreen.AuthorPresenter>(context, attrs) {
 
@@ -21,7 +23,9 @@ class AuthorView(context : Context, attrs : AttributeSet) : AbstractView<AuthorS
     @BindView(R.id.author_album_count_txt) lateinit var authorAlbumCount : TextView
     @BindView(R.id.author_card_count_txt) lateinit var authorCardCount : TextView
 
-    val authorAlbumAdapter = AuthorAlbumAdapter()
+    lateinit var authorAlbumAdapter : AuthorAlbumAdapter
+
+
 
 
 
@@ -39,11 +43,16 @@ class AuthorView(context : Context, attrs : AttributeSet) : AbstractView<AuthorS
         authorName.text = user.name+ " / " + user.login
         authorAlbumCount.text = user.albumCount.toString()
         authorCardCount.text = user.photocardCount.toString()
-
+        authorAlbumAdapter = AuthorAlbumAdapter()
+        for(album in user.albums){
+            if(album.active) {
+                authorAlbumAdapter.addItem(album)
+            }
+        }
         with(recycler){
             layoutManager = GridLayoutManager(context, 2)
             adapter = authorAlbumAdapter
-            (adapter as AuthorAlbumAdapter).addListener { println(it) }
+            (adapter as AuthorAlbumAdapter).addListener{ Flow.get(context).set(AuthorAlbumInfoScreen((adapter as AuthorAlbumAdapter).getItemByPosition(it))) }
         }
     }
 }

@@ -45,6 +45,7 @@ public class ScreenScoper {
      * @param scopeName имя скопа который удаляем
      */
     public static void destroyScreenScope(String scopeName) {
+        Log.e("ScreeScoper", scopeName + " is deleted");
         MortarScope mortarScope = sScopeMap.get(scopeName);
         mortarScope.destroy();
         cleanScopeMap();

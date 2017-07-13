@@ -9,6 +9,8 @@ import android.widget.FrameLayout;
 
 import com.applications.whazzup.photomapp.R;
 import com.applications.whazzup.photomapp.mortar.ScreenScoper;
+import com.applications.whazzup.photomapp.ui.screens.author.author_album_info.AuthorAlbumInfoScreen;
+import com.applications.whazzup.photomapp.ui.screens.photo_detail_info.PhotoDetailInfoScreen;
 
 import java.util.Collections;
 import java.util.Map;
@@ -49,6 +51,13 @@ public class TreeKeyDispatcher extends KeyChanger implements Dispatcher {
         if (inKey.equals(outKey)) {
             callback.onTraversalCompleted();
             return;
+        }
+        if(outKey instanceof AuthorAlbumInfoScreen){
+            ((AuthorAlbumInfoScreen) outKey).unregisterScope();
+        }
+
+        if((outKey instanceof AuthorAlbumInfoScreen) && (inKey instanceof PhotoDetailInfoScreen)){
+            ScreenScoper.destroyScreenScope(PhotoDetailInfoScreen.class.getName());
         }
 
         // TODO: 27.11.2016 create mortar context for screen

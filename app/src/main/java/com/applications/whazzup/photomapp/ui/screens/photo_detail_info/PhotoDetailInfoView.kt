@@ -47,7 +47,7 @@ class PhotoDetailInfoView(context: Context, attrs: AttributeSet) : AbstractView<
     @BindView(R.id.photocard_count) lateinit var photocardCount: TextView
     @BindView(R.id.owner_img) lateinit var ownerImg: CircleImageView
 
-    private var photocard: PhotoCardDto ?= null
+    private var photocard: PhotoCardDto?= null
 
     fun showImageInfo(photoCard: PhotoCardDto) {
         this.photocard = photoCard

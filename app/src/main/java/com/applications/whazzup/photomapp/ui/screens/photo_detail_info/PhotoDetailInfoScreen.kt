@@ -28,9 +28,10 @@ class PhotoDetailInfoScreen() : AbstractScreen<RootActivity.RootComponent>(), Tr
 
     lateinit var photoCard: PhotoCardDto
 
-    constructor(photoCar: PhotoCardDto) : this() {
+    constructor( photoCar: PhotoCardDto) : this() {
         photoCard = photoCar
     }
+
 
 
 
@@ -42,6 +43,7 @@ class PhotoDetailInfoScreen() : AbstractScreen<RootActivity.RootComponent>(), Tr
     }
 
     override fun getParentKey(): Any = PhotoCardListScreen()
+
 
     //region ================= Presenter =================
     inner class PhotoDetailInfoPresenter : AbstractPresenter<PhotoDetailInfoView, PhotoDetailInfoModel>() {
