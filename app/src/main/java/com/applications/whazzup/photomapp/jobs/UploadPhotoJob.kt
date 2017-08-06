@@ -22,18 +22,20 @@ import javax.annotation.Nullable
 
 
 class UploadPhotoJob(private val mImageUri: String) : Job(Params(JobPriority.HIGH)
-        .requireNetwork()
-        .persist()) {
+        .requireNetwork().groupBy("uploadPhoto")) {
 
 
     override fun onAdded() {
         Log.e(TAG, "PRODUCT-AVATAR onAdded: "+mImageUri)
+
     }
 
     @Throws(Throwable::class)
     override fun onRun() {
+
         Log.e(TAG, "AVATAR onRun: ")
         var file: File? = null
+        var photoUrl : String = ""
 
         try {
 //            file = File(getPath(App.appComponent!!.context, Uri.parse(mImageUri)))
@@ -52,8 +54,10 @@ class UploadPhotoJob(private val mImageUri: String) : Job(Params(JobPriority.HIG
                     .uploadUserPhoto(mBody)
                     .subscribeBy(onNext = {
                         Log.e("this", "fdsfds"+it.image);
+                        DataManager.INSTANCE.mPreferencesManager.savePhotoUrl(it.image)
                     }, onComplete = {
                         Log.e("Job", "OnCompleteObservable")
+
 
                     }, onError = {
                         Log.e("this", "fdsfds"+it.message);

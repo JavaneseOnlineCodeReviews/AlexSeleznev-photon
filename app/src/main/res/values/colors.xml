@@ -2,7 +2,8 @@
 <resources>
     <color name="colorPrimary">#00aaff</color>
     <color name="colorPrimaryDark">#000000</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#00AAFF</color>
+    <color name="colorAccentAlpha">#7000AAFF</color>
     <color name="colorEditTextError">#A20707</color>
     <color name="progressDialogColor">#414141</color>
     <color name="colorGreenDark">#757575</color>

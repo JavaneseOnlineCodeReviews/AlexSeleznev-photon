@@ -1,14 +1,11 @@
 package com.applications.whazzup.photomapp.data.network
 
 import com.applications.whazzup.photomapp.data.network.req.*
-import com.applications.whazzup.photomapp.data.network.res.AddAlbumRes
-import com.applications.whazzup.photomapp.data.network.res.AddViewRes
 import com.applications.whazzup.photomapp.data.network.req.AddAlbumReq
 import com.applications.whazzup.photomapp.data.network.req.UserChangeInfoReq
 import com.applications.whazzup.photomapp.data.network.req.UserLogInReq
 import com.applications.whazzup.photomapp.data.network.req.UserSigInReq
-import com.applications.whazzup.photomapp.data.network.res.PhotocardRes
-import com.applications.whazzup.photomapp.data.network.res.UserAvatarRes
+import com.applications.whazzup.photomapp.data.network.res.*
 import com.applications.whazzup.photomapp.data.network.res.user.UserAlbumRes
 import com.applications.whazzup.photomapp.data.network.res.user.UserRes
 import io.reactivex.Observable
@@ -63,5 +60,8 @@ interface RestService {
 
     @DELETE("user/{userId}/album/{albumId}")
     fun deleteAlbum(@Path("userId") userId : String, @Header("Authorization") userToken : String, @Path("albumId") albumId : String) : Observable<Response<Void>>
+
+    @POST("user/{userId}/photocard")
+    fun createPhotoCard(@Path("userId") userId : String, @Header("Authorization") userToken : String, @Body cardInfo : CardInfoReq) : Observable<UploadPhotoRes>
 
 }

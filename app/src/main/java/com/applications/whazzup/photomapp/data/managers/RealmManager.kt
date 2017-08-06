@@ -44,7 +44,6 @@ class RealmManager {
 
     fun saveAlbumToRealm(it: UserAlbumRes) {
         val realm = Realm.getDefaultInstance()
-
         val albumRealm = UserAlbumRealm(it)
 
         realm.executeTransaction { realm -> realm.insertOrUpdate(albumRealm) }
@@ -52,8 +51,9 @@ class RealmManager {
     }
 
     fun getAllAlbumFromRealm() : Observable<UserAlbumRealm>{
-        var managedAlbum = getQueryRealmInstance().where(UserAlbumRealm :: class.java).findAllAsync()
-        return  managedAlbum.asObservable().toV2Observable().filter { it.isLoaded }.flatMap {Observable.fromIterable(it)}
+        val realm = Realm.getDefaultInstance()
+        var managedAlbum = realm.where(UserAlbumRealm :: class.java).findAllAsync()
+        return  managedAlbum.asObservable().toV2Observable().filter { it.isLoaded }.firstElement().flatMapObservable{Observable.fromIterable(it)}
     }
 
     private fun getQueryRealmInstance(): Realm {
@@ -70,5 +70,12 @@ class RealmManager {
             realm.executeTransaction { realm1 -> entity.deleteFromRealm() }  //Удаляем сущность из БД
             realm.close()
         }
+    }
+
+    fun clearUserAlbum() {
+        val realm = Realm.getDefaultInstance()
+        realm.executeTransaction { realm -> realm.where(UserAlbumRealm :: class.java).findAll().deleteAllFromRealm() }
+        realm.close()
+
     }
 }

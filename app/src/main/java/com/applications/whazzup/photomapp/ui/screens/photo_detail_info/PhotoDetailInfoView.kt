@@ -1,8 +1,10 @@
 package com.applications.whazzup.photomapp.ui.screens.photo_detail_info
 
+import android.app.DownloadManager
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Environment
 import android.support.v7.view.menu.MenuBuilder
 import android.support.v7.view.menu.MenuPopupHelper
@@ -98,14 +100,33 @@ class PhotoDetailInfoView(context: Context, attrs: AttributeSet) : AbstractView<
     }
 
     fun downloadImage() {
-        picasso.load(photocard?.photo).into(target)
+        //picasso.load(photocard?.photo).into(target)
+        var manager : DownloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+        var uri = Uri.parse(photocard?.photo)
+        var request : DownloadManager.Request = DownloadManager.Request(uri)
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+        manager.enqueue(request)
     }
+
+
 
     private val target = object : Target {
         override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
-            val dateTimeInstance = SimpleDateFormat.getTimeInstance(DateFormat.MEDIUM)
+            /**
+             *   val dateTimeInstance = SimpleDateFormat.getTimeInstance(DateFormat.MEDIUM)
             val timeStamp = dateTimeInstance.format(Date())
             val imageFileName = "IMG_" + timeStamp
+            val storageDir = view.context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+            val imageFile = File.createTempFile(imageFileName, ".jpg", storageDir)
+            return imageFile
+             */
+
+
+
+
+            val dateTimeInstance = SimpleDateFormat.getTimeInstance(DateFormat.MEDIUM)
+            val timeStamp = dateTimeInstance.format(Date())
+            var imageFileName = ("IMG_" + timeStamp).replace(" ", "")
 
             val file = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).absolutePath, "$imageFileName.jpg")
             try {
@@ -120,7 +141,9 @@ class PhotoDetailInfoView(context: Context, attrs: AttributeSet) : AbstractView<
             }
         }
 
-        override fun onBitmapFailed(errorDrawable: Drawable?) { return }
+        override fun onBitmapFailed(errorDrawable: Drawable?) {
+            mPresenter.mRootPresenter.rootView?.showMessage(errorDrawable.toString())
+            return }
 
         override fun onPrepareLoad(placeHolderDrawable: Drawable?) { return }
     }

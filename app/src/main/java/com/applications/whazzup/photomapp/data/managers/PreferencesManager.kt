@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 
 import com.applications.whazzup.photomapp.App
 import com.applications.whazzup.photomapp.data.network.res.user.UserRes
+import com.applications.whazzup.photomapp.util.ConstantManager.PHOTO_CARD_URL_KEY
 import com.applications.whazzup.photomapp.util.ConstantManager.USER_AVATAR_KEY
 import com.applications.whazzup.photomapp.util.ConstantManager.USER_ID_KEY
 import com.applications.whazzup.photomapp.util.ConstantManager.USER_LOGIN_KEY
@@ -67,5 +68,15 @@ class PreferencesManager {
 
     fun getUserAvatar() : String{
         return mSharedPreferences?.getString(USER_AVATAR_KEY, "http://www.jext.org/files/2011/11/photon-2.jpg") as String
+    }
+
+    fun savePhotoUrl(url : String){
+        val editor = mSharedPreferences?.edit()
+        editor?.putString(PHOTO_CARD_URL_KEY, url)
+        editor?.apply()
+    }
+
+    fun getPhotoUrl() : String{
+        return mSharedPreferences?.getString(PHOTO_CARD_URL_KEY, "") as String
     }
 }

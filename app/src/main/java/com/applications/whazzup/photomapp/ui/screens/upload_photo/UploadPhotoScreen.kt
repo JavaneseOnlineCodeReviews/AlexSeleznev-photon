@@ -14,9 +14,11 @@ import com.applications.whazzup.photomapp.mvp.models.UploadPhotoModel
 import com.applications.whazzup.photomapp.mvp.presenters.SubscribePresenter
 import com.applications.whazzup.photomapp.mvp.views.IRootView
 import com.applications.whazzup.photomapp.ui.activities.RootActivity
+import com.applications.whazzup.photomapp.ui.screens.upload_photo_screen.UploadCardInfoScreen
 import com.applications.whazzup.photomapp.util.ConstantManager
 import com.applications.whazzup.photomapp.util.UriGetter
 import dagger.Provides
+import flow.Flow
 import io.reactivex.disposables.Disposable
 import mortar.MortarScope
 
@@ -52,9 +54,14 @@ class UploadPhotoScreen : AbstractScreen<RootActivity.RootComponent>() {
             subscribeOnActivityResult()
         }
 
+        override fun onExitScope() {
+            super.onExitScope()
+            mActivityresultSub.dispose()
+        }
+
 
         fun uploadPhoto() {
-            chooseGallery();
+            chooseGallery()
         }
 
         fun chooseGallery() {
@@ -90,9 +97,10 @@ class UploadPhotoScreen : AbstractScreen<RootActivity.RootComponent>() {
         fun handleActivityResult(activityResultDto: ActivityResultDto) {
             when (activityResultDto.requestCode) {
                 ConstantManager.REQUEST_PROFILE_PHOTO -> {
-                    if (activityResultDto.data != null) {
+                    if (activityResultDto.data != null && view.context!=null) {
                         var photoUrl = UriGetter.getPath(view.context, activityResultDto.data.data)
                         mModel.uploadAvatarOnServer(Uri.parse(photoUrl).path)
+                        Flow.get(view).set(UploadCardInfoScreen())
                     }
                 }
             }

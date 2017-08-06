@@ -10,6 +10,7 @@ import com.applications.whazzup.photomapp.data.network.req.UserChangeInfoReq
 import com.applications.whazzup.photomapp.data.network.req.UserLogInReq
 import com.applications.whazzup.photomapp.data.network.req.UserSigInReq
 import com.applications.whazzup.photomapp.data.network.res.PhotocardRes
+import com.applications.whazzup.photomapp.data.network.res.UploadPhotoRes
 import com.applications.whazzup.photomapp.data.network.res.UserAvatarRes
 import com.applications.whazzup.photomapp.data.network.res.user.UserAlbumRes
 import com.applications.whazzup.photomapp.data.network.res.user.UserRes
@@ -70,10 +71,16 @@ class DataManager {
 
     fun saveUserInfo(user: UserRes){
         mPreferencesManager.saveUserProfileInfo(user)
+        mRealmManager.clearUserAlbum()
+        for(album in user.albums){
+            mRealmManager.saveAlbumToRealm(album)
+        }
+
     }
 
     fun logOut() {
         mPreferencesManager.logOut()
+        mRealmManager.clearUserAlbum()
     }
 
     fun getUserById(userId : String) : Observable<UserRes>{
@@ -122,5 +129,9 @@ class DataManager {
 
     fun deleteAlbum(albumId: String): Observable<Response<Void>>{
         return mRestService.deleteAlbum(mPreferencesManager.getUserId(), mPreferencesManager.getUserToken(), albumId)
+    }
+
+    fun createPhotoCard(cardInfo : CardInfoReq) : Observable<UploadPhotoRes>{
+        return mRestService.createPhotoCard(mPreferencesManager.getUserId(), mPreferencesManager.getUserToken(), cardInfo)
     }
 }

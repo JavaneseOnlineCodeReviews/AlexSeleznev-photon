@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.applications.whazzup.photomapp.ui.screens.upload_photo_screen.card_filters.CardFiltersView xmlns:android="http://schemas.android.com/apk/res/android"
+                                                                                                android:layout_width="match_parent"
+                                                                                                android:layout_height="match_parent"
+                                                                                                android:orientation="vertical">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Укажите параметры фотогафии"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Блюдо"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioGroup
+                    android:id="@+id/dish_rg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/meat_dish_rb"
+                        style="@style/RadioButtonStyle"
+                        android:drawableTop="@drawable/ic_selector_meat"
+                        android:text="Мясо"/>
+
+                    <RadioButton
+                        android:id="@+id/fish_dish_rb"
+                        style="@style/RadioButtonStyle"
+                        android:drawableTop="@drawable/ic_selector_fish"
+                        android:text="Рыба"/>
+
+                    <RadioButton
+                        android:id="@+id/vegetables_dish_rb"
+                        style="@style/RadioButtonStyle"
+                        android:drawableTop="@drawable/ic_selector_vegetebles"
+                        android:text="Овощи"/>
+
+                    <RadioButton
+                        android:id="@+id/fruit_dish_rb"
+                        style="@style/RadioButtonStyle"
+                        android:drawableTop="@drawable/selector_fruit"
+                        android:text="Фрукты"/>
+
+                    <RadioButton
+                        android:id="@+id/cheese_dish_rb"
+                        style="@style/RadioButtonStyle"
+                        android:drawableTop="@drawable/selector_cheese"
+                        android:text="@string/cheese_title"/>
+
+                    <RadioButton
+                        android:id="@+id/desert_dish_rb"
+                        style="@style/RadioButtonStyle"
+                        android:drawableTop="@drawable/selector_deserts"
+                        android:text="@string/dessert_title"/>
+
+                    <RadioButton
+                        android:id="@+id/drink_dish_rb"
+                        style="@style/RadioButtonStyle"
+                        android:drawableTop="@drawable/selector_drinks"
+                        android:text="@string/drinks_title"/>
+                </RadioGroup>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Оттенки"/>
+
+            <LinearLayout
+                android:id="@+id/nuances_wrapper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/card_color_red"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:drawableTop="@drawable/red_oval"
+                    android:gravity="center"
+                    android:text="@string/red"
+                    android:textSize="10sp"/>
+
+                <CheckBox
+                    android:id="@+id/card_color_orange"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:drawableTop="@drawable/orange_oval"
+                    android:gravity="center"
+                    android:text="@string/orange"
+                    android:textSize="10sp"/>
+
+                <CheckBox
+                    android:id="@+id/card_color_yellow"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:drawableTop="@drawable/yellow_oval"
+                    android:gravity="center"
+                    android:text="@string/yellow"
+                    android:textSize="10sp"/>
+
+                <CheckBox
+                    android:id="@+id/card_color_green"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:drawableTop="@drawable/green_oval"
+                    android:gravity="center"
+                    android:text="@string/green"
+                    android:textSize="10sp"/>
+
+                <CheckBox
+                    android:id="@+id/card_color_light_blue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:drawableTop="@drawable/ligth_blue_oval"
+                    android:gravity="center"
+                    android:text="@string/blue"
+                    android:textSize="10sp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/card_color_blue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:drawableTop="@drawable/blue_oval"
+                    android:gravity="center"
+                    android:text="@string/navy_blue"
+                    android:textSize="10sp"/>
+
+                <CheckBox
+                    android:id="@+id/card_color_purple"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:drawableTop="@drawable/purple_oval"
+                    android:gravity="center"
+                    android:text="@string/purple"
+                    android:textSize="10sp"/>
+
+                <CheckBox
+                    android:id="@+id/card_color_brown"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:drawableTop="@drawable/brown_oval"
+                    android:gravity="center"
+                    android:text="@string/brown"
+                    android:textSize="10sp"/>
+
+                <CheckBox
+                    android:id="@+id/card_color_black"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:drawableTop="@drawable/black_oval"
+                    android:gravity="center"
+                    android:text="@string/black"
+                    android:textSize="10sp"/>
+
+                <CheckBox
+                    android:id="@+id/card_color_white"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:drawableTop="@drawable/white_oval"
+                    android:gravity="center"
+                    android:text="@string/white"
+                    android:textSize="10sp"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Оформление"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioGroup
+                    android:id="@+id/decor_rg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/decor_simple_rb"
+                        style="@style/RadioButtonStyle"
+                        android:drawableTop="@drawable/selector_tea"
+                        android:text="Обычное"
+                        android:textSize="10sp"/>
+
+                    <RadioButton
+                        android:id="@+id/decor_holiday_rb"
+                        style="@style/RadioButtonStyle"
+                        android:drawableTop="@drawable/selector_cocktail"
+                        android:text="Праздничное"
+                        android:textSize="10sp"/>
+                </RadioGroup>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Температура"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioGroup
+                    android:id="@+id/temperature_rg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/temperature_hot_rb"
+                        style="@style/RadioButtonStyle"
+                        android:drawableTop="@drawable/selector_temperature_hot"
+                        android:text="@string/hot_temperature_title"
+                        android:textSize="10sp"/>
+
+                    <RadioButton
+                        android:id="@+id/temperature_normal_rb"
+                        style="@style/RadioButtonStyle"
+                        android:drawableTop="@drawable/selector_temperature_comfort"
+                        android:text="@string/comfort_temperature_title"
+                        android:textSize="10sp"/>
+
+                    <RadioButton
+                        android:id="@+id/temperature_cold_rb"
+                        style="@style/RadioButtonStyle"
+                        android:drawableTop="@drawable/selector_temperature_cold"
+                        android:text="@string/cold_temperature_title"
+                        android:textSize="10sp"/>
+                </RadioGroup>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Свет"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioGroup
+                    android:id="@+id/light_rg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/light_natural_rb"
+                        style="@style/RadioButtonStyle"
+                        android:drawableTop="@drawable/selector_light_natural"
+                        android:text="@string/natural_light_title"
+                        android:textSize="10sp"/>
+
+                    <RadioButton
+                        android:id="@+id/light_synthetic_rb"
+                        style="@style/RadioButtonStyle"
+                        android:drawableTop="@drawable/selector_light_syntetic"
+                        android:text="@string/synthetic_light_title"
+                        android:textSize="10sp"/>
+
+                    <RadioButton
+                        android:id="@+id/light_mixes_rb"
+                        style="@style/RadioButtonStyle"
+                        android:drawableTop="@drawable/selector_light_mixed"
+                        android:text="@string/mixed_light_title"
+                        android:textSize="10sp"/>
+                </RadioGroup>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Направление света"/>
+
+            <RadioGroup
+                android:id="@+id/light_direction_rg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <RadioButton
+                    android:id="@+id/light_dir_front_rb"
+                    style="@style/RadioButtonStyle"
+                    android:drawableTop="@drawable/selector_light_dir_front"
+                    android:text="@string/dir_front_light_title"
+                    android:textSize="10sp"/>
+
+                <RadioButton
+                    android:id="@+id/light_dir_back"
+                    style="@style/RadioButtonStyle"
+                    android:drawableTop="@drawable/selector_light_dir_back"
+                    android:text="@string/dir_back_light_title"
+                    android:textSize="10sp"/>
+
+                <RadioButton
+                    android:id="@+id/light_dir_side"
+                    style="@style/RadioButtonStyle"
+                    android:drawableTop="@drawable/selector_light_dir_side"
+                    android:text="@string/dir_side_light_title"
+                    android:textSize="10sp"/>
+
+                <RadioButton
+                    android:id="@+id/light_dir_mixed"
+                    style="@style/RadioButtonStyle"
+                    android:drawableTop="@drawable/selector_light_dir_mixed"
+                    android:text="@string/dir_mixed_light_title"
+                    android:textSize="10sp"/>
+            </RadioGroup>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Источник света"/>
+
+            <RadioGroup
+                android:id="@+id/light_count_rg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/light_count_1_rb"
+                    style="@style/RadioButtonStyle"
+                    android:drawableTop="@drawable/selector_light_count_1"
+                    android:text="@string/one_light_count_title"
+                    android:textSize="10sp"/>
+
+                <RadioButton
+                    android:id="@+id/light_count_2_rb"
+                    style="@style/RadioButtonStyle"
+                    android:drawableTop="@drawable/selector_light_count_2"
+                    android:text="@string/two_light_count_title"
+                    android:textSize="10sp"/>
+
+                <RadioButton
+                    android:id="@+id/light_count_3_rb"
+                    style="@style/RadioButtonStyle"
+                    android:drawableTop="@drawable/selector_light_count_3"
+                    android:text="@string/three_light_count_title"
+                    android:textSize="10sp"/>
+            </RadioGroup>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</com.applications.whazzup.photomapp.ui.screens.upload_photo_screen.card_filters.CardFiltersView>
