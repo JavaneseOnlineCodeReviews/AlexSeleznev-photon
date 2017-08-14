@@ -24,6 +24,7 @@ import mortar.MortarScope
 
 @Screen(R.layout.screen_upload_photo)
 class UploadPhotoScreen : AbstractScreen<RootActivity.RootComponent>() {
+
     override fun createScreenComponent(parentComponent: RootActivity.RootComponent): Any {
 //        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         return DaggerUploadPhotoScreen_Component.builder().rootComponent(parentComponent).uploadPhotoModule(UploadPhotoModule()).build()
@@ -52,6 +53,7 @@ class UploadPhotoScreen : AbstractScreen<RootActivity.RootComponent>() {
         override fun onEnterScope(scope: MortarScope?) {
             super.onEnterScope(scope)
             subscribeOnActivityResult()
+            view.initView()
         }
 
         override fun onExitScope() {
@@ -104,6 +106,10 @@ class UploadPhotoScreen : AbstractScreen<RootActivity.RootComponent>() {
                     }
                 }
             }
+        }
+
+        fun  isUserAuth(): Boolean {
+           return mModel.isUserAuth()
         }
     }
 

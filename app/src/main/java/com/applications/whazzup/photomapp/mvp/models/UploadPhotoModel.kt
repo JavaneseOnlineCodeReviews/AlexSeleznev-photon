@@ -6,4 +6,8 @@ class UploadPhotoModel: AbstractModel() {
     fun uploadAvatarOnServer(imageUri: String) {
         mJobManger.addJobInBackground(UploadPhotoJob(imageUri))
     }
+
+    fun isUserAuth(): Boolean {
+        return mDataManager.isUserAuth()
+    }
 }
