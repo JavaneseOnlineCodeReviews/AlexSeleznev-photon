@@ -1,17 +1,14 @@
 package com.applications.whazzup.photomapp.ui.screens.upload_photo_screen.card_album
 
 import android.content.Context
-import android.content.res.Resources
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.applications.whazzup.photomapp.R
-import com.applications.whazzup.photomapp.data.storage.dto.AlbumDto
 import com.applications.whazzup.photomapp.data.storage.realm.UserAlbumRealm
 import com.applications.whazzup.photomapp.di.DaggerService
 import com.squareup.picasso.Picasso
@@ -24,7 +21,7 @@ class CardAlbumAdapter(var context : Context) : RecyclerView.Adapter<CardAlbumAd
     @Inject
     lateinit var mPicasso : Picasso
 
-    var i =-1
+    var i =-1  //переменная для сохранения позиции по который был клик
 
     var listener : ((Int)->Unit)?=null
 
@@ -63,7 +60,7 @@ class CardAlbumAdapter(var context : Context) : RecyclerView.Adapter<CardAlbumAd
         if(!(preview.isEmpty())){
         mPicasso.load(albums.preview).into(holder?.picture)
         }
-        if(position == i){
+        if(position == i){ //Сравниваем текущую позицию адаптера с позицией по которой был клик
             holder?.cardAlpha?.visibility = View.VISIBLE
             holder?.check?.visibility = View.VISIBLE
         }else{
@@ -76,16 +73,6 @@ class CardAlbumAdapter(var context : Context) : RecyclerView.Adapter<CardAlbumAd
     }
 
     inner class ViewHolder(itemView : View, onItemClick : ((Int)->Unit)?) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-
-       /* override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-            when(event?.action){
-                MotionEvent.ACTION_DOWN->{
-                    if(i!=adapterPosition){
-                        cardAlpha.setImageResource(R.drawable.album_gradient)}
-                }
-            }
-            return false
-        }*/
 
 
         override fun onClick(v: View?) {

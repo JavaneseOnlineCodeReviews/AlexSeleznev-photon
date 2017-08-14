@@ -4,6 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <LinearLayout
         android:id="@+id/user_not_auth_wrapper"
         android:layout_width="match_parent"
@@ -30,5 +33,36 @@
             android:background="@drawable/upload_btn_photo"/>
 
     </LinearLayout>
+        <LinearLayout
+            android:id="@+id/upload_card_user_not_auth_wrapper"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@android:color/white"
+            android:visibility="gone">
+            <TextView
+                android:gravity="center"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="Авторизируйтесь что бы добавлять фотокартчки в свой альбом"
+                android:layout_marginBottom="8dp"/>
+            <Button
+                android:id="@+id/upload_card_signIn_btn"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:text="Регистрация"
+                android:background="@drawable/button_background"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"/>
+            <Button
+                android:id="@+id/upload_card_login_btn"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:text="Вход"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/button_background"/>
 
+        </LinearLayout>
+</FrameLayout>
 </com.applications.whazzup.photomapp.ui.screens.upload_photo.UploadPhotoView>
