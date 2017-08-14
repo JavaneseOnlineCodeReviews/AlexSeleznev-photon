@@ -1,8 +1,8 @@
 package com.applications.whazzup.photomapp.ui.screens.upload_photo_screen
 
-import android.widget.CompoundButton
 import com.applications.whazzup.photomapp.R
-import com.applications.whazzup.photomapp.data.network.req.CardInfoReq
+import com.applications.whazzup.photomapp.data.network.req.card_info_req.CardInfoFilters
+import com.applications.whazzup.photomapp.data.network.req.card_info_req.CardInfoReq
 import com.applications.whazzup.photomapp.di.DaggerScope
 import com.applications.whazzup.photomapp.di.DaggerService
 import com.applications.whazzup.photomapp.flow.AbstractScreen
@@ -45,7 +45,6 @@ class UploadCardInfoScreen : AbstractScreen<RootActivity.RootComponent>(){
         var cardLight = ""
         var cardLightDirection = ""
         var cardLightCount = ""
-        var filters = mutableMapOf<String, String>()
 
         override fun initDagger(scope: MortarScope?) {
             (scope?.getService<Any>(DaggerService.SERVICE_NAME) as DaggerUploadCardInfoScreen_UploadCardInfoComponent).inject(this)
@@ -68,7 +67,8 @@ class UploadCardInfoScreen : AbstractScreen<RootActivity.RootComponent>(){
 
 
         fun saveCard() {
-            for(nuance in cardNuances){
+            val filters = CardInfoFilters(cardDish, cardNuances, cardDecor, cardTemperature, cardLight, cardLightDirection, cardLightCount)
+            /*for(nuance in cardNuances){
                 filters.put("nuances", nuance)
             }
             filters.put("dish", cardDish)
@@ -76,13 +76,14 @@ class UploadCardInfoScreen : AbstractScreen<RootActivity.RootComponent>(){
             filters.put("temperature", cardTemperature)
             filters.put("light", cardLight)
             filters.put("lightDirection", cardLightDirection)
-            filters.put("lightSource", cardLightCount)
+            filters.put("lightSource", cardLightCount)*/
             mModel.uploaCardToServer(CardInfoReq(cardName, cardAlbumId, mModel.getCardUrl(), cardTags, filters))
-          /*  mModel.createPhotoCard(CardInfoReq(cardName, cardAlbumId, mModel.getCardUrl(), cardTags, filters))
-                   .subscribeOn(Schedulers.io())
-                   .observeOn(AndroidSchedulers.mainThread())
-                   .subscribeBy(onComplete = {
-                       Flow.get(view.context).goBack()})*/
+            mModel.subj.subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeBy(onNext = {
+                        mRootPresenter.rootView?.showMessage(it)
+                    })
+            Flow.get(view).goBack()
         }
 
     }
