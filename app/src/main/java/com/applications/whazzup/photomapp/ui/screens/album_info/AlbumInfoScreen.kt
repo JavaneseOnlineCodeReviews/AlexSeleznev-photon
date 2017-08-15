@@ -16,10 +16,12 @@ import com.applications.whazzup.photomapp.ui.screens.user_profile_auth.UserProfi
 import dagger.Provides
 import flow.Flow
 import flow.TreeKey
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import mortar.MortarScope
+import retrofit2.Response
 
 @Screen(R.layout.screen_album_info)
 class AlbumInfoScreen(var item: UserAlbumRes) : AbstractScreen<RootActivity.RootComponent>(), TreeKey {
@@ -57,10 +59,9 @@ class AlbumInfoScreen(var item: UserAlbumRes) : AbstractScreen<RootActivity.Root
                         view.initView(res!!)})
         }
 
-        fun deletePhotoCard(cardId: String, position : Int){
-            mModel.deletePhotoCard(cardId).subscribeOn(Schedulers.io())
+        fun deletePhotoCard(cardId: String, position : Int) : Observable<Response<Void>> {
+          return  mModel.deletePhotoCard(cardId).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe()
         }
 
         fun changeAlbumInfo(req: AlbumChangeInfoReq) {

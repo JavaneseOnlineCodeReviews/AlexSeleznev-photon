@@ -51,7 +51,7 @@ class UploadCardInfoScreen : AbstractScreen<RootActivity.RootComponent>(){
         }
 
         override fun initToolbar() {
-            mRootPresenter.ActionBarBuilder().setVisible(false).build()
+            mRootPresenter.ActionBarBuilder().setVisible(true).setTitle("Фотон").build()
         }
 
         fun addNuances(s: String) {

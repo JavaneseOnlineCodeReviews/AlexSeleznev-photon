@@ -34,6 +34,8 @@ class AlbumInfoAdapter() : RecyclerView.Adapter<ViewHolder>() {
        return adapterCardList.size
     }
 
+
+
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         var item = adapterCardList[position]
         mPicasso.load(item.photo).into(holder?.cardImage)
@@ -52,6 +54,11 @@ class AlbumInfoAdapter() : RecyclerView.Adapter<ViewHolder>() {
 
     fun getItem(position : Int) : PhotocardRes{
         return adapterCardList[position]
+    }
+
+    fun deleteItemByPostition(position: Int){
+        adapterCardList.removeAt(position)
+        notifyDataSetChanged()
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView?) {
