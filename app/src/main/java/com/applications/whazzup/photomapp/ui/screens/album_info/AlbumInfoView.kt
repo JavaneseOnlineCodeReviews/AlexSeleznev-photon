@@ -20,6 +20,8 @@ import com.applications.whazzup.photomapp.data.network.req.AlbumChangeInfoReq
 import com.applications.whazzup.photomapp.data.network.res.user.UserAlbumRes
 import com.applications.whazzup.photomapp.di.DaggerService
 import com.applications.whazzup.photomapp.mvp.views.AbstractView
+import com.applications.whazzup.photomapp.ui.screens.upload_photo_screen.UploadCardInfoScreen
+import flow.Flow
 import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.screen_album_info.view.*
 
@@ -58,7 +60,9 @@ class AlbumInfoView(context: Context, attrs: AttributeSet) : AbstractView<AlbumI
         with(album_info_recycler) {
             layoutManager = GridLayoutManager(context, 3)
             adapter = albumInfoAdapter
-            (adapter as AlbumInfoAdapter).addEditListener {}
+            (adapter as AlbumInfoAdapter).addEditListener {
+                Flow.get(this).set(UploadCardInfoScreen(1))
+            }
 
             (adapter as AlbumInfoAdapter).addDeleteListener {
                 mPresenter.deletePhotoCard((adapter as AlbumInfoAdapter).getItem(it).id, it).subscribeBy(onComplete = {

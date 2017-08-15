@@ -22,7 +22,7 @@ import mortar.MortarScope
 
 
 @Screen(R.layout.screen_upload_card_info)
-class UploadCardInfoScreen : AbstractScreen<RootActivity.RootComponent>(){
+class UploadCardInfoScreen(var uploadMode : Int) : AbstractScreen<RootActivity.RootComponent>(){
 
     override fun createScreenComponent(parentComponent: RootActivity.RootComponent): Any {
        return DaggerUploadCardInfoScreen_UploadCardInfoComponent.builder()

@@ -102,7 +102,7 @@ class UploadPhotoScreen : AbstractScreen<RootActivity.RootComponent>() {
                     if (activityResultDto.data != null && view.context!=null) {
                         var photoUrl = UriGetter.getPath(view.context, activityResultDto.data.data)
                         mModel.uploadAvatarOnServer(Uri.parse(photoUrl).path)
-                        Flow.get(view).set(UploadCardInfoScreen())
+                        Flow.get(view).set(UploadCardInfoScreen(0))
                     }
                 }
             }
