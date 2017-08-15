@@ -68,22 +68,18 @@ class UploadCardInfoScreen : AbstractScreen<RootActivity.RootComponent>(){
 
         fun saveCard() {
             val filters = CardInfoFilters(cardDish, cardNuances, cardDecor, cardTemperature, cardLight, cardLightDirection, cardLightCount)
-            /*for(nuance in cardNuances){
-                filters.put("nuances", nuance)
+            if(!(cardName.equals("")) && !(cardDish.equals("")) && !(cardDecor.equals("")) && !(cardTemperature.equals("")) && !(cardAlbumId.equals(""))
+               && !(cardLight.equals("")) && !(cardLightDirection.equals(""))&& !(cardLightCount.equals(""))) {
+                mModel.uploaCardToServer(CardInfoReq(cardName, cardAlbumId, mModel.getCardUrl(), cardTags, filters))
+                mModel.subj.subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeBy(onNext = {
+                            mRootPresenter.rootView?.showMessage(it)
+                        })
+                Flow.get(view).goBack()
+            }else {
+                mRootPresenter.rootView?.showMessage("Введите название фотокарточки, а так же выбирите фильтры и укажите альбом")
             }
-            filters.put("dish", cardDish)
-            filters.put("decor", cardDecor)
-            filters.put("temperature", cardTemperature)
-            filters.put("light", cardLight)
-            filters.put("lightDirection", cardLightDirection)
-            filters.put("lightSource", cardLightCount)*/
-            mModel.uploaCardToServer(CardInfoReq(cardName, cardAlbumId, mModel.getCardUrl(), cardTags, filters))
-            mModel.subj.subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeBy(onNext = {
-                        mRootPresenter.rootView?.showMessage(it)
-                    })
-            Flow.get(view).goBack()
         }
 
     }
