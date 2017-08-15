@@ -16,6 +16,8 @@ import com.applications.whazzup.photomapp.data.storage.dto.ActivityResultDto
 import com.applications.whazzup.photomapp.mvp.models.RootModel
 import com.applications.whazzup.photomapp.mvp.views.IRootView
 import com.applications.whazzup.photomapp.ui.activities.RootActivity
+import com.applications.whazzup.photomapp.ui.screens.upload_photo.UploadPhotoScreen
+import com.applications.whazzup.photomapp.ui.screens.upload_photo.UploadPhotoView
 import com.applications.whazzup.photomapp.ui.screens.user_profile_auth.UserProfileAuthView
 import com.applications.whazzup.photomapp.ui.screens.user_profile_idle.UserProfileIdleView
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -64,7 +66,10 @@ class RootPresenter private constructor() : Presenter<IRootView>() {
                     view.hideAlertDialog()
                     if (view.currentScreen is UserProfileIdleView) run {
                         (view.currentScreen as UserProfileIdleView).changeScreen()
+                    }else if(view.currentScreen is UploadPhotoView) run {
+                        (view.currentScreen as UploadPhotoView).changeScreen()
                     }
+
                 }, onError = {
                     view.showMessage("Такой пользователь уже существует")
                 })
@@ -80,6 +85,8 @@ class RootPresenter private constructor() : Presenter<IRootView>() {
                     view.hideAlertDialog()
                     if (view.currentScreen is UserProfileIdleView) run {
                         (view.currentScreen as UserProfileIdleView).changeScreen()
+                    }else if(view.currentScreen is UploadPhotoView) run {
+                        (view.currentScreen as UploadPhotoView).changeScreen()
                     }
                 }, onError = {
                     view.showMessage("Такого пользователя не существует")

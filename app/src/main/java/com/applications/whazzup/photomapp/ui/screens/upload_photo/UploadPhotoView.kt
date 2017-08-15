@@ -49,4 +49,8 @@ class UploadPhotoView(context: Context, attrs: AttributeSet) : AbstractView<Uplo
             wrapper.visibility = View.VISIBLE
         }
     }
+
+    fun  changeScreen() {
+        wrapper.visibility = View.GONE
+    }
 }
