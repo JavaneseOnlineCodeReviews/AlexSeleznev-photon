@@ -2,7 +2,7 @@ package com.applications.whazzup.photomapp.data.network.res.photocard
 
 
 data class PhotocardRes(val id: String, val owner: String, val active: Boolean, val title: String, val photo:String,
-                        val views: Int, val favorits: Int, val tags: List<String>, val filters: Map<String, String>) : Comparable<PhotocardRes>{
+                        val views: Int, val favorits: Int, val tags: List<String>, val filters: PhotoCardFiltersRes) : Comparable<PhotocardRes>{
 
 
     override fun compareTo(other: PhotocardRes): Int {
