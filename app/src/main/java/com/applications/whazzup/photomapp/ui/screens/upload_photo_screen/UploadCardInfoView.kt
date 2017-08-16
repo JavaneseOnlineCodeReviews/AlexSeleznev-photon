@@ -48,7 +48,7 @@ class UploadCardInfoView(context : Context, attrs: AttributeSet) : AbstractView<
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        //mViewPager.adapter = UploadCardInfoAdapter()
+        mViewPager.adapter = UploadCardInfoAdapter()
         mViewPager.addOnPageChangeListener(this)
     }
 
@@ -82,7 +82,7 @@ class UploadCardInfoView(context : Context, attrs: AttributeSet) : AbstractView<
     }
 
     fun initView() {
-        mViewPager.adapter = UploadCardInfoAdapter("Моя карточка")
+
     }
 
     // endregion

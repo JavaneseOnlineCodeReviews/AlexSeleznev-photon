@@ -17,12 +17,6 @@ import javax.inject.Inject
 @Screen(R.layout.content_card_name)
 class CardNameScreen() : AbstractScreen<UploadCardInfoScreen.UploadCardInfoComponent>() {
 
-    var aName : String = ""
-
-    constructor(albumName : String) : this() {
-        this.aName = albumName
-    }
-
     override fun createScreenComponent(parentComponent: UploadCardInfoScreen.UploadCardInfoComponent): Any {
       return DaggerCardNameScreen_cardNameComponent.builder().uploadCardInfoComponent(parentComponent)
                .cardNameModule(CardNameModule()).build()
@@ -46,7 +40,6 @@ class CardNameScreen() : AbstractScreen<UploadCardInfoScreen.UploadCardInfoCompo
 
         override fun onLoad(savedInstanceState: Bundle?) {
             super.onLoad(savedInstanceState)
-            view.initView(aName)
         }
 
         override fun initToolbar() {
