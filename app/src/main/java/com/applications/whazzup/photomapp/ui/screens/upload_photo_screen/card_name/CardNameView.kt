@@ -41,6 +41,7 @@ class CardNameView(context : Context, attrs : AttributeSet) : AbstractView<CardN
         mTagsEditText.setAdapter(adapter)
         mTagsEditText.threshold = 1
         listAdapter = ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, tagsList)
+        listAdapter.addAll(mPresenter.uploadCardInfoPresneter.cardTags)
         mTagsListView.adapter = listAdapter
 
 

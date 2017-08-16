@@ -3,6 +3,7 @@ package com.applications.whazzup.photomapp.ui.screens.upload_photo_screen
 import com.applications.whazzup.photomapp.R
 import com.applications.whazzup.photomapp.data.network.req.card_info_req.CardInfoFilters
 import com.applications.whazzup.photomapp.data.network.req.card_info_req.CardInfoReq
+import com.applications.whazzup.photomapp.data.network.res.photocard.PhotocardRes
 import com.applications.whazzup.photomapp.di.DaggerScope
 import com.applications.whazzup.photomapp.di.DaggerService
 import com.applications.whazzup.photomapp.flow.AbstractScreen
@@ -24,6 +25,13 @@ import mortar.MortarScope
 @Screen(R.layout.screen_upload_card_info)
 class UploadCardInfoScreen(var uploadMode : Int) : AbstractScreen<RootActivity.RootComponent>(){
 
+    lateinit var card : PhotocardRes
+
+    constructor(uploadMode : Int, photoCard : PhotocardRes) : this(uploadMode) {
+            this.uploadMode = uploadMode
+            card = photoCard
+    }
+
     override fun createScreenComponent(parentComponent: RootActivity.RootComponent): Any {
        return DaggerUploadCardInfoScreen_UploadCardInfoComponent.builder()
                .rootComponent(parentComponent).uploadCardInfoModule(UploadCardInfoModule())
@@ -34,21 +42,47 @@ class UploadCardInfoScreen(var uploadMode : Int) : AbstractScreen<RootActivity.R
 
     inner class UploaCardInfoPresenter : AbstractPresenter<UploadCardInfoView, UploaCardInfoModel>(){
 
+        var cardName : String
+        var cardTags : MutableList<String>
+        var cardNuances : MutableList<String>
+        var cardDish : String
+        var cardDecor : String
+        var cardTemperature : String
+        var cardAlbumId : String
+        var cardLight : String
+        var cardLightDirection : String
+        var cardLightCount : String
 
-        var cardName : String = ""
-        var cardTags  = mutableListOf<String>()
-        var cardNuances = mutableListOf<String>()
-        var cardDish = ""
-        var cardDecor=""
-        var cardTemperature=""
-        var cardAlbumId = ""
-        var cardLight = ""
-        var cardLightDirection = ""
-        var cardLightCount = ""
+init{
+    if(uploadMode ==1){
+        this.cardName = card.title
+        this.cardTags  = card.tags as MutableList<String>
+        this.cardNuances = mutableListOf<String>()
+        this.cardDish = card.filters.dish
+        this.cardDecor= card.filters.decor
+        this.cardTemperature=card.filters.temperature
+        this.cardAlbumId = card.id
+        this.cardLight = card.filters.light
+        this.cardLightDirection = card.filters.lightDirection
+        this.cardLightCount = card.filters. lightSource
+    }else{
+        this.cardName = ""
+        this.cardTags  = mutableListOf<String>()
+        this.cardNuances = mutableListOf<String>()
+        this.cardDish = ""
+        this.cardDecor=""
+        this.cardTemperature=""
+        this.cardAlbumId = ""
+        this.cardLight = ""
+        this.cardLightDirection = ""
+        this.cardLightCount = ""
+    }
+}
+
 
         override fun onEnterScope(scope: MortarScope?) {
             super.onEnterScope(scope)
-            if(uploadMode ==1){
+            if(uploadMode==1){
                 //view.initView()
             }
         }

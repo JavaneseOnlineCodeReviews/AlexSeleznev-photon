@@ -61,7 +61,7 @@ class AlbumInfoView(context: Context, attrs: AttributeSet) : AbstractView<AlbumI
             layoutManager = GridLayoutManager(context, 3)
             adapter = albumInfoAdapter
             (adapter as AlbumInfoAdapter).addEditListener {
-                Flow.get(this).set(UploadCardInfoScreen(1))
+                Flow.get(this).set(UploadCardInfoScreen(1, (adapter as AlbumInfoAdapter).getItem(it)))
             }
 
             (adapter as AlbumInfoAdapter).addDeleteListener {
