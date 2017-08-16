@@ -1,6 +1,6 @@
 package com.applications.whazzup.photomapp.mvp.models
 
-import com.applications.whazzup.photomapp.data.network.res.PhotocardRes
+import com.applications.whazzup.photomapp.data.network.res.photocard.PhotocardRes
 import com.applications.whazzup.photomapp.data.network.res.user.UserAlbumRes
 import com.applications.whazzup.photomapp.data.network.res.user.UserRes
 import io.reactivex.Observable

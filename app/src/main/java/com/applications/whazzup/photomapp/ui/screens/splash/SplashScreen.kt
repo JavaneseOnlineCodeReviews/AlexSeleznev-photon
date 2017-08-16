@@ -66,7 +66,7 @@ class SplashScreen : AbstractScreen<RootActivity.RootComponent>() {
                             },
                             onError = {
                                 rootView!!.hideLoad()
-                                Log.d("TAG", it.message)
+                                Log.d("TAG", it.printStackTrace().toString())
                             }
                     )
 

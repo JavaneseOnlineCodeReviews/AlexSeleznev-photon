@@ -19,7 +19,12 @@ import com.applications.whazzup.photomapp.ui.screens.upload_photo_screen.card_na
 import mortar.MortarScope
 
 
-class UploadCardInfoAdapter : PagerAdapter(){
+class UploadCardInfoAdapter() : PagerAdapter(){
+    var albumName : String = ""
+
+    constructor(aName : String) : this() {
+        this.albumName = aName
+    }
 
     lateinit var screen: AbstractScreen<UploadCardInfoScreen.UploadCardInfoComponent>
 

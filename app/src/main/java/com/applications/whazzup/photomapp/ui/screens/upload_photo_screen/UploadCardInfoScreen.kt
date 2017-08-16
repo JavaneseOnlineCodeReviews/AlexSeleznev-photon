@@ -1,5 +1,6 @@
 package com.applications.whazzup.photomapp.ui.screens.upload_photo_screen
 
+import android.os.Bundle
 import com.applications.whazzup.photomapp.R
 import com.applications.whazzup.photomapp.data.network.req.card_info_req.CardInfoFilters
 import com.applications.whazzup.photomapp.data.network.req.card_info_req.CardInfoReq
@@ -24,6 +25,7 @@ import mortar.MortarScope
 @Screen(R.layout.screen_upload_card_info)
 class UploadCardInfoScreen(var uploadMode : Int) : AbstractScreen<RootActivity.RootComponent>(){
 
+
     override fun createScreenComponent(parentComponent: RootActivity.RootComponent): Any {
        return DaggerUploadCardInfoScreen_UploadCardInfoComponent.builder()
                .rootComponent(parentComponent).uploadCardInfoModule(UploadCardInfoModule())
@@ -45,6 +47,18 @@ class UploadCardInfoScreen(var uploadMode : Int) : AbstractScreen<RootActivity.R
         var cardLight = ""
         var cardLightDirection = ""
         var cardLightCount = ""
+
+        override fun onEnterScope(scope: MortarScope?) {
+            super.onEnterScope(scope)
+
+        }
+
+        override fun onLoad(savedInstanceState: Bundle?) {
+            super.onLoad(savedInstanceState)
+            if(uploadMode ==1){
+                view.initView()
+            }
+        }
 
         override fun initDagger(scope: MortarScope?) {
             (scope?.getService<Any>(DaggerService.SERVICE_NAME) as DaggerUploadCardInfoScreen_UploadCardInfoComponent).inject(this)

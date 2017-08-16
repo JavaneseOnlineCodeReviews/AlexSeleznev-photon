@@ -7,8 +7,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import com.applications.whazzup.photomapp.R
-import com.applications.whazzup.photomapp.data.network.res.PhotocardRes
-import com.applications.whazzup.photomapp.data.storage.realm.PhotocardRealm
+import com.applications.whazzup.photomapp.data.network.res.photocard.PhotocardRes
 import com.applications.whazzup.photomapp.di.DaggerService
 import com.applications.whazzup.photomapp.ui.screens.album_info.AlbumInfoAdapter.ViewHolder
 import com.squareup.picasso.Picasso
@@ -52,7 +51,7 @@ class AlbumInfoAdapter() : RecyclerView.Adapter<ViewHolder>() {
         deleteListener = onItemClick
     }
 
-    fun getItem(position : Int) : PhotocardRes{
+    fun getItem(position : Int) : PhotocardRes {
         return adapterCardList[position]
     }
 

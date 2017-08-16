@@ -38,8 +38,6 @@ class UploadCardInfoView(context : Context, attrs: AttributeSet) : AbstractView<
     @BindView(R.id.upload_card_info_pager)
     lateinit var mViewPager : ViewPager
 
-    var uploadCardInfoAdapter : UploadCardInfoAdapter = UploadCardInfoAdapter()
-
     override fun viewOnBackPressed(): Boolean {
         return false
     }
@@ -50,8 +48,7 @@ class UploadCardInfoView(context : Context, attrs: AttributeSet) : AbstractView<
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        mViewPager.adapter = uploadCardInfoAdapter
-        if(mViewPager.currentItem == R.layout.content_card_name) mPresenter.mRootPresenter.rootView?.showMessage("First step")
+        //mViewPager.adapter = UploadCardInfoAdapter()
         mViewPager.addOnPageChangeListener(this)
     }
 
@@ -82,6 +79,10 @@ class UploadCardInfoView(context : Context, attrs: AttributeSet) : AbstractView<
         else{
             mPresenter.mRootPresenter.rootView?.showMessage("Выбирите параметры карточки")
         }*/
+    }
+
+    fun initView() {
+        mViewPager.adapter = UploadCardInfoAdapter("Моя карточка")
     }
 
     // endregion

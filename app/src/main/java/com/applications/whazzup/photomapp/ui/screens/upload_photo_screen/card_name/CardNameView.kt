@@ -40,7 +40,6 @@ class CardNameView(context : Context, attrs : AttributeSet) : AbstractView<CardN
         var adapter = ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, mPresenter.getTagsFromDb())
         mTagsEditText.setAdapter(adapter)
         mTagsEditText.threshold = 1
-
         listAdapter = ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, tagsList)
         mTagsListView.adapter = listAdapter
 
@@ -50,7 +49,7 @@ class CardNameView(context : Context, attrs : AttributeSet) : AbstractView<CardN
 
     @OnClick(R.id.perform_tags_iv)
     fun onClick(){
-        //mPresenter.mRootPresenter.rootView?.showMessage("Нажали")
+        mPresenter.mRootPresenter.rootView?.showMessage("Нажали")
         tagsList.add(0, mTagsEditText.text.toString())
         listAdapter.notifyDataSetChanged()
         mPresenter.uploadCardInfoPresneter.cardTags.add( mTagsEditText.text.toString())
@@ -60,6 +59,10 @@ class CardNameView(context : Context, attrs : AttributeSet) : AbstractView<CardN
     @OnClick(R.id.close_tags_iv)
     fun onCloseClick(){
         mTagsEditText.setText("")
+    }
+
+    fun initView(aName: String) {
+        mCardNameEt.setText(aName)
     }
 
     // endregion

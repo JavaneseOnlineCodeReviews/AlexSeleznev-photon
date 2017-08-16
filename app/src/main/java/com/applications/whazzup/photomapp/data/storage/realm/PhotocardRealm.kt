@@ -1,12 +1,13 @@
 package com.applications.whazzup.photomapp.data.storage.realm
 
-import com.applications.whazzup.photomapp.data.network.res.PhotocardRes
+import com.applications.whazzup.photomapp.data.network.res.photocard.PhotocardRes
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 
 
 open class PhotocardRealm() : RealmObject() {
+
     @PrimaryKey
     var id: String = ""
     var owner: String = ""

@@ -1,6 +1,6 @@
 package com.applications.whazzup.photomapp.data.managers
 
-import com.applications.whazzup.photomapp.data.network.res.PhotocardRes
+import com.applications.whazzup.photomapp.data.network.res.photocard.PhotocardRes
 import com.applications.whazzup.photomapp.data.network.res.user.UserAlbumRes
 import com.applications.whazzup.photomapp.data.storage.realm.PhotocardRealm
 import com.applications.whazzup.photomapp.data.storage.realm.TagRealm
