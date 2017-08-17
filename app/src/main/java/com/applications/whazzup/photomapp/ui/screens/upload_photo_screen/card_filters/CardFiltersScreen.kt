@@ -1,5 +1,6 @@
 package com.applications.whazzup.photomapp.ui.screens.upload_photo_screen.card_filters
 
+import android.os.Bundle
 import com.applications.whazzup.photomapp.R
 import com.applications.whazzup.photomapp.di.DaggerScope
 import com.applications.whazzup.photomapp.di.DaggerService
@@ -24,10 +25,21 @@ class CardFiltersScreen : AbstractScreen<UploadCardInfoScreen.UploadCardInfoComp
     // region================Presenter==============
 
     inner class CardFilterPresenter : AbstractPresenter<CardFiltersView, CardFiltersModel>(){
+
         @Inject
         lateinit var uploadCardInfoPresneter : UploadCardInfoScreen.UploaCardInfoPresenter
         override fun initToolbar() {
 
+        }
+
+        override fun onEnterScope(scope: MortarScope?) {
+            super.onEnterScope(scope)
+
+        }
+
+        override fun onLoad(savedInstanceState: Bundle?) {
+            super.onLoad(savedInstanceState)
+            view.initView()
         }
 
         override fun initDagger(scope: MortarScope?) {

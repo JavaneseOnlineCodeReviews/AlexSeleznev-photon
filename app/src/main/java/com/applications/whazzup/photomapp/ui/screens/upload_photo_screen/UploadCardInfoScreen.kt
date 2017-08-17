@@ -45,6 +45,7 @@ class UploadCardInfoScreen(var uploadMode : Int) : AbstractScreen<RootActivity.R
         var cardName : String
         var cardTags : MutableList<String>
         var cardNuances : MutableList<String>
+        var someNuances : MutableList<String>
         var cardDish : String
         var cardDecor : String
         var cardTemperature : String
@@ -57,7 +58,8 @@ init{
     if(uploadMode ==1){
         this.cardName = card.title
         this.cardTags  = card.tags as MutableList<String>
-        this.cardNuances = mutableListOf<String>()
+        this.cardNuances = card.filters.nuances.split(",") as MutableList<String>
+        this.someNuances = card.filters.nuances.split(",") as MutableList<String>
         this.cardDish = card.filters.dish
         this.cardDecor= card.filters.decor
         this.cardTemperature=card.filters.temperature
@@ -69,6 +71,7 @@ init{
         this.cardName = ""
         this.cardTags  = mutableListOf<String>()
         this.cardNuances = mutableListOf<String>()
+        this.someNuances = mutableListOf()
         this.cardDish = ""
         this.cardDecor=""
         this.cardTemperature=""

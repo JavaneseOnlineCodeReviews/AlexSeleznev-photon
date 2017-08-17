@@ -97,7 +97,7 @@ class CardFiltersView(context : Context, attrs : AttributeSet) : AbstractView<Ca
         mTemperatureRadioGroup.setOnCheckedChangeListener { group, checkedId ->
             when(checkedId){
                 R.id.temperature_cold_rb -> mPresenter.addTemperature("cold")
-                R.id.temperature_normal_rb -> mPresenter.addTemperature("normal")
+                R.id.temperature_normal_rb -> mPresenter.addTemperature("middle")
                 R.id.temperature_hot_rb -> mPresenter.addTemperature("hot")
             }
         }
@@ -137,4 +137,66 @@ class CardFiltersView(context : Context, attrs : AttributeSet) : AbstractView<Ca
         DaggerService.getDaggerComponent<DaggerCardFiltersScreen_CardFiltersComponent>(context!!).inject(this)
     }
 
+    fun initView() {
+        when (mPresenter.uploadCardInfoPresneter.cardDish) {
+            "meat" -> (findViewById(R.id.meat_dish_rb) as RadioButton).isChecked = true
+            "fish" -> (findViewById(R.id.fish_dish_rb) as RadioButton).isChecked = true
+            "vegetables" -> (findViewById(R.id.vegetables_dish_rb) as RadioButton).isChecked = true
+            "fruit" -> (findViewById(R.id.vegetables_dish_rb) as RadioButton).isChecked = true
+            "cheese" -> (findViewById(R.id.cheese_dish_rb) as RadioButton).isChecked = true
+            "dessert" -> (findViewById(R.id.desert_dish_rb) as RadioButton).isChecked = true
+            "drinks" -> (findViewById(R.id.drink_dish_rb) as RadioButton).isChecked = true
+        }
+        mPresenter.mRootPresenter.rootView?.showMessage(mPresenter.uploadCardInfoPresneter.cardNuances.toString())
+        var colors = mPresenter.uploadCardInfoPresneter.someNuances
+        for (s in colors) {
+            when (s) {
+                "red" -> mRedCheckBox.isChecked = true
+                "orange" -> mOrangeCheckBox.isChecked = true
+                "yellow" -> mYellowCheckBox.isChecked = true
+                "green" ->  mGreenCheckBox.isChecked = true
+                "lightBlue" -> mLightBlueCheckBox.isChecked = true
+                "blue" -> mBlueCheckBox.isChecked = true
+                "violet" -> mViolentCheckBox.isChecked = true
+                "brown" -> mBrownCheckBox.isChecked = true
+                "black" -> mBlackCheckBox.isChecked = true
+                "white" -> mWhiteCheckBox.isChecked = true
+            }
+        }
+
+        when(mPresenter.uploadCardInfoPresneter.cardDecor){
+            "simple"-> (findViewById(R.id.decor_simple_rb)as RadioButton).isChecked=true
+             "holiday"-> (findViewById(R.id.decor_holiday_rb) as RadioButton).isChecked=true
+        }
+
+        when(mPresenter.uploadCardInfoPresneter.cardTemperature){
+            "hot"->(findViewById(R.id.temperature_hot_rb)as RadioButton).isChecked=true
+            "middle"->(findViewById(R.id.temperature_normal_rb)as RadioButton).isChecked=true
+            "normal"->(findViewById(R.id.temperature_normal_rb)as RadioButton).isChecked=true
+            "cold"->(findViewById(R.id.temperature_cold_rb)as RadioButton).isChecked=true
+        }
+
+        when(mPresenter.uploadCardInfoPresneter.cardLight){
+"natural"->(findViewById(R.id.light_natural_rb) as RadioButton).isChecked=true
+"synthetic"->(findViewById(R.id.light_synthetic_rb) as RadioButton).isChecked=true
+"mixed"->(findViewById(R.id.light_mixes_rb) as RadioButton).isChecked=true
+
+        }
+
+        when(mPresenter.uploadCardInfoPresneter.cardLightDirection){
+ "direct"->(findViewById(R.id.light_dir_front_rb) as RadioButton).isChecked=true
+ "backLight"->(findViewById(R.id.light_dir_back) as RadioButton).isChecked=true
+ "sideLight"->(findViewById(R.id.light_dir_side) as RadioButton).isChecked=true
+            "mixed"->(findViewById(R.id.light_dir_mixed) as RadioButton).isChecked=true
+
+        }
+
+        when(mPresenter.uploadCardInfoPresneter.cardLightCount){
+ "one"->(findViewById(R.id.light_count_1_rb) as RadioButton).isChecked=true
+ "two"->(findViewById(R.id.light_count_2_rb) as RadioButton).isChecked=true
+ "three"->(findViewById(R.id.light_count_3_rb) as RadioButton).isChecked=true
+
+        }
+
+    }
 }
