@@ -135,4 +135,8 @@ class DataManager {
     fun createPhotoCard(cardInfo : CardInfoReq) : Observable<UploadPhotoRes>{
         return mRestService.createPhotoCard(mPreferencesManager.getUserId(), mPreferencesManager.getUserToken(), cardInfo)
     }
+
+    fun updatePhotoCard(cardId : String, cardInfo : CardInfoReq) : Observable<UploadPhotoRes>{
+        return mRestService.updatePhotoCard(mPreferencesManager.getUserId(),cardId, mPreferencesManager.getUserToken(), cardInfo)
+    }
 }
