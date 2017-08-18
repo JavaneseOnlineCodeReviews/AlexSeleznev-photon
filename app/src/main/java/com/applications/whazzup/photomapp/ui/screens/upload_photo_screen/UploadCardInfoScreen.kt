@@ -12,6 +12,7 @@ import com.applications.whazzup.photomapp.mvp.models.UploaCardInfoModel
 import com.applications.whazzup.photomapp.mvp.presenters.AbstractPresenter
 import com.applications.whazzup.photomapp.mvp.presenters.RootPresenter
 import com.applications.whazzup.photomapp.ui.activities.RootActivity
+import com.applications.whazzup.photomapp.ui.screens.upload_photo_screen.card_name.CardNameView
 import com.squareup.picasso.Picasso
 import dagger.Provides
 import flow.Flow
@@ -112,17 +113,31 @@ init{
 
         fun saveCard() {
             val filters = CardInfoFilters(cardDish, cardNuances, cardDecor, cardTemperature, cardLight, cardLightDirection, cardLightCount)
-            if(!(cardName.equals("")) && !(cardDish.equals("")) && !(cardDecor.equals("")) && !(cardTemperature.equals("")) && !(cardAlbumId.equals(""))
-               && !(cardLight.equals("")) && !(cardLightDirection.equals(""))&& !(cardLightCount.equals(""))) {
-                mModel.uploaCardToServer(CardInfoReq(cardName, cardAlbumId, mModel.getCardUrl(), cardTags, filters))
-                mModel.subj.subscribeOn(Schedulers.io())
+            if(uploadMode==0) {
+                if (!(cardName.equals("")) && !(cardDish.equals("")) && !(cardDecor.equals("")) && !(cardTemperature.equals("")) && !(cardAlbumId.equals(""))
+                        && !(cardLight.equals("")) && !(cardLightDirection.equals("")) && !(cardLightCount.equals(""))) {
+                    mModel.uploaCardToServer(CardInfoReq(cardName, cardAlbumId, mModel.getCardUrl(), cardTags, filters))
+                    mModel.subj.subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribeBy(onNext = {
+                                mRootPresenter.rootView?.showMessage(it)
+                            })
+                    Flow.get(view).goBack()
+                } else {
+                    mRootPresenter.rootView?.showMessage("Введите название фотокарточки, а так же выбирите фильтры и укажите альбом")
+                }
+            }
+            else{
+                mModel.updateCardToServer(card.id, CardInfoReq(cardName, cardAlbumId, card.photo, cardTags, filters)).subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribeBy(onNext = {
-                            mRootPresenter.rootView?.showMessage(it)
-                        })
-                Flow.get(view).goBack()
-            }else {
-                mRootPresenter.rootView?.showMessage("Введите название фотокарточки, а так же выбирите фильтры и укажите альбом")
+                        .subscribeBy(
+                        onNext = {
+                            mRootPresenter.rootView?.showMessage(it.id)
+                        }, onComplete = {
+                            Flow.get(view).goBack()
+
+                }, onError = {it.printStackTrace()}
+                )
             }
         }
 

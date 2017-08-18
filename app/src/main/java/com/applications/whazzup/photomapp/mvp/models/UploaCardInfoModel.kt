@@ -2,10 +2,12 @@ package com.applications.whazzup.photomapp.mvp.models
 
 import com.applications.whazzup.photomapp.data.network.req.card_info_req.CardInfoReq
 import com.applications.whazzup.photomapp.data.network.res.UploadPhotoRes
+import com.applications.whazzup.photomapp.data.network.res.photocard.PhotocardRes
 import com.applications.whazzup.photomapp.jobs.EmptyJobManagerCallback
 import com.applications.whazzup.photomapp.jobs.UploadCardJob
 import com.birbit.android.jobqueue.Job
 import io.reactivex.Observable
+import io.reactivex.Observer
 import io.reactivex.subjects.PublishSubject
 
 class UploaCardInfoModel : AbstractModel(){
@@ -24,6 +26,10 @@ class UploaCardInfoModel : AbstractModel(){
             }
         })
 
+    }
+
+    fun updateCardToServer(cardId : String, cardInfo: CardInfoReq) : Observable<UploadPhotoRes>{
+        return mDataManager.updatePhotoCard(cardId, cardInfo)
     }
 
     fun getCardUrl(): String {
