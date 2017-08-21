@@ -24,11 +24,8 @@ import mortar.MortarScope
 import retrofit2.Response
 
 @Screen(R.layout.screen_album_info)
-class AlbumInfoScreen(var item: UserAlbumRes) : AbstractScreen<RootActivity.RootComponent>(), TreeKey {
+class AlbumInfoScreen(var item: UserAlbumRes) : AbstractScreen<RootActivity.RootComponent>() {
 
-    override fun getParentKey(): Any {
-        return UserProfileAuthScreen()
-    }
 
     override fun createScreenComponent(parentComponent: RootActivity.RootComponent): Any {
        return DaggerAlbumInfoScreen_AlbumInfoComponent.builder().rootComponent(parentComponent).albumInfoModule(AlbumInfoModule()).build()
@@ -50,13 +47,18 @@ class AlbumInfoScreen(var item: UserAlbumRes) : AbstractScreen<RootActivity.Root
         }
 
         override fun onLoad(savedInstanceState: Bundle?) {
-            var res : UserAlbumRes? = null
             super.onLoad(savedInstanceState)
+            var res : UserAlbumRes? = null
             mModel.getAlbumById(item.id).subscribeOn(Schedulers.io())
                     .doOnNext {res = it}
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeBy(onComplete = {
                         view.initView(res!!)})
+        }
+
+        override fun onEnterScope(scope: MortarScope?) {
+            super.onEnterScope(scope)
+
         }
 
         fun deletePhotoCard(cardId: String, position : Int) : Observable<Response<Void>> {

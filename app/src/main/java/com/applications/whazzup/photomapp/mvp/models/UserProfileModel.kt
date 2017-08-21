@@ -63,4 +63,8 @@ class UserProfileModel : AbstractModel() {
     fun getUserLogin(): String {
         return mDataManager.mPreferencesManager.getUserLogin()
     }
+
+    fun saveAlbumToRealm(it: UserAlbumRes) {
+        mRealmManager.saveAlbumToRealm(it)
+    }
 }

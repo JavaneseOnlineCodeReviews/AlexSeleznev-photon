@@ -59,7 +59,7 @@ init{
     if(uploadMode ==1){
         this.cardName = card.title
         this.cardTags  = card.tags as MutableList<String>
-        this.cardNuances = card.filters.nuances.split(",") as MutableList<String>
+        this.cardNuances = mutableListOf()
         this.someNuances = card.filters.nuances.split(",") as MutableList<String>
         this.cardDish = card.filters.dish
         this.cardDecor= card.filters.decor
@@ -89,6 +89,11 @@ init{
             if(uploadMode==1){
                 //view.initView()
             }
+        }
+
+        override fun onExitScope() {
+            super.onExitScope()
+            someNuances = mutableListOf()
         }
 
         override fun initDagger(scope: MortarScope?) {

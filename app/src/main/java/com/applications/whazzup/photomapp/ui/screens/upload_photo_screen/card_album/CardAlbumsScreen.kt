@@ -46,7 +46,8 @@ class CardAlbumsScreen : AbstractScreen<UploadCardInfoScreen.UploadCardInfoCompo
         override fun onLoad(savedInstanceState: Bundle?) {
             super.onLoad(savedInstanceState)
             mModel.getAllAlbumsFromRealm().filter { it.active }
-                    .doOnNext { view.mCardAlbumsAdapter.addAlbum(it) }
+                    .doOnNext {
+                        view.mCardAlbumsAdapter.addAlbum(it) }
                     .subscribeBy(onComplete = {view.initView()})
         }
 

@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.PopupMenu
 import com.applications.whazzup.photomapp.R
 import com.applications.whazzup.photomapp.R.id.*
+import com.applications.whazzup.photomapp.data.storage.dto.PhotoCardDto
 import com.applications.whazzup.photomapp.di.DaggerScope
 import com.applications.whazzup.photomapp.di.DaggerService
 import com.applications.whazzup.photomapp.flow.AbstractScreen
@@ -17,6 +18,10 @@ import com.applications.whazzup.photomapp.ui.activities.RootActivity
 import com.applications.whazzup.photomapp.ui.screens.search.SearchScreen
 import dagger.Provides
 import flow.Flow
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.subscribeBy
+import io.reactivex.schedulers.Schedulers
 import mortar.MortarScope
 
 @Screen(R.layout.screen_photo_card_list)
@@ -29,6 +34,21 @@ class PhotoCardListScreen : AbstractScreen<RootActivity.RootComponent>() {
     // region================Presenter==============
     inner class PhotoCardListPresenter : AbstractPresenter<PhotoCardListView, PhotoCardListModel>() {
 
+
+        override fun onEnterScope(scope: MortarScope?) {
+            super.onEnterScope(scope)
+            mModel.mDataManager.getPhotoCard(1000, 0)
+                    .flatMap { Observable.fromIterable(it) }
+                    .sorted { o1, o2 -> compareValues(o1, o2)  }
+                    .filter { it.active }
+                    .doOnNext {
+                        mModel.mRealmManager.savePhotocardResponseToRealm(it)
+                        mRootPresenter.mRootModel.addToCardList(PhotoCardDto(it))
+                    }
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeBy()
+        }
 
         override fun initToolbar() {
             mRootPresenter.newActionBarBuilder()

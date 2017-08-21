@@ -116,7 +116,8 @@ class UserProfileAuthScreen : AbstractScreen<RootActivity.RootComponent>() {
 
             mModel.createAlbum(addAlbumReq).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .doOnNext { view.userAdapter.addAlbum(it) }
+                    .doOnNext { view.userAdapter.addAlbum(it)
+                        mModel.saveAlbumToRealm(it)}
                     .subscribeBy(onComplete = {
                         mRootPresenter.rootView?.showMessage("Новый альбом успешно создан.")
                         view.incrementAlbumCount()

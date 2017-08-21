@@ -42,6 +42,10 @@ class CardFiltersScreen : AbstractScreen<UploadCardInfoScreen.UploadCardInfoComp
             view.initView()
         }
 
+        override fun onExitScope() {
+            super.onExitScope()
+        }
+
         override fun initDagger(scope: MortarScope?) {
 
             (scope?.getService<Any>(DaggerService.SERVICE_NAME) as DaggerCardFiltersScreen_CardFiltersComponent).inject(this)
