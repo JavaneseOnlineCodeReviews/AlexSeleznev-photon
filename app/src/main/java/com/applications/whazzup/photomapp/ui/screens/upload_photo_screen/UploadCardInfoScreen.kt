@@ -133,6 +133,9 @@ init{
                 }
             }
             else{
+                if(view.mViewPager.currentItem ==0){
+                    cardName = (view.mViewPager.getChildAt(0) as CardNameView).mCardNameEt.text.toString()
+                }
                 mModel.updateCardToServer(card.id, CardInfoReq(cardName, cardAlbumId, card.photo, cardTags, filters)).subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeBy(
