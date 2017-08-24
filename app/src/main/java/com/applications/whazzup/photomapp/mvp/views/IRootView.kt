@@ -1,7 +1,9 @@
 package com.applications.whazzup.photomapp.mvp.views
 
 import android.content.Intent
+import android.net.Uri
 import android.view.View
+import android.widget.ImageView
 
 interface IRootView : IView {
     fun showMessage(message: String)
@@ -17,4 +19,5 @@ interface IRootView : IView {
     fun hideToolBar()
     fun hideAlertDialog()
     val currentScreen: IView?
+    fun  startAct(imageIntent: Intent)
 }

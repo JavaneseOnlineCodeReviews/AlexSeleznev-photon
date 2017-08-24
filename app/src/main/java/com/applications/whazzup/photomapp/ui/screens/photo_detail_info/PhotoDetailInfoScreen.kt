@@ -1,6 +1,7 @@
 package com.applications.whazzup.photomapp.ui.screens.photo_detail_info
 
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+import android.app.Application
 import android.os.Bundle
 import com.applications.whazzup.photomapp.R
 import com.applications.whazzup.photomapp.data.storage.dto.PhotoCardDto
@@ -22,6 +23,22 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import mortar.MortarScope
+import android.support.v4.content.ContextCompat.startActivity
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
+import android.net.Uri
+import android.support.v4.content.ContextCompat.startActivity
+import android.provider.MediaStore.Images
+import android.support.v4.content.ContextCompat.startActivity
+import android.support.v4.content.ContextCompat.startActivity
+import android.support.v4.content.ContextCompat.startActivity
+import com.squareup.picasso.Target
+import android.support.v4.content.ContextCompat.startActivity
+import android.provider.MediaStore
+import android.R.attr.bitmap
+import android.util.Log
+
 
 @Screen(R.layout.screen_photo_detail_info)
 class PhotoDetailInfoScreen() : AbstractScreen<RootActivity.RootComponent>() {
@@ -69,14 +86,18 @@ class PhotoDetailInfoScreen() : AbstractScreen<RootActivity.RootComponent>() {
             mModel.addView(photoCard.id)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeBy(onError = {it.printStackTrace()
-                        mRootPresenter.rootView?.showMessage(it.toString())})
+                    .subscribeBy(onError = {
+                        it.printStackTrace()
+                        mRootPresenter.rootView?.showMessage(it.toString())
+                    })
 
             mModel.getUserById(photoCard.owner)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeBy(onNext = {view.showOwnerInfo(it)}, onError = {it.printStackTrace()
-                        mRootPresenter.rootView?.showMessage(it.toString())})
+                    .subscribeBy(onNext = { view.showOwnerInfo(it) }, onError = {
+                        it.printStackTrace()
+                        mRootPresenter.rootView?.showMessage(it.toString())
+                    })
         }
 
         override fun initToolbar() {
@@ -101,6 +122,26 @@ class PhotoDetailInfoScreen() : AbstractScreen<RootActivity.RootComponent>() {
             }
         }
 
+        fun sharedPhoto() {
+            Picasso.with(view.context).load(photoCard.photo).into(object : Target{
+                override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
+
+                override fun onBitmapFailed(errorDrawable: Drawable?) {}
+
+                override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
+                    var bmp = bitmap
+                    val path = MediaStore.Images.Media.insertImage(view.context.contentResolver, bmp, "SomeText", null)
+                    Log.d("Path", path)
+                    val intent = Intent(Intent.ACTION_SEND)
+                    intent.putExtra(Intent.EXTRA_TEXT, "Hey view/download this image")
+                    val screenshotUri = Uri.parse(path)
+                    intent.putExtra(Intent.EXTRA_STREAM, screenshotUri)
+                    intent.type = "image/*"
+                    mRootPresenter.rootView?.startAct(Intent.createChooser(intent, "Share image via..."))
+                }
+
+            })
+        }
     }
     //endregion
 

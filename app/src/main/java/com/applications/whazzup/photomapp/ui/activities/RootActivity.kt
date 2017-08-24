@@ -6,9 +6,14 @@ import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.BottomNavigationView
 import android.support.design.widget.CoordinatorLayout
@@ -48,9 +53,13 @@ import flow.Flow
 import flow.History
 import mortar.MortarScope
 import mortar.bundler.BundleServiceRunner
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 import javax.inject.Inject
 
 class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
+
 
 
     @BindView(R.id.root_frame) lateinit var mRootFrame: FrameLayout
@@ -241,6 +250,10 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
 
     override fun showError(e: Throwable) {
 
+    }
+
+    override fun startAct(imageIntent: Intent) {
+        startActivity(imageIntent)
     }
 
     override fun showLoad() {

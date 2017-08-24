@@ -86,7 +86,7 @@ class PhotoDetailInfoView(context: Context, attrs: AttributeSet) : AbstractView<
 
                 }
                 R.id.share ->{
-
+                    mPresenter.sharedPhoto()
                 }
                 R.id.download ->{
                     mPresenter.downloadPermissionAccess()
