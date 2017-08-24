@@ -69,4 +69,7 @@ interface RestService {
     @PUT("user/{userId}/photocard/{photoCardId}")
     fun updatePhotoCard(@Path("userId") userId : String, @Path("photoCardId") cardId: String, @Header("Authorization") userToken : String, @Body cardInfo : CardInfoReq) : Observable<UploadPhotoRes>
 
+    @POST("user/{userId}/favorite/{photoCardId}")
+    fun addToFavorite(@Path("userId") userId: String, @Path("photoCardId")id: String, @Header("Authorization") userToken : String) : Observable<AddToFavoriteRes>
+
 }

@@ -142,6 +142,15 @@ class PhotoDetailInfoScreen() : AbstractScreen<RootActivity.RootComponent>() {
 
             })
         }
+
+        fun addToFavorite(){
+            if(mModel.mDataManager.isUserAuth()){
+            mModel.addToFavorite(photoCard.id)
+            }
+            else{
+                mRootPresenter.rootView?.showMessage("Что бы добавлять картоки в избаррное необходимо зарегистрироваться или войти")
+            }
+        }
     }
     //endregion
 

@@ -61,7 +61,11 @@ class AlbumInfoView(context: Context, attrs: AttributeSet) : AbstractView<AlbumI
             layoutManager = GridLayoutManager(context, 3)
             adapter = albumInfoAdapter
             (adapter as AlbumInfoAdapter).addEditListener {
-                Flow.get(this).set(UploadCardInfoScreen(1, (adapter as AlbumInfoAdapter).getItem(it)))
+                if((adapter as AlbumInfoAdapter).getItem(it).owner.equals(mPresenter.mModel.mDataManager.mPreferencesManager.getUserId())) {
+                    Flow.get(this).set(UploadCardInfoScreen(1, (adapter as AlbumInfoAdapter).getItem(it)))
+                }else{
+                    mPresenter.mRootPresenter.rootView?.showMessage("Недостаточно прав")
+                }
             }
 
             (adapter as AlbumInfoAdapter).addDeleteListener {

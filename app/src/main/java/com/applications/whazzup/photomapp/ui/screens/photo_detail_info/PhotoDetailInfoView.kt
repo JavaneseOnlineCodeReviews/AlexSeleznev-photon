@@ -82,10 +82,10 @@ class PhotoDetailInfoView(context: Context, attrs: AttributeSet) : AbstractView<
         menu.inflate(R.menu.detail_info_menu)
         menu.setOnMenuItemClickListener({
             when(it.itemId) {
-                R.id.to_favorite ->{
-
+                R.id.to_favorite -> {
+                    mPresenter.addToFavorite()
                 }
-                R.id.share ->{
+                R.id.share -> {
                     mPresenter.sharedPhoto()
                 }
                 R.id.download ->{

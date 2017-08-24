@@ -10,6 +10,7 @@ import com.applications.whazzup.photomapp.data.network.req.UserChangeInfoReq
 import com.applications.whazzup.photomapp.data.network.req.UserLogInReq
 import com.applications.whazzup.photomapp.data.network.req.UserSigInReq
 import com.applications.whazzup.photomapp.data.network.req.card_info_req.CardInfoReq
+import com.applications.whazzup.photomapp.data.network.res.AddToFavoriteRes
 import com.applications.whazzup.photomapp.data.network.res.photocard.PhotocardRes
 import com.applications.whazzup.photomapp.data.network.res.UploadPhotoRes
 import com.applications.whazzup.photomapp.data.network.res.UserAvatarRes
@@ -138,5 +139,9 @@ class DataManager {
 
     fun updatePhotoCard(cardId : String, cardInfo : CardInfoReq) : Observable<UploadPhotoRes>{
         return mRestService.updatePhotoCard(mPreferencesManager.getUserId(),cardId, mPreferencesManager.getUserToken(), cardInfo)
+    }
+
+    fun addToFavorite(id: String): Observable<AddToFavoriteRes> {
+        return mRestService.addToFavorite(mPreferencesManager.getUserId(), id, mPreferencesManager.getUserToken())
     }
 }
