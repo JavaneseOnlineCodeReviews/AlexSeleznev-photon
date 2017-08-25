@@ -76,6 +76,12 @@ class RealmManager {
         val realm = Realm.getDefaultInstance()
         realm.executeTransaction { realm -> realm.where(UserAlbumRealm :: class.java).findAll().deleteAllFromRealm() }
         realm.close()
-
     }
+
+    fun getAllCardFromRealm(): Observable<PhotocardRealm>{
+        val realm = Realm.getDefaultInstance()
+        var managedCard = realm.where(PhotocardRealm::class.java).findAllAsync()
+        return managedCard.asObservable().toV2Observable().filter { it.isLoaded }.firstElement().flatMapObservable { Observable.fromIterable(it) }.sorted { o1, o2 -> compareValues(o1,o2) }
+    }
+
 }

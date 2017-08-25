@@ -14,16 +14,20 @@ import kotlinx.android.synthetic.main.item_photo_card.view.*
 import javax.inject.Inject
 
 
-class PhotoCardListAdapter(cardList : List<PhotoCardDto>) : RecyclerView.Adapter<PhotoCardListAdapter.ViewHolder>() {
+class PhotoCardListAdapter() : RecyclerView.Adapter<PhotoCardListAdapter.ViewHolder>() {
 
     @Inject
     lateinit var mPicasso : Picasso
 
-    var list: List<PhotoCardDto> = cardList
+    var list = mutableListOf<PhotoCardDto>()
     var listener: ((Int) -> Unit)? = null
 
     fun addListener(onItemClick: (Int) -> Unit) {
         this.listener = onItemClick
+    }
+
+    fun addItem(card : PhotoCardDto){
+        list.add(card)
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView?) {

@@ -16,10 +16,12 @@ import com.applications.whazzup.photomapp.data.network.res.UploadPhotoRes
 import com.applications.whazzup.photomapp.data.network.res.UserAvatarRes
 import com.applications.whazzup.photomapp.data.network.res.user.UserAlbumRes
 import com.applications.whazzup.photomapp.data.network.res.user.UserRes
+import com.applications.whazzup.photomapp.data.storage.realm.PhotocardRealm
 import com.applications.whazzup.photomapp.di.components.DaggerDataManagerComponent
 import com.applications.whazzup.photomapp.di.modules.LocalModule
 import com.applications.whazzup.photomapp.di.modules.NetworkModule
 import io.reactivex.Observable
+import io.reactivex.schedulers.Schedulers
 import okhttp3.MultipartBody
 import retrofit2.Response
 import javax.inject.Inject
@@ -45,6 +47,21 @@ class DataManager {
 
     fun getPhotoCard(limit: Int, offset: Int): Observable<List<PhotocardRes>> {
         return mRestService.getPhotoCard(limit, offset)
+    }
+
+    fun getCardObsFromNetwork() : Observable<PhotocardRealm>{
+        return mRestService.getCardResObs()
+                .flatMap { Observable.fromIterable(it) }
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(Schedulers.io())
+                .doOnNext {
+                    if(!it.active){
+                        mRealmManager.deleteFromRealm(PhotocardRealm::class.java, it.id)
+                    }
+                }
+                .filter { it.active }
+                .doOnNext { mRealmManager.savePhotocardResponseToRealm(it) }
+                .flatMap { Observable.empty<PhotocardRealm>() }
     }
 
     fun getTagsObs() : Observable<List<String>> {

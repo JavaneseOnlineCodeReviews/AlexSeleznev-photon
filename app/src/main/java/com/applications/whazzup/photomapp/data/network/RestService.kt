@@ -21,6 +21,9 @@ interface RestService {
     @GET("photocard/list")
     fun getPhotoCard(@Query("limit") limit: Int, @Query("offset") offset: Int): Observable<List<PhotocardRes>>
 
+    @GET("photocard/list")
+    fun getCardResObs() : Observable<List<PhotocardRes>>
+
     @GET("photocard/tags")
     fun getTags() : Observable<List<String>>
 

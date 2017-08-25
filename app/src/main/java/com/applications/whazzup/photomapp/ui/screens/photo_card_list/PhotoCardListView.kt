@@ -13,14 +13,11 @@ import kotlinx.android.synthetic.main.screen_photo_card_list.view.*
 
 class PhotoCardListView(context: Context, attrs: AttributeSet) : AbstractView<PhotoCardListScreen.PhotoCardListPresenter>(context, attrs) {
 
+    var cardAdapter = PhotoCardListAdapter()
+
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        with(card_lit_recycler){
-            layoutManager = GridLayoutManager(context, 2)
-            adapter = PhotoCardListAdapter(mPresenter.mRootPresenter.mRootModel.cardList)
-            (adapter as PhotoCardListAdapter).addListener({
-                Flow.get(context).set(PhotoDetailInfoScreen((adapter as PhotoCardListAdapter).getItem(it))) })
-        }
+
     }
 
     override fun viewOnBackPressed(): Boolean {
@@ -29,5 +26,14 @@ class PhotoCardListView(context: Context, attrs: AttributeSet) : AbstractView<Ph
 
     override fun initDagger(context: Context) {
         DaggerService.getDaggerComponent<DaggerPhotoCardListScreen_Component>(context).inject(this)
+    }
+
+    fun initView() {
+        with(card_lit_recycler){
+            layoutManager = GridLayoutManager(context, 2)
+            adapter = cardAdapter
+            (adapter as PhotoCardListAdapter).addListener({
+                Flow.get(context).set(PhotoDetailInfoScreen((adapter as PhotoCardListAdapter).getItem(it))) })
+        }
     }
 }

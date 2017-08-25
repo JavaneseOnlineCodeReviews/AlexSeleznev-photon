@@ -6,7 +6,8 @@ import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 
 
-open class PhotocardRealm() : RealmObject() {
+open class PhotocardRealm() : RealmObject(), Comparable<PhotocardRealm> {
+
 
     @PrimaryKey
     var id: String = ""
@@ -28,6 +29,15 @@ open class PhotocardRealm() : RealmObject() {
         favorits = photoCard.favorits
         for (tag in photoCard.tags) {
             tags.add(TagRealm(tag))
+        }
+    }
+    override fun compareTo(other: PhotocardRealm): Int {
+        if(this.views < other.views){
+            return 1
+        }else if(this.views == other.views){
+            return 0
+        }else{
+            return -1
         }
     }
 }

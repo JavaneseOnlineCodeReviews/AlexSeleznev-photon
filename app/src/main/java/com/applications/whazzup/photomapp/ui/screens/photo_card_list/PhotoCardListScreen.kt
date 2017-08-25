@@ -37,7 +37,13 @@ class PhotoCardListScreen : AbstractScreen<RootActivity.RootComponent>() {
 
         override fun onEnterScope(scope: MortarScope?) {
             super.onEnterScope(scope)
-            mModel.mDataManager.getPhotoCard(1000, 0)
+
+            mModel.getCardObs()//.sorted {o1, o2 ->  compareValues(o1,o2) }
+                    .filter { it.active }
+                    .doOnNext {view.cardAdapter.addItem(PhotoCardDto(it))}
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeBy(onComplete = {view.initView()})
+            /*mModel.mDataManager.getPhotoCard(1000, 0)
                     .flatMap { Observable.fromIterable(it) }
                     .sorted { o1, o2 -> compareValues(o1, o2)  }
                     .filter { it.active }
@@ -47,7 +53,7 @@ class PhotoCardListScreen : AbstractScreen<RootActivity.RootComponent>() {
                     }
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeBy()
+                    .subscribeBy()*/
         }
 
         override fun initToolbar() {
