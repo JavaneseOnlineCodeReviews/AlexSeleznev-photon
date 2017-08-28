@@ -10,6 +10,7 @@ import com.applications.whazzup.photomapp.data.network.res.*
 import com.applications.whazzup.photomapp.data.network.res.photocard.PhotocardRes
 import com.applications.whazzup.photomapp.data.network.res.user.UserAlbumRes
 import com.applications.whazzup.photomapp.data.network.res.user.UserRes
+import com.applications.whazzup.photomapp.util.ConstantManager
 import io.reactivex.Observable
 import okhttp3.MultipartBody
 import retrofit2.Response
@@ -22,7 +23,7 @@ interface RestService {
     fun getPhotoCard(@Query("limit") limit: Int, @Query("offset") offset: Int): Observable<List<PhotocardRes>>
 
     @GET("photocard/list")
-    fun getCardResObs() : Observable<List<PhotocardRes>>
+    fun getCardResObs(@Header(ConstantManager.LAST_MODIFIED) lastEntityUpdate : String) : Observable<Response<List<PhotocardRes>>>
 
     @GET("photocard/tags")
     fun getTags() : Observable<List<String>>

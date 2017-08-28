@@ -18,6 +18,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import mortar.MortarScope
+import java.net.SocketTimeoutException
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 @Screen(R.layout.screen_splash)
 class SplashScreen : AbstractScreen<RootActivity.RootComponent>() {
@@ -48,7 +51,19 @@ class SplashScreen : AbstractScreen<RootActivity.RootComponent>() {
                         }
                     })
             }
-            mModel.getPhotoCard(1000, 0)
+
+
+            mModel.getCardObs()
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeBy(onError = { mRootPresenter.rootView?.showError(it)},
+                            onComplete = {
+                                rootView?.hideLoad()
+                                rootView?.hideBottomNavigation(true)
+                                Flow.get(view).set(PhotoCardListScreen())
+                            })
+
+
+           /* mModel.getPhotoCard(1000, 0)
                     .flatMap { Observable.fromIterable(it) }
                     .sorted { o1, o2 -> compareValues(o1, o2)  }
                     .filter { it.active }
@@ -56,6 +71,8 @@ class SplashScreen : AbstractScreen<RootActivity.RootComponent>() {
                         mModel.savePhotoCardToRealm(it)
                         mRootPresenter.mRootModel.addToCardList(PhotoCardDto(it))
                     }
+                    .doOnError { it.printStackTrace() }
+                    .retryWhen { it.flatMap { mModel.getPhotoCard(1000,0) } }
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeBy(
@@ -68,7 +85,7 @@ class SplashScreen : AbstractScreen<RootActivity.RootComponent>() {
                                 rootView!!.hideLoad()
                                 Log.d("TAG", it.printStackTrace().toString())
                             }
-                    )
+                    )*/
 
         }
 

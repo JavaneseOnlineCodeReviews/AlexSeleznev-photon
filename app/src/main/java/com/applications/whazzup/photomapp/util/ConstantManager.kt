@@ -21,9 +21,13 @@ object ConstantManager {
     val REQUEST_PROFILE_PHOTO_CAMERA = 1002
     
     val FILE_PROVIDER_AUTHORITY = "com.applications.whazzup.photomapp"
+    const val LAST_MODIFIED = "If-Modified-Since"
     val INITIAL_BACK_OFF_IN_MS: Long = 1000
     val MIN_CONSUMER_COUNT = 1
     val MAX_CONSUMER_COUNT = 3
     val LOAD_FACTOR = 3
     val KEEP_ALIVE = 120
+
+    val PRODUCT_LAST_UPDATE_KEY = "PRODUCT_LAST_UPDATE_KEY"
+    val DEFAULT_LAST_UPDATE = "Thu Jan 1 1970 00:00:00 GMT+0000 (UTC)"
 }

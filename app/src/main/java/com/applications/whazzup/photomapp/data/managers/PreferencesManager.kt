@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 
 import com.applications.whazzup.photomapp.App
 import com.applications.whazzup.photomapp.data.network.res.user.UserRes
+import com.applications.whazzup.photomapp.util.ConstantManager
 import com.applications.whazzup.photomapp.util.ConstantManager.PHOTO_CARD_URL_KEY
 import com.applications.whazzup.photomapp.util.ConstantManager.USER_AVATAR_KEY
 import com.applications.whazzup.photomapp.util.ConstantManager.USER_ID_KEY
@@ -78,5 +79,15 @@ class PreferencesManager {
 
     fun getPhotoUrl() : String{
         return mSharedPreferences?.getString(PHOTO_CARD_URL_KEY, "") as String
+    }
+
+    fun getLastDataUpdate() : String{
+        return mSharedPreferences?.getString(ConstantManager.PRODUCT_LAST_UPDATE_KEY, ConstantManager.DEFAULT_LAST_UPDATE)!!
+    }
+
+    fun saveLastDataUpdate(lastModified : String){
+        val editor : SharedPreferences.Editor = mSharedPreferences?.edit()!!
+        editor.putString(ConstantManager.PRODUCT_LAST_UPDATE_KEY, lastModified)
+        editor.apply()
     }
 }

@@ -1,6 +1,7 @@
 package com.applications.whazzup.photomapp.data.managers
 
 
+import android.util.Log
 import com.applications.whazzup.photomapp.App
 import com.applications.whazzup.photomapp.data.network.RestService
 import com.applications.whazzup.photomapp.data.network.req.*
@@ -20,10 +21,14 @@ import com.applications.whazzup.photomapp.data.storage.realm.PhotocardRealm
 import com.applications.whazzup.photomapp.di.components.DaggerDataManagerComponent
 import com.applications.whazzup.photomapp.di.modules.LocalModule
 import com.applications.whazzup.photomapp.di.modules.NetworkModule
+import com.applications.whazzup.photomapp.util.ConstantManager
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import okhttp3.MultipartBody
 import retrofit2.Response
+import java.util.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class DataManager {
@@ -50,10 +55,17 @@ class DataManager {
     }
 
     fun getCardObsFromNetwork() : Observable<PhotocardRealm>{
-        return mRestService.getCardResObs()
+        return mRestService.getCardResObs(mPreferencesManager.getLastDataUpdate())
+                .doOnNext { if(it.code()==200) {mPreferencesManager.saveLastDataUpdate(it.headers().get("Last-Modified")!!)} }
+                .flatMap { when(it.code()){
+                    200->Observable.just(it.body())
+                    304-> Observable.empty()
+                    else -> {Observable.empty()
+                    }
+                }}
                 .flatMap { Observable.fromIterable(it) }
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(Schedulers.io())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext {
                     if(!it.active){
                         mRealmManager.deleteFromRealm(PhotocardRealm::class.java, it.id)
@@ -61,6 +73,11 @@ class DataManager {
                 }
                 .filter { it.active }
                 .doOnNext { mRealmManager.savePhotocardResponseToRealm(it) }
+                .retryWhen { it.zipWith(1..5, {it, range->range})
+                        .doOnNext { it-> Log.e("DM", "LOCAL UPDATE request retry " + "count: " + it + " " + Date()) }
+                        .flatMap<Long> { it->Observable.just(1000*Math.pow(Math.E, it.toDouble()) as Long) }
+                        .doOnNext { delay -> Log.e("DM", "LOCAL UPDATE delay: " + delay) }
+                        .flatMap { it->Observable.timer(it, TimeUnit.MILLISECONDS)}}
                 .flatMap { Observable.empty<PhotocardRealm>() }
     }
 

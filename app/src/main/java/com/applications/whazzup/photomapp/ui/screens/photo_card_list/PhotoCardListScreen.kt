@@ -38,7 +38,7 @@ class PhotoCardListScreen : AbstractScreen<RootActivity.RootComponent>() {
         override fun onEnterScope(scope: MortarScope?) {
             super.onEnterScope(scope)
 
-            mModel.getCardObs()//.sorted {o1, o2 ->  compareValues(o1,o2) }
+            mModel.getCardObs()
                     .filter { it.active }
                     .doOnNext {view.cardAdapter.addItem(PhotoCardDto(it))}
                     .observeOn(AndroidSchedulers.mainThread())

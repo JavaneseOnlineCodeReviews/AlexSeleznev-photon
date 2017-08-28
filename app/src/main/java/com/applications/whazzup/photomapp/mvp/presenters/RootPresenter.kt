@@ -40,6 +40,8 @@ class RootPresenter private constructor() : Presenter<IRootView>() {
 
     val mActivityResultObs: PublishSubject<ActivityResultDto> = PublishSubject.create()
 
+    var recyclerPosition =-1
+
     companion object {
         val INSTANCE = RootPresenter()
 
@@ -200,6 +202,10 @@ class RootPresenter private constructor() : Presenter<IRootView>() {
                 }, onError = {
                     view.showMessage("Что-то пошло не так. повторите попытку пойзже")
                 })
+    }
+
+    fun saveRecyclerPosition(findFirstVisibleItemPosition: Int) {
+        recyclerPosition=findFirstVisibleItemPosition
     }
 }
 
