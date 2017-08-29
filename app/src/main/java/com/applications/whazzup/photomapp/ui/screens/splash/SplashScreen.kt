@@ -49,13 +49,17 @@ class SplashScreen : AbstractScreen<RootActivity.RootComponent>() {
                         for(item in it.albums){
                             mModel.saveAlbumToRealm(item)
                         }
+                    }, onError = {
+                        mRootPresenter.rootView?.showMessage("Обнаружено плохое соединение с сетью.")
                     })
             }
 
 
             mModel.getCardObs()
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeBy(onError = { mRootPresenter.rootView?.showError(it)},
+                    .doOnError { mRootPresenter.rootView?.showMessage("Обнаружено плохое соединение с сетью.") }
+                    .subscribeBy(onError = {
+                        mRootPresenter.rootView?.showMessage("Обнаружено плохое соединение с сетью.")},
                             onComplete = {
                                 rootView?.hideLoad()
                                 rootView?.hideBottomNavigation(true)
