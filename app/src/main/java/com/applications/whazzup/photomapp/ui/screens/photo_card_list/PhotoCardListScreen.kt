@@ -42,7 +42,12 @@ class PhotoCardListScreen : AbstractScreen<RootActivity.RootComponent>() {
                     .filter { it.active }
                     .doOnNext {view.cardAdapter.addItem(PhotoCardDto(it))}
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeBy(onComplete = {view.initView()})
+                    .subscribeBy(onComplete = {view.initView()},
+                            onError = {
+                                mRootPresenter.rootView?.showMessage("В свзи с плохим соединением данные могут быть устаревшими")
+                                view.initView()
+                                mRootPresenter.rootView?.hideLoad()
+                            })
             /*mModel.mDataManager.getPhotoCard(1000, 0)
                     .flatMap { Observable.fromIterable(it) }
                     .sorted { o1, o2 -> compareValues(o1, o2)  }

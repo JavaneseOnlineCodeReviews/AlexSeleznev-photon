@@ -1,7 +1,7 @@
 package com.applications.whazzup.photomapp.data.managers
 
 
-import android.util.Log
+import android.widget.Toast
 import com.applications.whazzup.photomapp.App
 import com.applications.whazzup.photomapp.data.network.RestService
 import com.applications.whazzup.photomapp.data.network.req.*
@@ -79,6 +79,7 @@ class DataManager {
                                 Observable.just(1000 * Math.pow(Math.E, it.toDouble()).toLong())
                         }
                         .concatWith(Observable.error { SocketTimeoutException() })
+                        .doOnNext { Toast.makeText(App.applicationContext(), "Пытаюсь установить соединение с сервером...", Toast.LENGTH_SHORT).show() }
                         .flatMap { Observable.timer(it, TimeUnit.MILLISECONDS)}
                 }
                 .flatMap { Observable.empty<PhotocardRealm>() }
