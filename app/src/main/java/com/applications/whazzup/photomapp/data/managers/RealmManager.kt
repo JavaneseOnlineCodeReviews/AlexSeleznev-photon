@@ -7,6 +7,7 @@ import com.applications.whazzup.photomapp.data.storage.realm.TagRealm
 import com.applications.whazzup.photomapp.data.storage.realm.UserAlbumRealm
 import com.milkmachine.rxjava2interop.toV2Observable
 import io.reactivex.Observable
+import io.realm.Case
 import io.realm.Realm
 import io.realm.RealmObject
 import io.realm.RealmResults
@@ -84,4 +85,32 @@ class RealmManager {
         return managedCard.asObservable().toV2Observable().filter { it.isLoaded }.firstElement().flatMapObservable { Observable.fromIterable(it) }.sorted { o1, o2 -> compareValues(o1,o2) }
     }
 
+    fun filter(dishList: MutableList<String>, colorList: MutableList<String>, decorList: MutableList<String>, temperatureList: MutableList<String>, lighrCountList: MutableList<String>, lightDirectionList: MutableList<String>, lightList: MutableList<String>) {
+        val realm = Realm.getDefaultInstance()
+        println(dishList + ", " + temperatureList)
+        val managedCard = realm.where(PhotocardRealm :: class.java).`in`("dish", dishList.toTypedArray()).`in`("temperature", temperatureList.toTypedArray()).findAll()
+        for(filter in colorList){
+            var mo = managedCard.where().contains("nuances", filter).findAll()
+            managedCard.addAll(mo)
+        }
+        println(managedCard)
+    }
+
+    fun getSearchCardFromRealm(nameList : List<String>): Observable<PhotocardRealm>? {
+        val realm = Realm.getDefaultInstance()
+        var photos = realm.where(PhotocardRealm :: class.java)
+
+        /*var list = mutableListOf<PhotocardRealm>()
+
+        for(name in nameList){
+            var mo = realm.where(PhotocardRealm :: class.java).contains("searchTitle", name.toUpperCase()).findAll()
+            list.addAll(mo)
+        }*/
+
+       /* var managedCard = realm.where(PhotocardRealm :: class.java).`in`("title", nameList.toTypedArray()).findAll()
+        var mo = realm.where(PhotocardRealm :: class.java).contains("searchTitle", "ФРУКТОВЫЙ САЛАТ").findAll()
+        list.addAll(mo)
+        list.addAll(managedCard)*/
+        return null //Observable.fromIterable(list) //managedCard.asObservable().toV2Observable().filter { it.isLoaded }.firstElement().flatMapObservable { Observable.fromIterable(it) }
+    }
 }

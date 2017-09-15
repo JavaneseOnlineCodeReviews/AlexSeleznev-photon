@@ -2,6 +2,7 @@ package com.applications.whazzup.photomapp.ui.screens.photo_card_list
 
 
 
+import android.os.Bundle
 import android.view.View
 import android.widget.PopupMenu
 import com.applications.whazzup.photomapp.R
@@ -38,16 +39,7 @@ class PhotoCardListScreen : AbstractScreen<RootActivity.RootComponent>() {
         override fun onEnterScope(scope: MortarScope?) {
             super.onEnterScope(scope)
 
-            mModel.getCardObs()
-                    .filter { it.active }
-                    .doOnNext {view.cardAdapter.addItem(PhotoCardDto(it))}
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeBy(onComplete = {view.initView()},
-                            onError = {
-                                mRootPresenter.rootView?.showMessage("В свзи с плохим соединением данные могут быть устаревшими")
-                                view.initView()
-                                mRootPresenter.rootView?.hideLoad()
-                            })
+
             /*mModel.mDataManager.getPhotoCard(1000, 0)
                     .flatMap { Observable.fromIterable(it) }
                     .sorted { o1, o2 -> compareValues(o1, o2)  }
@@ -59,6 +51,20 @@ class PhotoCardListScreen : AbstractScreen<RootActivity.RootComponent>() {
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeBy()*/
+        }
+
+        override fun onLoad(savedInstanceState: Bundle?) {
+            super.onLoad(savedInstanceState)
+            mModel.getCardObs()
+                    .filter { it.active }
+                    .doOnNext {view.cardAdapter.addItem(PhotoCardDto(it))}
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeBy(onComplete = {view.initView()},
+                            onError = {
+                                mRootPresenter.rootView?.showMessage("В свзи с плохим соединением данные могут быть устаревшими")
+                                view.initView()
+                                mRootPresenter.rootView?.hideLoad()
+                            })
         }
 
         override fun initToolbar() {

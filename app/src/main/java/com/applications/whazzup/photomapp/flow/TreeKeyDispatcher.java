@@ -11,7 +11,9 @@ import com.applications.whazzup.photomapp.R;
 import com.applications.whazzup.photomapp.mortar.ScreenScoper;
 import com.applications.whazzup.photomapp.ui.screens.author.AuthorScreen;
 import com.applications.whazzup.photomapp.ui.screens.author.author_album_info.AuthorAlbumInfoScreen;
+import com.applications.whazzup.photomapp.ui.screens.filtered_photo_card_list.FilteredPhotoCardListScreen;
 import com.applications.whazzup.photomapp.ui.screens.photo_detail_info.PhotoDetailInfoScreen;
+import com.applications.whazzup.photomapp.ui.screens.search.SearchScreen;
 
 import java.util.Collections;
 import java.util.Map;
@@ -53,9 +55,9 @@ public class TreeKeyDispatcher extends KeyChanger implements Dispatcher {
             callback.onTraversalCompleted();
             return;
         }
-        /*if((outKey instanceof AuthorAlbumInfoScreen)){
-            ((AuthorAlbumInfoScreen) outKey).unregisterScope();
-        }*/
+        if((outKey instanceof FilteredPhotoCardListScreen)){
+            ((FilteredPhotoCardListScreen) outKey).unregisterScope();
+        }
 
        /* if((outKey instanceof AuthorAlbumInfoScreen) && (inKey instanceof PhotoDetailInfoScreen)){
             ScreenScoper.destroyScreenScope(PhotoDetailInfoScreen.class.getName());

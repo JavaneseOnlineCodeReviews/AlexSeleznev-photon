@@ -2,6 +2,8 @@ package com.applications.whazzup.photomapp.ui.screens.search
 
 import android.content.Context
 import android.support.v4.view.PagerAdapter
+import android.support.v4.view.ViewPager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,11 +17,20 @@ import mortar.MortarScope
 
 class SearchAdapter : PagerAdapter() {
 
+
     lateinit var screen: AbstractScreen<SearchScreen.SearchPresenterComponent>
 
     override fun isViewFromObject(view: View, `object`: Any?): Boolean {
         return view.equals(`object`)
     }
+
+
+    fun getScreenByPosition (position : Int) : Any{
+        if(position == 0 ) return TagScreen()
+        if(position == 1 ) return FilterScreen()
+        return null!!
+    }
+
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
 //        DaggerService.getDaggerComponent<DaggerSearchScreen_SearchPresenterComponent>(container.context).inject(this)
@@ -27,6 +38,7 @@ class SearchAdapter : PagerAdapter() {
             0 -> screen = TagScreen()
             1 -> screen = FilterScreen()
         }
+
 
         val screenScope = createScreenScopeFromContext(container.context, screen)
         val screenContext = screenScope?.createContext(container.context)
@@ -37,6 +49,10 @@ class SearchAdapter : PagerAdapter() {
         container.addView(newView)
         return newView
     }
+
+
+
+
 
     override fun getCount(): Int {
         return 2

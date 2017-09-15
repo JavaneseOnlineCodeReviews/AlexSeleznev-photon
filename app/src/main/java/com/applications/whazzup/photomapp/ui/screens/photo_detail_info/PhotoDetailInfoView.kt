@@ -6,10 +6,13 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Environment
+import android.support.design.widget.CollapsingToolbarLayout
 import android.support.v7.view.menu.MenuBuilder
 import android.support.v7.view.menu.MenuPopupHelper
 import android.support.v7.widget.PopupMenu
 import android.util.AttributeSet
+import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -20,7 +23,6 @@ import com.applications.whazzup.photomapp.data.storage.dto.PhotoCardDto
 import com.applications.whazzup.photomapp.di.DaggerService
 import com.applications.whazzup.photomapp.mvp.views.AbstractView
 import com.applications.whazzup.photomapp.ui.screens.author.AuthorScreen
-import com.applications.whazzup.photomapp.ui.screens.user_profile.UserProfileScreen
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
@@ -48,14 +50,17 @@ class PhotoDetailInfoView(context: Context, attrs: AttributeSet) : AbstractView<
     @BindView(R.id.album_count) lateinit var albumCount: TextView
     @BindView(R.id.photocard_count) lateinit var photocardCount: TextView
     @BindView(R.id.owner_img) lateinit var ownerImg: CircleImageView
+    @BindView(R.id.collapsing_toolbar) lateinit var collapsingToolBar : CollapsingToolbarLayout
 
     private var photocard: PhotoCardDto?= null
+
 
     fun showImageInfo(photoCard: PhotoCardDto) {
         this.photocard = photoCard
 
         picasso.load(photoCard.photo).fit().centerCrop().into(image)
         photoName.text = photoCard.title
+
 
         with(tag_recycler){
             isNestedScrollingEnabled = false
@@ -70,11 +75,9 @@ class PhotoDetailInfoView(context: Context, attrs: AttributeSet) : AbstractView<
     fun showOwnerInfo(user: UserRes) {
         picasso.load(user.avatar).fit().centerCrop().into(ownerImg)
         ownerImg.setOnClickListener { Flow.get(context).set(AuthorScreen(user.id)) }
-
         name.text = user.name
         albumCount.text = user.albumCount.toString()
         photocardCount.text = user.photocardCount.toString()
-
     }
 
     fun showPopupMenu(view : View){

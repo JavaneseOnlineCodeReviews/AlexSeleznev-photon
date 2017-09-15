@@ -27,11 +27,23 @@ class FilterScreen : AbstractScreen<SearchScreen.SearchPresenterComponent>() {
 
     inner class FilterPresenter : AbstractPresenter<FilterView, FilterModel>() {
 
+        var dishList = mutableListOf<String>()
+        var colorList = mutableListOf<String>()
+        var decorList = mutableListOf<String>()
+        var temperatureList = mutableListOf<String>()
+        var lightList = mutableListOf<String>()
+        var lightDirectionList = mutableListOf<String>()
+        var lighrCountList = mutableListOf<String>()
+
         override fun initToolbar() {
                     }
 
         override fun initDagger(scope: MortarScope) {
             (scope.getService<Any>(DaggerService.SERVICE_NAME) as DaggerFilterScreen_FilterPresenterComponent).inject(this)
+        }
+
+        fun filter() {
+            mModel.filter(dishList, colorList,decorList,temperatureList,lighrCountList,lightList, lightDirectionList)
         }
     }
 

@@ -15,6 +15,7 @@ import dagger.Module
 import dagger.Provides
 import flow.TreeKey
 import mortar.MortarScope
+import java.util.TreeSet
 
 @Screen(R.layout.screen_search)
 class SearchScreen : AbstractScreen<RootActivity.RootComponent>(), TreeKey {
@@ -29,6 +30,7 @@ class SearchScreen : AbstractScreen<RootActivity.RootComponent>(), TreeKey {
     override fun getParentKey(): Any = PhotoCardListScreen()
 
     inner class SearchPresenter : AbstractPresenter<SearchView, SearchModel>() {
+        
         override fun initDagger(scope: MortarScope) {
             (scope.getService<Any>(DaggerService.SERVICE_NAME) as DaggerSearchScreen_SearchPresenterComponent).inject(this)
         }

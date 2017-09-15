@@ -124,7 +124,8 @@ class DataManager {
     }
 
     fun getUserById(userId : String) : Observable<UserRes>{
-        return mRestService.getUserById(userId) .retryWhen {it.zipWith(Observable.range(1,5),{it, range -> range})
+        return mRestService.getUserById(userId)
+                .retryWhen {it.zipWith(Observable.range(1,5),{it, range -> range})
                 .flatMap {
                        Observable.just(1000*Math.pow(Math.E, it.toDouble()).toLong())
                     }

@@ -75,6 +75,7 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
     lateinit var mActionBar: android.support.v7.app.ActionBar
     lateinit var mActionBarMenuItem: MutableList<MenuItemHolder>
     lateinit var builder: AlertDialog
+    lateinit var tabView : TabLayout
 
     override fun attachBaseContext(newBase: Context) {
         var newBase = Flow.configure(newBase, this)
@@ -353,10 +354,13 @@ class RootActivity : AppCompatActivity(), IRootView, IActionBarView {
     }
 
     override fun setTabLayout(viewPager: ViewPager?) {
-        val tabView = TabLayout(this) //создаём tab layout
+        if(mAppBarLayout.getChildAt(1)==null) {
+        tabView = TabLayout(this) //создаём tab layout
         tabView.setupWithViewPager(viewPager)      //связываем его с ViewPager
         tabView.setBackgroundResource(R.color.white)
-        mAppBarLayout.addView(tabView) //добавляем табы в appbar
+            mAppBarLayout.addView(tabView) //добавляем табы в appbar
+            viewPager?.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabView))
+        }
         viewPager?.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabView))
         //регистрируем обработчик переключения по табам для viewPager
     }
